@@ -1,51 +1,54 @@
+export default function typographyFixer () {
+  const rulesLibrary = {}
 
-const rulesLibrary = {}
+  function check (string, options = {}) {
+    let {lang} = options
+    if (!lang) { lang = 'en' }
 
-function check (string, options = {}) {
-  let {lang} = options
-  if (!lang) { lang = 'en' }
+    const rules = rulesLibrary[lang]
+    let results = []
 
-  const rules = rulesLibrary[lang]
-  let results = []
+    if (!rules) { return undefined }
 
-  if (!rules) { return undefined }
+    for (let i = 0, len = rules.length; i < len; i++) {
+      const rule = rules[i]
+      results = results.concat(rule.check(string))
+    }
 
-  for (let i = 0, len = rules.length; i < len; i++) {
-    const rule = rules[i]
-    results = results.concat(rule.check(string))
+    return results.length > 0 ? results : undefined
   }
 
-  return results.length > 0 ? results : undefined
-}
+  function fix (string, options = {}) {
+    let {lang} = options
+    if (!lang) { lang = 'en' }
 
-function fix (string, options = {}) {
-  let {lang} = options
-  if (!lang) { lang = 'en' }
+    const rules = rulesLibrary[lang]
 
-  const rules = rulesLibrary[lang]
+    if (!rules) { return string }
 
-  if (!rules) { return string }
+    for (let i = 0, len = rules.length; i < len; i++) {
+      const rule = rules[i]
+      string = rule.fix(string)
+    }
 
-  for (let i = 0, len = rules.length; i < len; i++) {
-    const rule = rules[i]
-    string = rule.fix(string)
+    return string
   }
 
-  return string
-}
+  function rules (lang, block) {
+    if (typeof lang !== 'string') {
+      throw new Error("Can't call rules without a lang")
+    }
 
-function rules (lang, block) {
-  if (typeof lang !== 'string') {
-    throw new Error("Can't call rules without a lang")
+    if (typeof block !== 'function') {
+      throw new Error("Can't call rules without a function")
+    }
+
+    const definedRules = evaluateBlock(block)
+
+    rulesLibrary[lang] = (rulesLibrary[lang] || []).concat(definedRules)
   }
 
-  if (typeof block !== 'function') {
-    throw new Error("Can't call rules without a function")
-  }
-
-  const definedRules = evaluateBlock(block)
-
-  rulesLibrary[lang] = (rulesLibrary[lang] || []).concat(definedRules)
+  return {rules, check, fix}
 }
 
 function evaluateBlock (block) {
@@ -81,5 +84,3 @@ function merge (a, b) {
 
   return o
 }
-
-export default {rules, check, fix}

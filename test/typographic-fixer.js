@@ -2,17 +2,23 @@ import expect from 'expect.js'
 import typo from '../src/typographic-fixer'
 
 describe('rules', () => {
+  let [fixer] = []
+
+  beforeEach(() => {
+    fixer = typo()
+  })
+
   it('throws when called without a lang', () => {
-    expect(() => { typo.rules() }).to.throwError()
+    expect(() => { fixer.rules() }).to.throwError()
   })
 
   it('throws when called without a block', () => {
-    expect(() => { typo.rules('lang') }).to.throwError()
+    expect(() => { fixer.rules('lang') }).to.throwError()
   })
 
   it('calls the passed-in function with a rules object', () => {
     let rulesObject
-    typo.rules('lang', (rules) => {
+    fixer.rules('lang', (rules) => {
       rulesObject = rules
     })
 
@@ -21,20 +27,20 @@ describe('rules', () => {
 
   describe('defining a rule', () => {
     it('makes it available in check method', () => {
-      typo.rules('lang', ({define}) => {
+      fixer.rules('lang', ({define}) => {
         define('Foo', /foo/g, 'bar')
       })
 
-      expect(typo.check('Da foo', {lang: 'lang'})).to.have.length(1)
-      expect(typo.check('Da bar', {lang: 'lang'})).to.be(undefined)
+      expect(fixer.check('Da foo', {lang: 'lang'})).to.have.length(1)
+      expect(fixer.check('Da bar', {lang: 'lang'})).to.be(undefined)
     })
 
     it('makes it available in fix method', () => {
-      typo.rules('lang', ({define}) => {
+      fixer.rules('lang', ({define}) => {
         define('Foo', /foo/g, 'bar')
       })
 
-      expect(typo.fix('Da foo', {lang: 'lang'})).to.eql('Da bar')
+      expect(fixer.fix('Da foo', {lang: 'lang'})).to.eql('Da bar')
     })
   })
 })
