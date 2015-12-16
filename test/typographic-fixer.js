@@ -1,6 +1,16 @@
 import expect from 'expect.js'
 import typo from '../src/typographic-fixer'
 
+describe('typographyFixer', () => {
+  it('returns a new fixer object', () => {
+    const fixer = typo()
+
+    expect(fixer.check).to.be.a(Function)
+    expect(fixer.fix).to.be.a(Function)
+    expect(fixer.rules).to.be.a(Function)
+  })
+})
+
 describe('rules', () => {
   let [fixer] = []
 
