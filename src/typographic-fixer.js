@@ -63,7 +63,12 @@ function evaluateBlock (block) {
         let match
         do {
           match = re.exec(string)
-          if (match) { matches.push(match) }
+          if (match) {
+            matches.push({
+              rule: name,
+              range: [match.index, re.lastIndex]
+            })
+          }
         } while (match)
 
         return matches
