@@ -36,19 +36,19 @@ describe('typographyFixer', () => {
     describe('defining a rule', () => {
       it('makes it available in check method', () => {
         fixer.rules('lang', ({define}) => {
-          define('Foo', /foo/g, 'bar')
+          define('Foo', /foo/, 'bar')
         })
 
-        expect(fixer.check('Da foo', {lang: 'lang'})).to.have.length(1)
+        expect(fixer.check('Da foo foo', {lang: 'lang'})).to.have.length(2)
         expect(fixer.check('Da bar', {lang: 'lang'})).to.be(undefined)
       })
 
       it('makes it available in fix method', () => {
         fixer.rules('lang', ({define}) => {
-          define('Foo', /foo/g, 'bar')
+          define('Foo', /foo/, 'bar')
         })
 
-        expect(fixer.fix('Da foo', {lang: 'lang'})).to.eql('Da bar')
+        expect(fixer.fix('Da foo foo', {lang: 'lang'})).to.eql('Da bar bar')
       })
     })
   })
@@ -56,7 +56,7 @@ describe('typographyFixer', () => {
   describe('.check', () => {
     it('returns a report of the broken rules with concerned ranges', () => {
       fixer.rules('lang', ({define}) => {
-        define('Foo', /foo/g, 'bar')
+        define('Foo', /foo/, 'bar')
       })
 
       const reports = fixer.check('Da foo foo', {lang: 'lang'})
