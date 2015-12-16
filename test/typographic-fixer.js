@@ -54,3 +54,7 @@ describe('rules', () => {
     })
   })
 })
+
+describe.skip('check', () => {
+
+})

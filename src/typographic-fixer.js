@@ -57,11 +57,15 @@ function evaluateBlock (block) {
   function define (name, expression, replacement) {
     rules.push({
       name,
-      check (string) {
+      check (string) {
         const re = new RegExp(expression.source, 'g')
         const matches = []
         let match
-        while (match = expression.exec(string)) { matches.push(match) }
+        do {
+          match = re.exec(string)
+          if (match) { matches.push(match) }
+        } while (match)
+
         return matches
       },
       fix (string) {
@@ -74,13 +78,4 @@ function evaluateBlock (block) {
   block({define})
 
   return rules
-}
-
-function merge (a, b) {
-  const o = {}
-
-  for (const key in a) { o[key] = a[key] }
-  for (const key in b) { o[key] = b[key] }
-
-  return o
 }
