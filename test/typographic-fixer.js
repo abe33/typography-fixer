@@ -50,6 +50,15 @@ describe('typographyFixer', () => {
 
         expect(fixer.fix('Da foo foo', {lang: 'lang'})).to.eql('Da bar bar')
       })
+
+      it('makes it available only for the defined lang', () => {
+        fixer.rules('lang', ({define}) => {
+          define('Foo', /foo/, 'bar')
+        })
+
+        expect(fixer.check('Da foo foo', {lang: 'en'})).to.be(undefined)
+        expect(fixer.fix('Da foo foo', {lang: 'en'})).to.eql('Da foo foo')
+      })
     })
   })
 
