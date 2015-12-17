@@ -61,6 +61,12 @@ export default function typographyFixer () {
 function evaluateBlock (block) {
   const rules = []
 
+  block(getRulesContext(rules, []))
+
+  return rules
+}
+
+function getRulesContext (rules, context) {
   function define (name, expression, replacement) {
     let source
     if (expression instanceof RegExp) {
@@ -69,8 +75,10 @@ function evaluateBlock (block) {
       source = expression
     }
 
+    const ruleName = context.concat(name).join('.')
+
     rules.push({
-      name,
+      name: ruleName,
       check (string) {
         const re = new RegExp(source, 'g')
         const matches = []
@@ -79,7 +87,7 @@ function evaluateBlock (block) {
           match = re.exec(string)
           if (match) {
             matches.push({
-              rule: name,
+              rule: ruleName,
               range: [match.index, re.lastIndex]
             })
           }
@@ -94,7 +102,9 @@ function evaluateBlock (block) {
     })
   }
 
-  block({define})
+  function group (name, block) {
+    block(getRulesContext(rules, context.concat(name)))
+  }
 
-  return rules
+  return {define, group}
 }

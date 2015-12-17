@@ -80,6 +80,26 @@ describe('typographyFixer', () => {
         })
       })
     })
+
+    describe('defining a group', () => {
+      beforeEach(() => {
+        fixer.rules('lang', ({group}) => {
+          group('bar', ({define}) => {
+            define('Foo', 'foo', 'bar')
+          })
+        })
+      })
+
+      it('takes a function to define rules for the group', () => {
+        expect(fixer.hasRule('lang', 'bar.Foo')).to.be.ok()
+      })
+
+      it('applies the rule as any other', () => {
+        expect(fixer.fix('Da foo foo', {lang: 'lang'})).to.eql('Da bar bar')
+      })
+    })
+  })
+
   describe('.hasRule', () => {
     it('returns true when a rule exist for the specified lang', () => {
       fixer.rules('lang', ({define}) => {
