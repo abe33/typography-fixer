@@ -80,6 +80,26 @@ describe('typographyFixer', () => {
         })
       })
     })
+  describe('.hasRule', () => {
+    it('returns true when a rule exist for the specified lang', () => {
+      fixer.rules('lang', ({define}) => {
+        define('Foo', /foo/, 'bar')
+      })
+
+      expect(fixer.hasRule('lang', 'Foo')).to.be.ok()
+    })
+
+    it('returns false when a rule does noe exist for the specified lang', () => {
+      fixer.rules('lang', ({define}) => {
+        define('Foo', /foo/, 'bar')
+      })
+
+      expect(fixer.hasRule('lang', 'bar')).not.to.be.ok()
+    })
+
+    it('returns false when the lang has no rule', () => {
+      expect(fixer.hasRule('lang', 'Foo')).not.to.be.ok()
+    })
   })
 
   describe('.check', () => {

@@ -48,7 +48,14 @@ export default function typographyFixer () {
     rulesLibrary[lang] = (rulesLibrary[lang] || []).concat(definedRules)
   }
 
-  return {rules, check, fix}
+  function hasRule (lang, ruleName) {
+    const langRules = rulesLibrary[lang]
+    if (!langRules) { return false }
+
+    return langRules.some((rule) => { return rule.name === ruleName })
+  }
+
+  return {rules, hasRule, check, fix}
 }
 
 function evaluateBlock (block) {
