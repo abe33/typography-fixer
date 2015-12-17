@@ -15,7 +15,6 @@ describe('typographyFixer', () => {
   })
 
   describe('.rules', () => {
-
     it('throws when called without a lang', () => {
       expect(() => { fixer.rules() }).to.throwError()
     })
