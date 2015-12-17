@@ -3,10 +3,18 @@ export default function typographyFixer (lang) {
 
   if (lang) {
     return {
-      rules (block) { rules(lang, block) },
-      hasRule (rule) { return hasRule(lang, rule) },
-      check (string, options={}) { return check(string, merge(options, {lang})) },
-      fix (string, options={}) { return fix(string, merge(options, {lang})) }
+      rules (block) {
+        rules(lang, block)
+      },
+      hasRule (rule) {
+        return hasRule(lang, rule)
+      },
+      check (string, options = {}) {
+        return check(string, merge(options, {lang}))
+      },
+      fix (string, options = {}) {
+        return fix(string, merge(options, {lang}))
+      }
     }
   } else {
     return {rules, hasRule, check, fix}
@@ -87,7 +95,7 @@ function getRulesContext (rules, context) {
   return {group, define}
 
   function group (name, block) {
-    if (!name || !block) {
+    if (!name || !block) {
       throw new Error('All arguments of the group function are mandatory')
     }
 
@@ -95,7 +103,7 @@ function getRulesContext (rules, context) {
   }
 
   function define (name, expression, replacement) {
-    if (!name || !expression || !replacement) {
+    if (!name || !expression || !replacement) {
       throw new Error('All arguments of the define function are mandatory')
     }
 

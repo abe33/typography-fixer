@@ -55,7 +55,7 @@ describe('typographyFixer', () => {
         fixer.rules('lang', ({define}) => {
           expect(() => { define() }).to.throwError()
           expect(() => { define('foo') }).to.throwError()
-          expect(() => { define('foo','foo') }).to.throwError()
+          expect(() => { define('foo', 'foo') }).to.throwError()
         })
       })
 
