@@ -13,6 +13,10 @@ export default function typographyFixer (lang) {
   }
 
   function check (string, options = {}) {
+    if (!string) {
+      throw new Error('The string argument is mandatory')
+    }
+
     let {lang} = options
     if (!lang) { lang = 'en' }
 
@@ -30,6 +34,10 @@ export default function typographyFixer (lang) {
   }
 
   function fix (string, options = {}) {
+    if (!string) {
+      throw new Error('The string argument is mandatory')
+    }
+
     let {lang} = options
     if (!lang) { lang = 'en' }
 
@@ -79,10 +87,18 @@ function getRulesContext (rules, context) {
   return {group, define}
 
   function group (name, block) {
+    if (!name || !block) {
+      throw new Error('All arguments of the group function are mandatory')
+    }
+
     block(getRulesContext(rules, context.concat(name)))
   }
 
   function define (name, expression, replacement) {
+    if (!name || !expression || !replacement) {
+      throw new Error('All arguments of the define function are mandatory')
+    }
+
     let source
     if (expression instanceof RegExp) {
       source = expression.source
