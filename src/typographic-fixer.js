@@ -76,6 +76,12 @@ function evaluateBlock (block) {
 }
 
 function getRulesContext (rules, context) {
+  return {group, define}
+
+  function group (name, block) {
+    block(getRulesContext(rules, context.concat(name)))
+  }
+
   function define (name, expression, replacement) {
     let source
     if (expression instanceof RegExp) {
@@ -110,12 +116,6 @@ function getRulesContext (rules, context) {
       }
     })
   }
-
-  function group (name, block) {
-    block(getRulesContext(rules, context.concat(name)))
-  }
-
-  return {define, group}
 }
 
 function merge (a, b) {
