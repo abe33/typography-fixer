@@ -14,6 +14,24 @@ describe('typographyFixer', () => {
     expect(fixer.rules).to.be.a(Function)
   })
 
+  describe('when called with a lang as argument', () => {
+    it('returns a fixer locked on this language', () => {
+      fixer = typo('lang')
+
+      fixer.rules(({define, group}) => {
+        define('Foo', 'foo', 'bar')
+        group('bar', ({define}) => {
+          define('Da', 'Da', 'Ad')
+        })
+      })
+
+      expect(fixer.hasRule('Foo')).to.be.ok()
+      expect(fixer.hasRule('bar.Da')).to.be.ok()
+      expect(fixer.check('Da foo foo')).to.have.length(3)
+      expect(fixer.fix('Da foo foo')).to.eql('Ad bar bar')
+    })
+  })
+
   describe('.rules', () => {
     it('throws when called without a lang', () => {
       expect(() => { fixer.rules() }).to.throwError()

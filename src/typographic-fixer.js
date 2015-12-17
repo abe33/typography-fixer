@@ -1,5 +1,16 @@
-export default function typographyFixer () {
+export default function typographyFixer (lang) {
   const rulesLibrary = {}
+
+  if (lang) {
+    return {
+      rules (block) { rules(lang, block) },
+      hasRule (rule) { return hasRule(lang, rule) },
+      check (string, options={}) { return check(string, merge(options, {lang})) },
+      fix (string, options={}) { return fix(string, merge(options, {lang})) }
+    }
+  } else {
+    return {rules, hasRule, check, fix}
+  }
 
   function check (string, options = {}) {
     let {lang} = options
@@ -54,8 +65,6 @@ export default function typographyFixer () {
 
     return langRules.some((rule) => { return rule.name === ruleName })
   }
-
-  return {rules, hasRule, check, fix}
 }
 
 function evaluateBlock (block) {
@@ -107,4 +116,13 @@ function getRulesContext (rules, context) {
   }
 
   return {define, group}
+}
+
+function merge (a, b) {
+  const o = {}
+
+  for (const key in a) { o[key] = a[key] }
+  for (const key in b) { o[key] = b[key] }
+
+  return o
 }
