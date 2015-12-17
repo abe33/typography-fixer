@@ -55,10 +55,17 @@ function evaluateBlock (block) {
   const rules = []
 
   function define (name, expression, replacement) {
+    let source
+    if (expression instanceof RegExp) {
+      source = expression.source
+    } else {
+      source = expression
+    }
+
     rules.push({
       name,
       check (string) {
-        const re = new RegExp(expression.source, 'g')
+        const re = new RegExp(source, 'g')
         const matches = []
         let match
         do {
@@ -74,7 +81,7 @@ function evaluateBlock (block) {
         return matches
       },
       fix (string) {
-        const re = new RegExp(expression.source, 'g')
+        const re = new RegExp(source, 'g')
         return string.replace(re, replacement)
       }
     })

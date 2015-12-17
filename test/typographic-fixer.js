@@ -58,6 +58,27 @@ describe('typographyFixer', () => {
         expect(fixer.check('Da foo foo', {lang: 'en'})).to.be(undefined)
         expect(fixer.fix('Da foo foo', {lang: 'en'})).to.eql('Da foo foo')
       })
+
+      describe('with a string as expression', () => {
+        it('creates a rules using the string as source for the regexp', () => {
+          fixer.rules('lang', ({define}) => {
+            define('Foo', 'foo', 'bar')
+          })
+
+          expect(fixer.check('Da foo foo', {lang: 'lang'})).to.have.length(2)
+          expect(fixer.fix('Da foo foo', {lang: 'lang'})).to.eql('Da bar bar')
+        })
+      })
+
+      describe('with a function as replacement', () => {
+        it('creates a rules using the function as a replacement function', () => {
+          fixer.rules('lang', ({define}) => {
+            define('Foo', 'foo', (s) => { return s[0] })
+          })
+
+          expect(fixer.fix('Da foo foo', {lang: 'lang'})).to.eql('Da f f')
+        })
+      })
     })
   })
 
