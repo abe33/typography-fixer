@@ -23,5 +23,22 @@ export default group([
     rule('lowerThan10', /(\d{1})[èe]mes/, '$1<sup>es</sup>'),
     rule('firstFemale', /(\d)[èe]re/, '$1<sup>re</sup>'),
     rule('firstMale', /(\d)[èe]me/, '$1<sup>e</sup>')
+  ]),
+  group('quotes', [
+    rule('singleTypographicQuote', /’/, '&rsquo;'),
+    rule('singleQuote', /^(.*\w)'(\w)/, (s) => {
+      if (/!\[[^\]]+\]\([^"]+"/.test(s)) {
+        return s
+      } else {
+        return s.replace(/^(.*\w)'(\w)/, '$1&rsquo;$2')
+      }
+    }),
+    rule('doubleQuote', /^([^"]*)"([^"]+)"/, (s) => {
+      if (/!\[[^\]]+\]\([^"]+"/.test(s)) {
+        return s
+      } else {
+        return s.replace(/"\s*(([^ ]| (?!"))+)\s*"/, '&ldquo;&nbsp;$1&nbsp;&rdquo;')
+      }
+    })
   ])
 ])

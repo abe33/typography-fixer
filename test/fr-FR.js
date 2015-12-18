@@ -91,4 +91,24 @@ describe('fr-FR rules', () => {
       })
     })
   })
+
+  describe('quotes', () => {
+    it('replaces single quotes with typographic ones', () => {
+      expect(fix(rules, 'L’arbre')).to.eql('L&rsquo;arbre')
+      expect(fix(rules, "L'arbre")).to.eql('L&rsquo;arbre')
+    })
+
+    it('preserves single quotes in markdown images', () => {
+      expect(fix(rules, '![an image](http://foo.com/bar.jpg "L\'arbre")')).to.eql('![an image](http://foo.com/bar.jpg "L\'arbre")')
+    })
+
+    it('replaces double quotes around a sentence by typographic quotes', () => {
+      expect(fix(rules, 'Le "Chat Botté".')).to.eql('Le &ldquo;&nbsp;Chat Botté&nbsp;&rdquo;.')
+      expect(fix(rules, 'Le " Chat Botté ".')).to.eql('Le &ldquo;&nbsp;Chat Botté&nbsp;&rdquo;.')
+    })
+
+    it('preserves double quotes in markdown images', () => {
+      expect(fix(rules, '\n\nLe " Chat Botté ".\n![foo](http://foo.com/bar.png "titre")')).to.eql('\n\nLe &ldquo;&nbsp;Chat Botté&nbsp;&rdquo;.\n![foo](http://foo.com/bar.png "titre")')
+    })
+  })
 })
