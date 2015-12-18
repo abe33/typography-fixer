@@ -12,7 +12,7 @@ describe('fr-FR rules', () => {
       expect(fix(rules, '17\u00a0%')).to.eql('17&nbsp;%')
     })
 
-    let charsWithNbspBefore = ['!','?',';',':','%']
+    let charsWithNbspBefore = ['!', '?', ';', ':', '%']
     charsWithNbspBefore.forEach((char) => {
       it(`replaces a simple space before ${char} with a non-breaking one`, () => {
         expect(fix(rules, `Foo ${char}`)).to.eql(`Foo&nbsp;${char}`)
