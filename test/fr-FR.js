@@ -23,5 +23,47 @@ describe('fr-FR rules', () => {
     })
   })
 
+  describe('punctuations', () => {
+    let etcTests = [
+      ['Etc...', 'Etc.'],
+      ['Etc…', 'Etc.'],
+      ['Etc&hellip;', 'Etc.'],
+      ['etc...', 'etc.'],
+      ['etc…', 'etc.'],
+      ['etc&hellip;', 'etc.']
+    ]
+    etcTests.forEach(([source, expected]) => {
+      it(`replaces ${source} by ${expected}`, () => {
+        expect(fix(rules, source)).to.eql(expected)
+      })
+    })
+
+    it('replaces two or more ! with a single !', () => {
+      expect(fix(rules, 'Foo !!')).to.eql('Foo&nbsp;!')
+      expect(fix(rules, 'Foo !!!')).to.eql('Foo&nbsp;!')
+      expect(fix(rules, 'Foo !!!!')).to.eql('Foo&nbsp;!')
+    })
+
+    it('replaces two or more ? with a single ?', () => {
+      expect(fix(rules, 'Foo ??')).to.eql('Foo&nbsp;?')
+      expect(fix(rules, 'Foo ???')).to.eql('Foo&nbsp;?')
+      expect(fix(rules, 'Foo ????')).to.eql('Foo&nbsp;?')
+    })
+
+    it('replace N° with N&#186;', () => {
+      expect(fix(rules, 'N°')).to.eql('N&#186;')
+    })
+
+    it('replace n° with n&#186;', () => {
+      expect(fix(rules, 'n°')).to.eql('n&#186;')
+    })
+
+    it('replaces triple dots with a proper ellipsis', () => {
+      expect(fix(rules, 'Foo...')).to.eql('Foo&hellip;')
+    })
+
+    it('replaces Mr. by M.', () => {
+      expect(fix(rules, 'Mr.')).to.eql('M.')
+    })
   })
 })
