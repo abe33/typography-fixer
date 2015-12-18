@@ -111,4 +111,27 @@ describe('fr-FR rules', () => {
       expect(fix(rules, '\n\nLe " Chat Botté ".\n![foo](http://foo.com/bar.png "titre")')).to.eql('\n\nLe &ldquo;&nbsp;Chat Botté&nbsp;&rdquo;.\n![foo](http://foo.com/bar.png "titre")')
     })
   })
+
+  describe('dates and times', () => {
+    let daysAndMonths = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche', 'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Décembre']
+
+    daysAndMonths.forEach((string) => {
+      it(`replaces ${string} with its lower case version`, () => {
+        expect(fix(rules, string)).to.eql(string.toLowerCase())
+      })
+    })
+
+    let hours = [
+      ['13h37', '13&nbsp;h&nbsp;37'],
+      ['13 h 37', '13&nbsp;h&nbsp;37'],
+      ['13h37min54s', '13&nbsp;h&nbsp;37&nbsp;min&nbsp;54&nbsp;s'],
+      ['13 h 37 min 54 s', '13&nbsp;h&nbsp;37&nbsp;min&nbsp;54&nbsp;s']
+    ]
+
+    hours.forEach(([source, expected]) => {
+      it(`replaces ${source} with ${expected.replace('&nbsp;', ' ')} using non-breaking spaces`, () => {
+        expect(fix(rules, source)).to.eql(expected)
+      })
+    })
+  })
 })
