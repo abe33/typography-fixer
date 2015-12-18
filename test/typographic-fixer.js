@@ -47,6 +47,10 @@ describe('typographyFixer', () => {
       ruleObject = rule('Foo', /foo/, 'bar')
     })
 
+    it('throws when called without any argument', () => {
+      expect(() => { group() }).to.throwError()
+    })
+
     it('returns an array with the provided rules with a namespaced name', () => {
       const rules = group('bar', [ruleObject])
 
@@ -65,6 +69,20 @@ describe('typographyFixer', () => {
       expect(rules).to.be.an(Array)
       expect(rules).to.have.length(1)
       expect(rules[0].name).to.eql('bar.baz.bat.Foo')
+    })
+
+    describe('without a name', () => {
+      it('flatten rules coming from nested groups without changing their name', () => {
+        const rules = group([
+          group('baz', [
+            group('bat', [ruleObject])
+          ])
+        ])
+
+        expect(rules).to.be.an(Array)
+        expect(rules).to.have.length(1)
+        expect(rules[0].name).to.eql('baz.bat.Foo')
+      })
     })
 
     describe('modified rules', () => {

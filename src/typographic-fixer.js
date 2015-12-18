@@ -17,7 +17,7 @@ export function check (rules, string) {
 
 export function fix (rules, string) {
   if (!rules || !string) {
-    throw new Error('The string argument is mandatory')
+    throw new Error('The fix arguments are mandatory')
   }
 
   if (rules.length === 0) { return string }
@@ -31,11 +31,23 @@ export function fix (rules, string) {
 }
 
 export function group (name, rules) {
+  if (!name && !rules) {
+    throw new Error('The group arguments is mandatory')
+  }
+
+  let groupName
+  if (Array.isArray(name)) {
+    rules = name
+    groupName = []
+  } else {
+    groupName = [name]
+  }
+
   return rules.reduce((memo, el) => {
     return memo.concat(el)
   }, []).map((rule) => {
     return {
-      name: name + '.' + rule.name,
+      name: groupName.concat(rule.name).join('.'),
       check: rule.check,
       fix: rule.fix
     }
