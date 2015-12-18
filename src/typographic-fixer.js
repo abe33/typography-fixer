@@ -31,15 +31,15 @@ export function fix (rules, string) {
 }
 
 export function group (name, rules) {
-  if (!name && !rules) {
-    throw new Error('The group arguments is mandatory')
-  }
-
   let groupName
+
   if (Array.isArray(name)) {
     rules = name
     groupName = []
   } else {
+    if (!name || !rules) {
+      throw new Error('The group rules argument is mandatory')
+    }
     groupName = [name]
   }
 

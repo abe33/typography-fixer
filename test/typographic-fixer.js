@@ -51,6 +51,10 @@ describe('typographyFixer', () => {
       expect(() => { group() }).to.throwError()
     })
 
+    it('throws when called with a name but no rules', () => {
+      expect(() => { group('foo') }).to.throwError()
+    })
+
     it('returns an array with the provided rules with a namespaced name', () => {
       const rules = group('bar', [ruleObject])
 
