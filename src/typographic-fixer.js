@@ -31,7 +31,7 @@ export function fix (rules, string) {
 }
 
 export function group (name, rules) {
-  return rules.reduce(function(memo, el) {
+  return rules.reduce((memo, el) => {
     return memo.concat(el)
   }, []).map((rule) => {
     return {
