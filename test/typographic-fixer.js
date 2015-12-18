@@ -134,5 +134,12 @@ describe('typographyFixer', () => {
 
       expect(fix([ruleObject], 'Da foo foo')).to.eql('Da bar bar')
     })
+
+    it('applies the rules in order', () => {
+      const ruleObject1 = rule('Foo', /foo/, 'bar')
+      const ruleObject2 = rule('Foo', /foo/, 'baz')
+
+      expect(fix([ruleObject1, ruleObject2], 'Da foo foo')).to.eql('Da bar bar')
+    })
   })
 })
