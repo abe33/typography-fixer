@@ -1,5 +1,5 @@
 import expect from 'expect.js'
-import {rule, group, check, fix} from '../src/typographic-fixer'
+import {rule, ignore, group, check, fix} from '../src/typographic-fixer'
 
 describe('typographyFixer', () => {
   describe('rule', () => {
@@ -42,6 +42,35 @@ describe('typographyFixer', () => {
     describe('.fix', () => {
       it('replaces instances of matches by the replacement string', () => {
         expect(ruleObject.fix('Da foo foo')).to.eql('Da bar bar')
+      })
+    })
+  })
+
+  describe('ignore', () => {
+    let ignoreObject
+
+    beforeEach(() => {
+      ignoreObject = ignore('Foo', /"[^"]+"/)
+    })
+
+    it('throws if called without an argument', () => {
+      expect(() => { ignore() }).to.throwError()
+      expect(() => { ignore('foo') }).to.throwError()
+    })
+
+    it('returns an ignore object', () => {
+      expect(ignoreObject).not.to.be(undefined)
+      expect(ignoreObject.ranges).to.be.a(Function)
+    })
+
+    describe('.ranges', () => {
+      it('returns an array of ranges to ignore', () => {
+        const ranges = ignoreObject.ranges('foo "foo" foo "foo"')
+
+        expect(ranges).to.eql([
+          [4, 9],
+          [14, 19]
+        ])
       })
     })
   })

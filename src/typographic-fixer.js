@@ -91,3 +91,33 @@ export function rule (name, expression, replacement) {
     }
   }
 }
+
+export function ignore (name, expression) {
+  if (!name || !expression) {
+    throw new Error('All arguments of the ignore function are mandatory')
+  }
+
+  let source
+
+  if (expression instanceof RegExp) {
+    source = expression.source
+  } else {
+    source = expression
+  }
+
+  return {
+    name,
+    ranges (string) {
+      const re = new RegExp(source, 'g')
+      const ranges = []
+      let match
+
+      do {
+        match = re.exec(string)
+        if (match) { ranges.push([match.index, re.lastIndex]) }
+      } while (match)
+
+      return ranges
+    }
+  }
+}
