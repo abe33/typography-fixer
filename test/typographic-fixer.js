@@ -9,6 +9,12 @@ describe('typographyFixer', () => {
       ruleObject = rule('Foo', /foo/, 'bar')
     })
 
+    it('throws if called without an argument', () => {
+      expect(() => { rule() }).to.throwError()
+      expect(() => { rule('foo') }).to.throwError()
+      expect(() => { rule('foo', 'bar') }).to.throwError()
+    })
+
     it('returns a rule object', () => {
       expect(ruleObject).not.to.be(undefined)
       expect(ruleObject.name).to.eql('Foo')
