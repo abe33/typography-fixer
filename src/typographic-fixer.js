@@ -56,7 +56,7 @@ export function group (name, rules) {
 
 export function rule (name, expression, replacement) {
   if (!name || !expression || !replacement) {
-    throw new Error('All arguments of the define function are mandatory')
+    throw new Error('All arguments of the rule function are mandatory')
   }
 
   let source
