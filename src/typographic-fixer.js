@@ -66,11 +66,16 @@ export function group (name, rules) {
   }
 
   return flatten(rules).map((rule) => {
-    return {
-      name: groupName.concat(rule.name).join('.'),
-      check: rule.check,
-      fix: rule.fix
+    let newObject = {
+      name: groupName.concat(rule.name).join('.')
     }
+
+    for (const key in rule) {
+      if (key === 'name') { continue }
+      newObject[key] = rule[key]
+    }
+
+    return newObject
   })
 }
 

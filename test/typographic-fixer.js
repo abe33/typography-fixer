@@ -76,10 +76,11 @@ describe('typographyFixer', () => {
   })
 
   describe('group', () => {
-    let ruleObject
+    let ruleObject, ignoreObject
 
     beforeEach(() => {
       ruleObject = rule('Foo', /foo/, 'bar')
+      ignoreObject = ignore('Bar', /bar/)
     })
 
     it('throws when called without any argument', () => {
@@ -91,11 +92,15 @@ describe('typographyFixer', () => {
     })
 
     it('returns an array with the provided rules with a namespaced name', () => {
-      const rules = group('bar', [ruleObject])
+      const rules = group('bar', [ruleObject, ignoreObject])
 
       expect(rules).to.be.an(Array)
-      expect(rules).to.have.length(1)
+      expect(rules).to.have.length(2)
       expect(rules[0].name).to.eql('bar.Foo')
+      expect(rules[0].check).to.be.a(Function)
+      expect(rules[0].fix).to.be.a(Function)
+      expect(rules[1].name).to.eql('bar.Bar')
+      expect(rules[1].ranges).to.be.a(Function)
     })
 
     it('flatten rules coming from nested groups', () => {
