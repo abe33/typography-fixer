@@ -8,6 +8,11 @@ describe('symbols rules', () => {
     expect(fix(rules, '(C)')).to.eql('©')
   })
 
+  it('replaces (r) with ®', () => {
+    expect(fix(rules, '(r)')).to.eql('®')
+    expect(fix(rules, '(R)')).to.eql('®')
+  })
+
   it('replaces TM with ™', () => {
     expect(fix(rules, 'ATM TM')).to.eql('ATM ™')
   })
