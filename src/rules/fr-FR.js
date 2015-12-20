@@ -11,7 +11,8 @@ export default group([
     rule('shortEtCaetera', /([Ee]tc)(\.{3}|\u2026)/, '$1.'),
     rule('tripleDots', /\.{3,}/, '\u2026'),
     rule('maleHonorific', /Mr\./, 'M.'),
-    rule('numberAbbr', /(n|N)°/, '$1\u00ba')
+    rule('numberAbbr', /(n|N)°/, '$1\u00ba'),
+    rule('enDash', /(\w\x20)-(\x20\w)/, '$1\u2013$2')
   ]),
   group('spaces', [
     rule('multipleSpaces', /\x20+/, ' '),

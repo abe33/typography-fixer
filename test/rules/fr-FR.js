@@ -78,6 +78,10 @@ describe('fr-FR rules', () => {
     it('replaces Mr. by M.', () => {
       expect(fix(rules, 'Mr.')).to.eql('M.')
     })
+
+    it('replaces hyphen in sentences with dashes', () => {
+      expect(fix(rules, '- foo - bar - foo-bar')).to.eql('- foo \u2013 bar \u2013 foo-bar')
+    })
   })
 
   describe('ordinal numbers', () => {
