@@ -214,6 +214,7 @@ function campactRanges (ranges) {
       if (rangesIntersects(rangeA, rangeB)) {
         rangeB[0] = Math.min(rangeA[0], rangeB[0])
         rangeB[1] = Math.max(rangeA[1], rangeB[1])
+        return
       }
     }
 
