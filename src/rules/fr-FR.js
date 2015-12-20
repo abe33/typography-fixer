@@ -14,11 +14,8 @@ export default group([
     rule('multipleSpaces', /\x20+/, ' '),
     rule('noSpaceBefore', /(\x20|\u00a0|\u202F)*(,|\.|\u2026)/, '$2'),
     rule('spaceAfterPunctuation', /([^&\n\s]*)(\.|,|;|:|!|\?|%|\u2026)(?!\x20|$)/, '$1$2 '),
-    rule('spaceBeforePunctuation', /(?:\x20)?([?%])/, '\u202F$1'),
-    rule('spaceBeforeColon', /(?:\x20)?(:)(?!\/\/)/, '\u202F$1'),
-    rule('spaceBeforeBang', /(?:\x20)?(!)(?!\[)/, '\u202F$1'),
-    rule('spaceBeforeCurrency', `(\\d)\x20?([${currenciesRegExp}])`, '$1\u00a0$2'),
-    rule('spaceBeforeSemiColon', /(?:^|\x20)([^&\n\s]*)(;)/, '$1\u202F$2')
+    rule('spaceBeforePunctuation', /(?:\x20)?([?!:;%])/, '\u202F$1'),
+    rule('spaceBeforeCurrency', `(\\d)\x20?([${currenciesRegExp}])`, '$1\u00a0$2')
   ]),
   group('ordinal', [
     rule('greaterThan10', /(\d{2,})emes/, '$1èmes'),
