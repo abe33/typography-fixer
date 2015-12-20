@@ -1,4 +1,9 @@
 import {rule, group} from '../typographic-fixer'
+import {currencies} from '../constants'
+
+const currencyRegexp = Object.keys(currencies).map((c) => {
+  return currencies[c]
+}).join('')
 
 export default group([
   group('punctuations', [
@@ -11,10 +16,11 @@ export default group([
   group('spaces', [
     rule('multipleSpaces', /\x20+/, ' '),
     rule('spaceAfterPunctuation', /([^&\n\s]*)(\.|,|;|:|!|\?|%|\.{3}|\u2026)(?!\x20|$)/, '$1$2 '),
-    rule('spaceBeforePunctuation', /(?:\x20|\u00a0)?([?%])/, '\u00a0$1'),
-    rule('spaceBeforeColon', /(?:\x20|\u00a0)?(:)(?!\/\/)/, '\u00a0$1'),
-    rule('spaceBeforeBang', /(?:\x20|\u00a0)?(!)(?!\[)/, '\u00a0$1'),
-    rule('spaceBeforeSemiColon', /(?:^|\x20|\u00a0)([^&\n\s]*)(;)/, '$1\u00a0$2')
+    rule('spaceBeforePunctuation', /(?:\x20)?([?%])/, '\u00a0$1'),
+    rule('spaceBeforeColon', /(?:\x20)?(:)(?!\/\/)/, '\u00a0$1'),
+    rule('spaceBeforeBang', /(?:\x20)?(!)(?!\[)/, '\u00a0$1'),
+    rule('spaceBeforeCurrency', `(\\d)\x20?([${currencyRegexp}])`, '$1\u00a0$2'),
+    rule('spaceBeforeSemiColon', /(?:^|\x20)([^&\n\s]*)(;)/, '$1\u00a0$2')
   ]),
   group('ordinal', [
     rule('greaterThan10', /(\d{2,})emes/, '$1èmes'),

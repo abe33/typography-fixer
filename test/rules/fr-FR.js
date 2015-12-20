@@ -1,4 +1,5 @@
 import expect from 'expect.js'
+import {currencies} from '../../src/constants'
 import {fix} from '../../src/typographic-fixer'
 import rules from '../../src/rules/fr-FR'
 
@@ -15,6 +16,17 @@ describe('fr-FR rules', () => {
       })
       it(`adds a non-breaking space before ${char} if there is no space`, () => {
         expect(fix(rules, `Foo${char}`)).to.eql(`Foo\u00a0${char}`)
+      })
+    })
+
+    it('replaces a simple space before a currency with a non-breaking one', () => {
+      Object.keys(currencies).forEach((char) => {
+        expect(fix(rules, `10 ${char}`)).to.eql(`10\u00a0${char}`)
+      })
+    })
+    it('adds a non-breaking space before a currency if there is no space', () => {
+      Object.keys(currencies).forEach((char) => {
+        expect(fix(rules, `10${char}`)).to.eql(`10\u00a0${char}`)
       })
     })
 
