@@ -8,21 +8,17 @@ describe('fr-FR rules', () => {
       expect(fix(rules, 'Un    jour')).to.eql('Un jour')
     })
 
-    it('replaces non-breaking spaces with the corresponding html entity', () => {
-      expect(fix(rules, '17\u00a0%')).to.eql('17&nbsp;%')
-    })
-
     let charsWithNbspBefore = ['!', '?', ';', ':', '%']
     charsWithNbspBefore.forEach((char) => {
       it(`replaces a simple space before ${char} with a non-breaking one`, () => {
-        expect(fix(rules, `Foo ${char}`)).to.eql(`Foo&nbsp;${char}`)
+        expect(fix(rules, `Foo ${char}`)).to.eql(`Foo\u00a0${char}`)
       })
       it(`adds a non-breaking space before ${char} if there is no space`, () => {
-        expect(fix(rules, `Foo${char}`)).to.eql(`Foo&nbsp;${char}`)
+        expect(fix(rules, `Foo${char}`)).to.eql(`Foo\u00a0${char}`)
       })
     })
 
-    let charsWithSpaceAfter = [',', '.', '&hellip;', '!', '?', ';', ':', '%']
+    let charsWithSpaceAfter = [',', '.', '\u2026', '!', '?', ';', ':', '%']
     charsWithSpaceAfter.forEach((char) => {
       it(`adds a space after ${char} if there is no space`, () => {
         expect(fix(rules, `Foo${char}bar`).indexOf(`${char} bar`)).not.to.eql(-1)
@@ -33,11 +29,9 @@ describe('fr-FR rules', () => {
   describe('punctuations', () => {
     let etcTests = [
       ['Etc...', 'Etc.'],
-      ['Etc…', 'Etc.'],
-      ['Etc&hellip;', 'Etc.'],
+      ['Etc\u2026', 'Etc.'],
       ['etc...', 'etc.'],
-      ['etc…', 'etc.'],
-      ['etc&hellip;', 'etc.']
+      ['etc\u2026', 'etc.'],
     ]
     etcTests.forEach(([source, expected]) => {
       it(`replaces ${source} by ${expected}`, () => {
@@ -46,27 +40,27 @@ describe('fr-FR rules', () => {
     })
 
     it('replaces two or more ! with a single !', () => {
-      expect(fix(rules, 'Foo !!')).to.eql('Foo&nbsp;!')
-      expect(fix(rules, 'Foo !!!')).to.eql('Foo&nbsp;!')
-      expect(fix(rules, 'Foo !!!!')).to.eql('Foo&nbsp;!')
+      expect(fix(rules, 'Foo !!')).to.eql('Foo\u00a0!')
+      expect(fix(rules, 'Foo !!!')).to.eql('Foo\u00a0!')
+      expect(fix(rules, 'Foo !!!!')).to.eql('Foo\u00a0!')
     })
 
     it('replaces two or more ? with a single ?', () => {
-      expect(fix(rules, 'Foo ??')).to.eql('Foo&nbsp;?')
-      expect(fix(rules, 'Foo ???')).to.eql('Foo&nbsp;?')
-      expect(fix(rules, 'Foo ????')).to.eql('Foo&nbsp;?')
+      expect(fix(rules, 'Foo ??')).to.eql('Foo\u00a0?')
+      expect(fix(rules, 'Foo ???')).to.eql('Foo\u00a0?')
+      expect(fix(rules, 'Foo ????')).to.eql('Foo\u00a0?')
     })
 
-    it('replace N° with N&#186;', () => {
-      expect(fix(rules, 'N°')).to.eql('N&#186;')
+    it('replace N° with N\u00ba', () => {
+      expect(fix(rules, 'N°')).to.eql('N\u00ba')
     })
 
-    it('replace n° with n&#186;', () => {
-      expect(fix(rules, 'n°')).to.eql('n&#186;')
+    it('replace n° with n\u00ba', () => {
+      expect(fix(rules, 'n°')).to.eql('n\u00ba')
     })
 
     it('replaces triple dots with a proper ellipsis', () => {
-      expect(fix(rules, 'Foo...')).to.eql('Foo&hellip;')
+      expect(fix(rules, 'Foo...')).to.eql('Foo\u2026')
     })
 
     it('replaces Mr. by M.', () => {
@@ -76,20 +70,18 @@ describe('fr-FR rules', () => {
 
   describe('ordinal numbers', () => {
     let ordinalTests = [
-      ['1ere', '1<sup>re</sup>'],
-      ['1ère', '1<sup>re</sup>'],
-      ['2eme', '2<sup>e</sup>'],
-      ['2ème', '2<sup>e</sup>'],
-      ['3eme', '3<sup>e</sup>'],
-      ['3ème', '3<sup>e</sup>'],
-      ['10ème', '10<sup>e</sup>'],
-      ['1ers', '1<sup>ers</sup>'],
-      ['1ères', '1<sup>res</sup>'],
-      ['1eres', '1<sup>res</sup>'],
-      ['2emes', '2<sup>es</sup>'],
-      ['2èmes', '2<sup>es</sup>'],
-      ['10emes', '10<sup>èmes</sup>'],
-      ['10èmes', '10<sup>èmes</sup>']
+      ['1ere', '1re'],
+      ['1ère', '1re'],
+      ['2eme', '2e'],
+      ['2ème', '2e'],
+      ['3eme', '3e'],
+      ['3ème', '3e'],
+      ['10ème', '10e'],
+      ['1ères', '1res'],
+      ['1eres', '1res'],
+      ['2emes', '2es'],
+      ['2èmes', '2es'],
+      ['10emes', '10èmes'],
     ]
 
     ordinalTests.forEach(([source, expected]) => {
@@ -101,13 +93,12 @@ describe('fr-FR rules', () => {
 
   describe('quotes', () => {
     it('replaces single quotes with typographic ones', () => {
-      expect(fix(rules, 'L’arbre')).to.eql('L&rsquo;arbre')
-      expect(fix(rules, "L'arbre")).to.eql('L&rsquo;arbre')
+      expect(fix(rules, "L'arbre")).to.eql('L\u2019arbre')
     })
 
     it('replaces double quotes around a sentence by typographic quotes', () => {
-      expect(fix(rules, 'Le "Chat Botté".')).to.eql('Le &ldquo;&nbsp;Chat Botté&nbsp;&rdquo;.')
-      expect(fix(rules, 'Le " Chat Botté ".')).to.eql('Le &ldquo;&nbsp;Chat Botté&nbsp;&rdquo;.')
+      expect(fix(rules, 'Le "Chat Botté".')).to.eql('Le \u00ab\u00a0Chat Botté\u00a0\u00bb.')
+      expect(fix(rules, 'Le " Chat Botté ".')).to.eql('Le \u00ab\u00a0Chat Botté\u00a0\u00bb.')
     })
   })
 
@@ -121,14 +112,14 @@ describe('fr-FR rules', () => {
     })
 
     let hours = [
-      ['13h37', '13&nbsp;h&nbsp;37'],
-      ['13 h 37', '13&nbsp;h&nbsp;37'],
-      ['13h37min54s', '13&nbsp;h&nbsp;37&nbsp;min&nbsp;54&nbsp;s'],
-      ['13 h 37 min 54 s', '13&nbsp;h&nbsp;37&nbsp;min&nbsp;54&nbsp;s']
+      ['13h37', '13\u00a0h\u00a037'],
+      ['13 h 37', '13\u00a0h\u00a037'],
+      ['13h37min54s', '13\u00a0h\u00a037\u00a0min\u00a054\u00a0s'],
+      ['13 h 37 min 54 s', '13\u00a0h\u00a037\u00a0min\u00a054\u00a0s']
     ]
 
     hours.forEach(([source, expected]) => {
-      it(`replaces ${source} with ${expected.replace('&nbsp;', ' ')} using non-breaking spaces`, () => {
+      it(`replaces ${source} with ${expected} using non-breaking spaces`, () => {
         expect(fix(rules, source)).to.eql(expected)
       })
     })
