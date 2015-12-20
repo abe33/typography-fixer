@@ -95,7 +95,7 @@ export function rule (name, expression, replacement) {
   return {
     name,
     check (string) {
-      const re = new RegExp(source, 'g')
+      const re = new RegExp(source, 'gm')
       const matches = []
       let match
       do {
@@ -111,7 +111,7 @@ export function rule (name, expression, replacement) {
       return matches
     },
     fix (string) {
-      const re = new RegExp(source, 'g')
+      const re = new RegExp(source, 'gm')
       return string.replace(re, replacement)
     }
   }
@@ -133,7 +133,7 @@ export function ignore (name, expression) {
   return {
     name,
     ranges (string) {
-      const re = new RegExp(source, 'g')
+      const re = new RegExp(source, 'gm')
       const ranges = []
       let match
 
