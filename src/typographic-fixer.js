@@ -168,7 +168,7 @@ function rangesIntersects (rangeA, rangeB) {
   const [startA, endA] = rangeA
   const [startB, endB] = rangeB
 
-  return (startB >= startA && startB <= endA)|| (endB >= startA && endB <= endA)
+  return (startB >= startA && startB <= endA) || (endB >= startA && endB <= endA) || (startA >= startB && startA <= endB) || (endA >= startB && endA <= endB)
 }
 
 function flatten (arr) {
