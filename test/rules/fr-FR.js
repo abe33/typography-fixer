@@ -12,10 +12,10 @@ describe('fr-FR rules', () => {
     let charsWithNbspBefore = ['!', '?', ';', ':', '%']
     charsWithNbspBefore.forEach((char) => {
       it(`replaces a simple space before ${char} with a non-breaking one`, () => {
-        expect(fix(rules, `Foo ${char}`)).to.eql(`Foo\u00a0${char}`)
+        expect(fix(rules, `Foo ${char}`)).to.eql(`Foo\u202F${char}`)
       })
       it(`adds a non-breaking space before ${char} if there is no space`, () => {
-        expect(fix(rules, `Foo${char}`)).to.eql(`Foo\u00a0${char}`)
+        expect(fix(rules, `Foo${char}`)).to.eql(`Foo\u202F${char}`)
       })
     })
 
@@ -25,9 +25,13 @@ describe('fr-FR rules', () => {
         expect(fix(rules, `Foo ${char}`)).to.eql(`Foo${char}`)
         expect(fix(rules, `Foo  ${char}`)).to.eql(`Foo${char}`)
       })
+
       it(`removes a non-breaking space before ${char}`, () => {
         expect(fix(rules, `Foo\u00a0${char}`)).to.eql(`Foo${char}`)
         expect(fix(rules, `Foo\u00a0\u00a0${char}`)).to.eql(`Foo${char}`)
+
+        expect(fix(rules, `Foo\u202F${char}`)).to.eql(`Foo${char}`)
+        expect(fix(rules, `Foo\u202F\u202F${char}`)).to.eql(`Foo${char}`)
       })
     })
 
@@ -36,6 +40,7 @@ describe('fr-FR rules', () => {
         expect(fix(rules, `10 ${char}`)).to.eql(`10\u00a0${char}`)
       })
     })
+
     it('adds a non-breaking space before a currency if there is no space', () => {
       Object.keys(currencies).forEach((char) => {
         expect(fix(rules, `10${char}`)).to.eql(`10\u00a0${char}`)
@@ -64,15 +69,15 @@ describe('fr-FR rules', () => {
     })
 
     it('replaces two or more ! with a single !', () => {
-      expect(fix(rules, 'Foo !!')).to.eql('Foo\u00a0!')
-      expect(fix(rules, 'Foo !!!')).to.eql('Foo\u00a0!')
-      expect(fix(rules, 'Foo !!!!')).to.eql('Foo\u00a0!')
+      expect(fix(rules, 'Foo !!')).to.eql('Foo\u202F!')
+      expect(fix(rules, 'Foo !!!')).to.eql('Foo\u202F!')
+      expect(fix(rules, 'Foo !!!!')).to.eql('Foo\u202F!')
     })
 
     it('replaces two or more ? with a single ?', () => {
-      expect(fix(rules, 'Foo ??')).to.eql('Foo\u00a0?')
-      expect(fix(rules, 'Foo ???')).to.eql('Foo\u00a0?')
-      expect(fix(rules, 'Foo ????')).to.eql('Foo\u00a0?')
+      expect(fix(rules, 'Foo ??')).to.eql('Foo\u202F?')
+      expect(fix(rules, 'Foo ???')).to.eql('Foo\u202F?')
+      expect(fix(rules, 'Foo ????')).to.eql('Foo\u202F?')
     })
 
     it('replace N° with N\u00ba', () => {
@@ -125,8 +130,8 @@ describe('fr-FR rules', () => {
     })
 
     it('replaces double quotes around a sentence by typographic quotes', () => {
-      expect(fix(rules, 'Le "Chat Botté".')).to.eql('Le \u00ab\u00a0Chat Botté\u00a0\u00bb.')
-      expect(fix(rules, 'Le " Chat Botté ".')).to.eql('Le \u00ab\u00a0Chat Botté\u00a0\u00bb.')
+      expect(fix(rules, 'Le "Chat Botté".')).to.eql('Le \u00ab\u202FChat Botté\u202F\u00bb.')
+      expect(fix(rules, 'Le " Chat Botté ".')).to.eql('Le \u00ab\u202FChat Botté\u202F\u00bb.')
     })
   })
 

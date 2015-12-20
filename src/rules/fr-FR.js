@@ -12,13 +12,13 @@ export default group([
   ]),
   group('spaces', [
     rule('multipleSpaces', /\x20+/, ' '),
-    rule('noSpaceBefore', /(\x20|\u00a0)*(,|\.|\u2026)/, '$2'),
-    rule('spaceAfterPunctuation', /([^&\n\s]*)(\.|,|;|:|!|\?|%|\.{3}|\u2026)(?!\x20|$)/, '$1$2 '),
-    rule('spaceBeforePunctuation', /(?:\x20)?([?%])/, '\u00a0$1'),
-    rule('spaceBeforeColon', /(?:\x20)?(:)(?!\/\/)/, '\u00a0$1'),
-    rule('spaceBeforeBang', /(?:\x20)?(!)(?!\[)/, '\u00a0$1'),
+    rule('noSpaceBefore', /(\x20|\u00a0|\u202F)*(,|\.|\u2026)/, '$2'),
+    rule('spaceAfterPunctuation', /([^&\n\s]*)(\.|,|;|:|!|\?|%|\u2026)(?!\x20|$)/, '$1$2 '),
+    rule('spaceBeforePunctuation', /(?:\x20)?([?%])/, '\u202F$1'),
+    rule('spaceBeforeColon', /(?:\x20)?(:)(?!\/\/)/, '\u202F$1'),
+    rule('spaceBeforeBang', /(?:\x20)?(!)(?!\[)/, '\u202F$1'),
     rule('spaceBeforeCurrency', `(\\d)\x20?([${currenciesRegExp}])`, '$1\u00a0$2'),
-    rule('spaceBeforeSemiColon', /(?:^|\x20)([^&\n\s]*)(;)/, '$1\u00a0$2')
+    rule('spaceBeforeSemiColon', /(?:^|\x20)([^&\n\s]*)(;)/, '$1\u202F$2')
   ]),
   group('ordinal', [
     rule('greaterThan10', /(\d{2,})emes/, '$1èmes'),
@@ -29,8 +29,8 @@ export default group([
   ]),
   group('quotes', [
     rule('singleQuote', /(\w)'(\w)/, '$1\u2019$2'),
-    rule('doubleQuote', /"\s*([^"]+)"/, (_, m) => {
-      return `\u00ab\u00a0${m.replace(/\s+$/, '')}\u00a0\u00bb`
+    rule('doubleQuote', /"([^"]+)"/, (_, m) => {
+      return `\u00ab\u202F${m.replace(/^\s+|\s+$/g, '')}\u202F\u00bb`
     })
   ]),
   group('datetime', [
