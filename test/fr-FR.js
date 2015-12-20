@@ -17,7 +17,7 @@ describe('fr-FR rules', () => {
       it(`replaces a simple space before ${char} with a non-breaking one`, () => {
         expect(fix(rules, `Foo ${char}`)).to.eql(`Foo&nbsp;${char}`)
       })
-      it(`adds a non-breaking before ${char} if there is no space`, () => {
+      it(`adds a non-breaking space before ${char} if there is no space`, () => {
         expect(fix(rules, `Foo${char}`)).to.eql(`Foo&nbsp;${char}`)
       })
     })
