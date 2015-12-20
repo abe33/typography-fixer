@@ -124,4 +124,24 @@ describe('fr-FR rules', () => {
       })
     })
   })
+
+  describe('ligatures', () => {
+    it('replaces oe with \u0153', () => {
+      expect(fix(rules, 'oeuf')).to.eql('\u0153uf')
+    })
+
+    it('replaces Oe with \u0152', () => {
+      expect(fix(rules, 'Oeuf')).to.eql('\u0152uf')
+      expect(fix(rules, 'OEuf')).to.eql('\u0152uf')
+    })
+
+    it('replaces ae with \u00e6', () => {
+      expect(fix(rules, 'taenia')).to.eql('t\u00e6nia')
+    })
+
+    it('replaces Ae with \u00c6', () => {
+      expect(fix(rules, 'TAENIA')).to.eql('T\u00c6NIA')
+      expect(fix(rules, 'TAENIA')).to.eql('T\u00c6NIA')
+    })
+  })
 })

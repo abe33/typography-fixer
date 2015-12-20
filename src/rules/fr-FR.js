@@ -35,5 +35,11 @@ export default group([
     }),
     rule('timeLong', /(\d)\s*h\s*(\d+)\s*min\s*(\d+)\s*s/, '$1\u00a0h\u00a0$2\u00a0min\u00a0$3\u00a0s'),
     rule('timeShort', /(\d)\s*h\s*(\d)/, '$1\u00a0h\u00a0$2')
+  ]),
+  group('ligatures', [
+    rule('lowerOe', /oe/, '\u0153'),
+    rule('upperOe', /O[eE]/, '\u0152'),
+    rule('lowerAe', /ae/, '\u00e6'),
+    rule('upperAe', /A[eE]/, '\u00c6')
   ])
 ])
