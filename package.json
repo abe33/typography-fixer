@@ -6,7 +6,8 @@
   "scripts": {
     "test": "mocha --recursive --compilers js:babel-register",
     "babel": "babel src --out-dir lib",
-    "standard": "standard src/*.js test/*.js"
+    "standard": "standard src/*.js test/*.js",
+    "prepublish": "npm run standard && npm run test && npm run babel"
   },
   "keywords": [
     "typography"
