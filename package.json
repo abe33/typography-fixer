@@ -4,7 +4,7 @@
   "description": "Check or fix strings according to typographic rules",
   "main": "lib/typographic-fixer.js",
   "scripts": {
-    "test": "mocha --compilers js:babel-register",
+    "test": "mocha --recursive --compilers js:babel-register",
     "babel": "babel src --out-dir lib",
     "standard": "standard src/*.js test/*.js"
   },
