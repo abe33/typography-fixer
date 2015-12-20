@@ -21,6 +21,13 @@ describe('fr-FR rules', () => {
         expect(fix(rules, `Foo${char}`)).to.eql(`Foo&nbsp;${char}`)
       })
     })
+
+    let charsWithSpaceAfter = [',', '.', '&hellip;', '!', '?', ';', ':', '%']
+    charsWithSpaceAfter.forEach((char) => {
+      it(`adds a space after ${char} if there is no space`, () => {
+        expect(fix(rules, `Foo${char}bar`).indexOf(`${char} bar`)).not.to.eql(-1)
+      })
+    })
   })
 
   describe('punctuations', () => {

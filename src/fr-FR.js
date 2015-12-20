@@ -10,6 +10,7 @@ export default group([
   ]),
   group('spaces', [
     rule('multipleSpaces', /\x20+/, ' '),
+    rule('spaceAfterPunctuation', /([^&\n\s]*)(\.|,|;|:|!|\?|%|\.{3}|…)(?!\x20|$)/, '$1$2 '),
     rule('spaceBeforePunctuation', /(?:\x20|\u00a0)?([?%])/, '&nbsp;$1'),
     rule('spaceBeforeColon', /(?:\x20|\u00a0)?(:)(?!\/\/)/, '&nbsp;$1'),
     rule('spaceBeforeBang', /(?:\x20|\u00a0)?(!)(?!\[)/, '&nbsp;$1'),
