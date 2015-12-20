@@ -1,9 +1,5 @@
 import {rule, group} from '../typographic-fixer'
-import {currencies} from '../constants'
-
-const currencyRegexp = Object.keys(currencies).map((c) => {
-  return currencies[c]
-}).join('')
+import {currenciesRegExp} from '../constants'
 
 export default group([
   group('punctuations', [
@@ -20,7 +16,7 @@ export default group([
     rule('spaceBeforePunctuation', /(?:\x20)?([?%])/, '\u00a0$1'),
     rule('spaceBeforeColon', /(?:\x20)?(:)(?!\/\/)/, '\u00a0$1'),
     rule('spaceBeforeBang', /(?:\x20)?(!)(?!\[)/, '\u00a0$1'),
-    rule('spaceBeforeCurrency', `(\\d)\x20?([${currencyRegexp}])`, '$1\u00a0$2'),
+    rule('spaceBeforeCurrency', `(\\d)\x20?([${currenciesRegExp}])`, '$1\u00a0$2'),
     rule('spaceBeforeSemiColon', /(?:^|\x20)([^&\n\s]*)(;)/, '$1\u00a0$2')
   ]),
   group('ordinal', [

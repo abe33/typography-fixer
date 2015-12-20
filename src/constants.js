@@ -34,3 +34,7 @@ export const currencies = {
   '₽': '₽',
   '₾': '₾'
 }
+
+export const currenciesRegExp = Object.keys(currencies).map((c) => {
+  return currencies[c]
+}).join('')
