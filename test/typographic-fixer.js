@@ -168,6 +168,19 @@ describe('typographyFixer', () => {
         {rule: 'Foo', range: [7, 10]}
       ])
     })
+
+    describe('with ignore rules', () => {
+      it('applies the rules unless in excluded ranges', () => {
+        const ruleObject = rule('Foo', /foo/, 'bar')
+        const ignoreObject = ignore('quotes', /"[^"]+"/)
+        const reports = check([ruleObject, ignoreObject], 'foo "foo" foo "foo"')
+
+        expect(reports).to.eql([
+          {rule: 'Foo', range: [0, 3]},
+          {rule: 'Foo', range: [10, 13]}
+        ])
+      })
+    })
   })
 
   describe('fix', () => {
@@ -197,6 +210,15 @@ describe('typographyFixer', () => {
       const ruleObject2 = rule('Foo', /foo/, 'baz')
 
       expect(fix([ruleObject1, ruleObject2], 'Da foo foo')).to.eql('Da bar bar')
+    })
+
+    describe('with ignore rules', () => {
+      it('applies the rules unless in excluded ranges', () => {
+        const ruleObject = rule('Foo', /foo/, 'bar')
+        const ignoreObject = ignore('quotes', /"[^"]+"/)
+
+        expect(fix([ruleObject, ignoreObject], 'foo "foo" foo "foo"')).to.eql('bar "foo" bar "foo"')
+      })
     })
   })
 })

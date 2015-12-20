@@ -1,33 +1,55 @@
-export function check (rules, string) {
-  if (!rules || !string) {
+export function check (allRules, string) {
+  if (!allRules || !string) {
     throw new Error('The check arguments are mandatory')
   }
 
-  let results = []
+  let {ignores, rules} = collectRules(allRules)
 
   if (rules.length === 0) { return undefined }
+
+  const ranges = flatten(ignores.map((ignore) => {
+    return ignore.ranges(string)
+  }))
+
+  let results = []
 
   for (let i = 0, len = rules.length; i < len; i++) {
     const rule = rules[i]
     results = results.concat(rule.check(string))
   }
 
+  results = results.filter((result) => {
+    return !ranges.some((range) => {
+      return rangesIntersects(range, result.range)
+    })
+  })
+
   return results.length > 0 ? results : undefined
 }
 
-export function fix (rules, string) {
-  if (!rules || !string) {
+export function fix (allRules, string) {
+  if (!allRules || !string) {
     throw new Error('The fix arguments are mandatory')
   }
 
+  let {ignores, rules} = collectRules(allRules)
+
   if (rules.length === 0) { return string }
 
-  for (let i = 0, len = rules.length; i < len; i++) {
-    const rule = rules[i]
-    string = rule.fix(string)
+  const ranges = campactRanges(flatten(ignores.map((ignore) => {
+    return ignore.ranges(string)
+  })))
+
+  const {included, excluded} = splitByRanges(string, ranges)
+
+  for (let i = 0, len = included.length; i < len; i++) {
+    for (let j = 0, len = rules.length; j < len; j++) {
+      const rule = rules[j]
+      included[i] = rule.fix(included[i])
+    }
   }
 
-  return string
+  return alternateJoin(included, excluded)
 }
 
 export function group (name, rules) {
@@ -43,9 +65,7 @@ export function group (name, rules) {
     groupName = [name]
   }
 
-  return rules.reduce((memo, el) => {
-    return memo.concat(el)
-  }, []).map((rule) => {
+  return flatten(rules).map((rule) => {
     return {
       name: groupName.concat(rule.name).join('.'),
       check: rule.check,
@@ -120,4 +140,82 @@ export function ignore (name, expression) {
       return ranges
     }
   }
+}
+
+function collectRules (allRules) {
+  const ignores = []
+  const rules = []
+
+  for (let i = 0, len = allRules.length; i < len; i++) {
+    let rule = allRules[i]
+
+    if (rule.ranges) {
+      ignores.push(rule)
+    } else {
+      rules.push(rule)
+    }
+  }
+
+  return {ignores, rules}
+}
+
+function rangesIntersects (rangeA, rangeB) {
+  const [startA, endA] = rangeA
+  const [startB, endB] = rangeB
+
+  return (startB >= startA && startB <= endA)|| (endB >= startA && endB <= endA)
+}
+
+function flatten (arr) {
+  return arr.reduce((memo, el) => { return memo.concat(el) }, [])
+}
+
+function splitByRanges (string, ranges) {
+  const included = []
+  const excluded = []
+
+  let start = 0
+  for (let i = 0, len = ranges.length; i < len; i++) {
+    const range = ranges[i]
+
+    included.push(string.slice(start, range[0]))
+    excluded.push(string.slice(range[0], range[1]))
+    start = range[1]
+  }
+  included.push(string.slice(start, string.length))
+
+  return {included, excluded}
+}
+
+function alternateJoin (a, b) {
+  let string = ''
+
+  for (let i = 0, len = a.length; i < len; i++) {
+    string += a[i]
+    if (b[i]) { string += b[i] }
+  }
+
+  return string
+}
+
+function campactRanges (ranges) {
+  if (ranges.length === 0) { return [] }
+
+  const newRanges = [ranges.shift()]
+
+  ranges.forEach((rangeA) => {
+    for (let i = 0, len = newRanges.length; i < len; i++) {
+      const rangeB = newRanges[i]
+      if (rangesIntersects(rangeA, rangeB)) {
+        rangeB[0] = Math.min(rangeA[0], rangeB[0])
+        rangeB[1] = Math.max(rangeA[1], rangeB[1])
+      }
+    }
+
+    newRanges.push(rangeA)
+  })
+
+  return newRanges.sort((a, b) => {
+    return a[0] - b[0]
+  })
 }
