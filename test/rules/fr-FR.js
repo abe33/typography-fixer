@@ -19,6 +19,18 @@ describe('fr-FR rules', () => {
       })
     })
 
+    let charsWithNoSpaceBefore = [',', '.', '\u2026']
+    charsWithNoSpaceBefore.forEach((char) => {
+      it(`removes space before ${char}`, () => {
+        expect(fix(rules, `Foo ${char}`)).to.eql(`Foo${char}`)
+        expect(fix(rules, `Foo  ${char}`)).to.eql(`Foo${char}`)
+      })
+      it(`removes a non-breaking space before ${char}`, () => {
+        expect(fix(rules, `Foo\u00a0${char}`)).to.eql(`Foo${char}`)
+        expect(fix(rules, `Foo\u00a0\u00a0${char}`)).to.eql(`Foo${char}`)
+      })
+    })
+
     it('replaces a simple space before a currency with a non-breaking one', () => {
       Object.keys(currencies).forEach((char) => {
         expect(fix(rules, `10 ${char}`)).to.eql(`10\u00a0${char}`)
