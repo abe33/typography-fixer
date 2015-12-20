@@ -26,19 +26,9 @@ export default group([
   ]),
   group('quotes', [
     rule('singleTypographicQuote', /’/, '&rsquo;'),
-    rule('singleQuote', /^(.*\w)'(\w)/, (s) => {
-      if (/!\[[^\]]+\]\([^"]+"/.test(s)) {
-        return s
-      } else {
-        return s.replace(/^(.*\w)'(\w)/, '$1&rsquo;$2')
-      }
-    }),
-    rule('doubleQuote', /^([^"]*)"([^"]+)"/, (s) => {
-      if (/!\[[^\]]+\]\([^"]+"/.test(s)) {
-        return s
-      } else {
-        return s.replace(/"\s*(([^ ]| (?!"))+)\s*"/, '&ldquo;&nbsp;$1&nbsp;&rdquo;')
-      }
+    rule('singleQuote', /(\w)'(\w)/, '$1&rsquo;$2'),
+    rule('doubleQuote', /"\s*([^"]+)"/, (_, m) => {
+      return `&ldquo;&nbsp;${m.replace(/\s+$/, '')}&nbsp;&rdquo;`
     })
   ]),
   group('datetime', [
