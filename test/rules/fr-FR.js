@@ -1,6 +1,6 @@
 import expect from 'expect.js'
-import {fix} from '../src/typographic-fixer'
-import rules from '../src/fr-FR'
+import {fix} from '../../src/typographic-fixer'
+import rules from '../../src/rules/fr-FR'
 
 describe('fr-FR rules', () => {
   describe('spaces', () => {

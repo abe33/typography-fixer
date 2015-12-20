@@ -1,4 +1,4 @@
-import {rule, group} from './typographic-fixer'
+import {rule, group} from '../typographic-fixer'
 
 export default group([
   group('punctuations', [
