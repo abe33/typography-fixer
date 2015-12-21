@@ -3,7 +3,7 @@ import {currenciesRegExp} from '../constants'
 
 export default group([
   group('punctuations', [
-    rule('multiplePunctuation', /([!?])\1+/, '$1'),
+    rule('collapseMultiplePunctuation', /([!?])\1+/, '$1'),
     rule('shortEtCaetera', /([Ee]tc)(\.{3}|\u2026)/, '$1.'),
     rule('tripleDots', /\.{3,}/, '\u2026')
   ]),
