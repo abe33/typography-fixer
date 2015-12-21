@@ -130,7 +130,7 @@ describe('en-UK rules', () => {
       expect(fix(rules, 'in "Moby Dick",')).to.eql('in \u201cMoby Dick,\u201d')
     })
 
-    it('replaces quotes by primes in dimensions', () => {
+    it('replaces quotes by primes when placed after numbers', () => {
       expect(fix(rules, "She's 5'6\" tall")).to.eql('She\u2019s 5\u20326\u2033 tall')
       expect(fix(rules, "a 9\" nail")).to.eql('a 9\u2033 nail')
       expect(fix(rules, "I Was Crushed By A 40' Man")).to.eql('I Was Crushed By A 40\u2032 Man')
