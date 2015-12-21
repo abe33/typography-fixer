@@ -159,6 +159,23 @@ describe('fr-FR rules', () => {
       expect(fix(rules, 'Y a-t\'il')).to.eql('Y a-t-il')
     })
 
+    let cadTests = [
+      'cad',
+      'c-a-d',
+      'c.-a-d.',
+      'c.-a-d',
+      'c-a-d.',
+      'càd',
+      'c-à-d',
+      'c.-à-d',
+      'c-à-d.'
+    ]
+    cadTests.forEach((form) => {
+      it(`replaces ${form} by c.-à-d.`, () => {
+        expect(fix(rules, form)).to.eql('c.-à-d.')
+      })
+    })
+
     it('replaces hyphen in sentences with dashes', () => {
       expect(fix(rules, '- foo - bar - foo-bar')).to.eql('- foo\u00a0\u2013 bar\u00a0\u2013 foo-bar')
     })

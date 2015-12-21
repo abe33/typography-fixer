@@ -8,6 +8,7 @@ export default group([
     rule('tripleDots', /\.{3,}/, '\u2026'),
     rule('maleHonorific', /Mr\.?/, 'M.'),
     rule('possessiveInterrogative', /a-t'il/, 'a-t-il'),
+    rule('cad', /c\.?-?[aà]-?d\.?/, 'c.-à-d.'),
     rule('numberAbbr', /(n|N)°/, '$1\u00ba'),
     rule('enDash', /(\w\x20)-(\x20\w)/, '$1\u2013$2')
   ]),
@@ -21,7 +22,8 @@ export default group([
     rule('noSpaceAfterPunctuation', /(\u2019|\()\s*/, '$1'),
     rule('nonBreakingSpaceBeforePunctuation', /(?:\x20)?([?!;%])/, '\u202F$1'),
     rule('nonBreakingSpaceBeforeColon', /(\D)(?:\x20)?(:)/, '$1\u202F$2'),
-    rule('spaceAfterPunctuation', /(\.|;|!|\?|%|\u2026)(?!\x20|$)/, '$1 '),
+    rule('spaceAfterPunctuation', /(;|!|\?|%|\u2026)(?!\x20|$)/, '$1 '),
+    rule('spaceAfterPunctuation', /(\.)(?!\x20|-|$)/, '$1 '),
     rule('spaceAfterColon', /(\D\s)(:)(?!\x20|$)/, '$1$2 '),
     rule('spaceAfterComma', /(\D)(,)(?!\x20|$)/, '$1$2 '),
     rule('spaceAfterParenthesis', /(\))(\w)/, '$1 $2'),
