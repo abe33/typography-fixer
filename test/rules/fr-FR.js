@@ -151,6 +151,10 @@ describe('fr-FR rules', () => {
       expect(fix(rules, 'Mr.')).to.eql('M.')
     })
 
+    it('replaces Mr by M.', () => {
+      expect(fix(rules, 'Mr')).to.eql('M.')
+    })
+
     it('replaces hyphen in sentences with dashes', () => {
       expect(fix(rules, '- foo - bar - foo-bar')).to.eql('- foo\u00a0\u2013 bar\u00a0\u2013 foo-bar')
     })
