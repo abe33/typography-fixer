@@ -38,3 +38,25 @@ export const currencies = {
 export const currenciesRegExp = Object.keys(currencies).map((c) => {
   return currencies[c]
 }).join('')
+
+export const fractions = [
+  [1, 4, '\u00bc'],
+  [1, 2, '\u00bd'],
+  [3, 4, '\u00be'],
+  [1, 7, '\u2150'],
+  [1, 9, '\u2151'],
+  [1, 10, '\u2152'],
+  [1, 3, '\u2153'],
+  [2, 3, '\u2154'],
+  [1, 5, '\u2155'],
+  [2, 5, '\u2156'],
+  [3, 5, '\u2157'],
+  [4, 5, '\u2158'],
+  [1, 6, '\u2159'],
+  [5, 6, '\u215a'],
+  [1, 8, '\u215b'],
+  [3, 8, '\u215c'],
+  [5, 8, '\u215d'],
+  [7, 8, '\u215e'],
+  [0, 3, '\u2189']
+]
