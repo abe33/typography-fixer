@@ -78,6 +78,12 @@ describe('en-UK rules', () => {
       expect(fix(rules, 'Ms is served')).to.eql('Ms is served')
       expect(fix(rules, 'Miss is served')).to.eql('Miss is served')
     })
+
+    it('removes a space after currency', () => {
+      Object.keys(currencies).forEach((char) => {
+        expect(fix(rules, `${char} 10`)).to.eql(`${char}10`)
+      })
+    })
   })
 
   describe('punctuations', () => {

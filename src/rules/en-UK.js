@@ -1,5 +1,5 @@
 import {rule, group} from '../typographic-fixer'
-import {currencies} from '../constants'
+import {currenciesRegExp} from '../constants'
 
 export default group([
   group('punctuations', [
@@ -27,6 +27,7 @@ export default group([
     rule('noSpaceBeforeRightQuote', /(\S)\s*(\u201d)/, '$1$2'),
     rule('spaceAfterParenthesis', /(\))(\w)/, '$1 $2'),
     rule('spaceBeforeParenthesis', /(\S)(\()/, '$1 $2'),
-    rule('nonBreakingSpaceAfterHonorific', /(Mr|Ms|Miss)\s([A-Z])/, '$1\u00a0$2')
+    rule('nonBreakingSpaceAfterHonorific', /(Mr|Ms|Miss)\s([A-Z])/, '$1\u00a0$2'),
+    rule('noSpaceAfterCurrency', `([${currenciesRegExp}])\\s*(\\d)`, '$1$2')
   ])
 ])
