@@ -60,6 +60,14 @@ describe('en-UK rules', () => {
     it('removes spaces inside quotation marks', () => {
       expect(fix(rules, 'in \u201c Moby Dick \u201d')).to.eql('in \u201cMoby Dick\u201d')
     })
+
+    it('does not add a space after a period used in a floating number', () => {
+      expect(fix(rules, 'as.30. 37.5')).to.eql('as. 30. 37.5')
+    })
+
+    it('does not add spaces before and after a colon between two numbers', () => {
+      expect(fix(rules, 'bar:12:21:56')).to.eql('bar: 12:21:56')
+    })
   })
 
   describe('punctuations', () => {
