@@ -68,6 +68,16 @@ describe('en-UK rules', () => {
     it('does not add spaces before and after a colon between two numbers', () => {
       expect(fix(rules, 'bar:12:21:56')).to.eql('bar: 12:21:56')
     })
+
+    it('adds a non-breaking space after an honorific followed by a name', () => {
+      expect(fix(rules, 'Mr Smith')).to.eql('Mr\u00a0Smith')
+      expect(fix(rules, 'Ms Smith')).to.eql('Ms\u00a0Smith')
+      expect(fix(rules, 'Miss Smith')).to.eql('Miss\u00a0Smith')
+
+      expect(fix(rules, 'Mr is served')).to.eql('Mr is served')
+      expect(fix(rules, 'Ms is served')).to.eql('Ms is served')
+      expect(fix(rules, 'Miss is served')).to.eql('Miss is served')
+    })
   })
 
   describe('punctuations', () => {

@@ -26,6 +26,7 @@ export default group([
     rule('noSpaceAfterLeftQuote', /(\u201c)\s*(\S)/, '$1$2'),
     rule('noSpaceBeforeRightQuote', /(\S)\s*(\u201d)/, '$1$2'),
     rule('spaceAfterParenthesis', /(\))(\w)/, '$1 $2'),
-    rule('spaceBeforeParenthesis', /(\S)(\()/, '$1 $2')
+    rule('spaceBeforeParenthesis', /(\S)(\()/, '$1 $2'),
+    rule('nonBreakingSpaceAfterHonorific', /(Mr|Ms|Miss)\s([A-Z])/, '$1\u00a0$2')
   ])
 ])

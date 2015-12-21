@@ -27,7 +27,8 @@ export default group([
     rule('spaceBeforeParenthesis', /(\S)(\()/, '$1 $2'),
     rule('spaceBeforeCurrency', `(\\d)\x20?([${currenciesRegExp}])`, '$1\u00a0$2'),
     rule('spaceAfterLeftQuote', /(\u00ab)\s*(\S)/, '$1\u202F$2'),
-    rule('spaceBeforeRightQuote', /(\S)\s*(\u00bb)/, '$1\u202F$2')
+    rule('spaceBeforeRightQuote', /(\S)\s*(\u00bb)/, '$1\u202F$2'),
+    rule('nonBreakingSpaceAfterHonorific', /(M\.|Mme|Mlle)\s([A-Z])/, '$1\u00a0$2')
   ]),
   group('ordinal', [
     rule('greaterThan10', /(\d{2,})emes/, '$1èmes'),

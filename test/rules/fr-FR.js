@@ -94,6 +94,16 @@ describe('fr-FR rules', () => {
     it('does not add spaces before and after a colon between two numbers', () => {
       expect(fix(rules, 'bar:12:21:56')).to.eql('bar\u202F: 12:21:56')
     })
+
+    it('adds a non-breaking space after an honorific followed by a name', () => {
+      expect(fix(rules, 'M. Martin')).to.eql('M.\u00a0Martin')
+      expect(fix(rules, 'Mme Martin')).to.eql('Mme\u00a0Martin')
+      expect(fix(rules, 'Mlle Martin')).to.eql('Mlle\u00a0Martin')
+
+      expect(fix(rules, 'M. est servi')).to.eql('M. est servi')
+      expect(fix(rules, 'Mme est servie')).to.eql('Mme est servie')
+      expect(fix(rules, 'Mlle est servie')).to.eql('Mlle est servie')
+    })
   })
 
   describe('punctuations', () => {
