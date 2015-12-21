@@ -12,11 +12,11 @@ describe('fr-FR rules', () => {
     let charsWithNbspBefore = ['!', '?', ';', ':', '%']
     charsWithNbspBefore.forEach((char) => {
       it(`replaces a simple space before ${char} with a non-breaking one`, () => {
-        expect(fix(rules, `Foo ${char}`)).to.eql(`Foo\u202F${char}`)
+        expect(fix(rules, `Foo ${char}bar`)).to.eql(`Foo\u202F${char} bar`)
       })
 
       it(`adds a non-breaking space before ${char} if there is no space`, () => {
-        expect(fix(rules, `Foo${char}`)).to.eql(`Foo\u202F${char}`)
+        expect(fix(rules, `Foo${char}bar`)).to.eql(`Foo\u202F${char} bar`)
       })
     })
 
@@ -85,6 +85,14 @@ describe('fr-FR rules', () => {
 
     it('adds spaces inside typographic quotes', () => {
       expect(fix(rules, 'Le \u00abChat Botté\u00bb.')).to.eql('Le \u00ab\u202FChat Botté\u202F\u00bb.')
+    })
+
+    it('does not add a space after a comma used in a floating number', () => {
+      expect(fix(rules, 'as,30, 37,5')).to.eql('as, 30, 37,5')
+    })
+
+    it('does not add spaces before and after a colon between two numbers', () => {
+      expect(fix(rules, 'bar:12:21:56')).to.eql('bar\u202F: 12:21:56')
     })
   })
 
