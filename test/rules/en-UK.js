@@ -9,7 +9,6 @@ describe('en-UK rules', () => {
       expect(fix(rules, 'One    day')).to.eql('One day')
     })
 
-
     let charsWithSpaceAfter = [',', '.', '\u2026', '!', '?', ';', ':', '%']
     charsWithSpaceAfter.forEach((char) => {
       it(`adds a space after ${char} if there is no space`, () => {
@@ -52,6 +51,10 @@ describe('en-UK rules', () => {
 
     it('removes spaces around em dashes', () => {
       expect(fix(rules, 'foo \u2014 bar')).to.eql('foo\u2014bar')
+    })
+
+    it('adds spaces around en dashes', () => {
+      expect(fix(rules, 'foo\u2013bar')).to.eql('foo\u00a0\u2013 bar')
     })
 
     it('removes spaces inside quotation marks', () => {
