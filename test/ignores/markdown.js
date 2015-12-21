@@ -51,4 +51,16 @@ describe('markdown ignores', () => {
   it('preserves content of block code', () => {
     expect(fix(rules, 'foo\n```\nfoo\n```\nfoo\n```\nfoo\n```\nfoo')).to.eql('bar\n```\nfoo\n```\nbar\n```\nfoo\n```\nbar')
   })
+
+  it('preserves content of pre-formatted blocks', () => {
+    expect(fix(rules, `foo
+
+    foo
+
+foo`)).to.eql(`bar
+
+    foo
+
+bar`)
+  })
 })
