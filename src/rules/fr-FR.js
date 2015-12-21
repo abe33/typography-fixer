@@ -10,7 +10,8 @@ export default group([
     rule('possessiveInterrogative', /a-t'il/, 'a-t-il'),
     rule('cad', /c\.?-?[aà]-?d\.?/, 'c.-à-d.'),
     rule('numberAbbr', /(n|N)°/, '$1\u00ba'),
-    rule('enDash', /(\w\x20)-(\x20\w)/, '$1\u2013$2')
+    rule('enDashBetweenWords', /(\D\x20)-(\x20\D)/, '$1\u2013$2'),
+    rule('enDashBetweenNumbers', /(\d)\s*-\s*(\d)/, '$1\u2013$2')
   ]),
   group('quotes', [
     rule('singleQuote', /(\w)'(\w)/, '$1\u2019$2'),
@@ -20,6 +21,7 @@ export default group([
     rule('collapseMultipleSpaces', /\x20+/, ' '),
     rule('noSpaceBeforePunctuation', /\s*(,|\.|\)|\u2026|\u2019)/, '$1'),
     rule('noSpaceAfterPunctuation', /(\u2019|\()\s*/, '$1'),
+    rule('noSpaceAroundEnDashBetweenNumbers', /(\d)\s*\u2013\s*(\d)/, '$1\u2013$2'),
     rule('nonBreakingSpaceBeforePunctuation', /(?:\x20)?([?!;%])/, '\u202F$1'),
     rule('nonBreakingSpaceBeforeColon', /(\D)(?:\x20)?(:)/, '$1\u202F$2'),
     rule('spaceAfterPunctuation', /(;|!|\?|%|\u2026)(?!\x20|$)/, '$1 '),
@@ -29,7 +31,7 @@ export default group([
     rule('spaceAfterParenthesis', /(\))(\w)/, '$1 $2'),
     rule('spaceBeforeParenthesis', /(\S)(\()/, '$1 $2'),
     rule('spaceBeforeCurrency', `(\\d)\x20?([${currenciesRegExp}])`, '$1\u00a0$2'),
-    rule('spaceAroundEnDash', /\s*(\u2013)\s*/, '\u00a0$1 '),
+    rule('spaceAroundEnDash', /(\D)\s*(\u2013)\s*(\D)/, '$1\u00a0$2 $3'),
     rule('spaceAfterLeftQuote', /(\u00ab)\s*(\S)/, '$1\u202F$2'),
     rule('spaceBeforeRightQuote', /(\S)\s*(\u00bb)/, '$1\u202F$2'),
     rule('nonBreakingSpaceAfterHonorific', /(M\.|Mme|Mlle)\s([A-Z])/, '$1\u00a0$2')

@@ -53,8 +53,12 @@ describe('en-UK rules', () => {
       expect(fix(rules, 'foo \u2014 bar')).to.eql('foo\u2014bar')
     })
 
-    it('adds spaces around en dashes', () => {
+    it('adds spaces around en dashes between words', () => {
       expect(fix(rules, 'foo\u2013bar')).to.eql('foo\u00a0\u2013 bar')
+    })
+
+    it('removes spaces around en dashes between numbers', () => {
+      expect(fix(rules, '1000 \u2013 1500')).to.eql('1000\u20131500')
     })
 
     it('removes spaces inside quotation marks', () => {
@@ -113,6 +117,14 @@ describe('en-UK rules', () => {
 
     it('replaces triple dots with a proper ellipsis', () => {
       expect(fix(rules, 'Foo...')).to.eql('Foo\u2026')
+    })
+
+    it('replaces hyphen in sentences with dashes', () => {
+      expect(fix(rules, '- foo - bar - foo-bar')).to.eql('- foo\u00a0\u2013 bar\u00a0\u2013 foo-bar')
+    })
+
+    it('replaces hyphen between numbers with dashes', () => {
+      expect(fix(rules, '1000-1500')).to.eql('1000\u20131500')
     })
   })
 

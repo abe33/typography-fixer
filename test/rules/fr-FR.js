@@ -105,8 +105,12 @@ describe('fr-FR rules', () => {
       expect(fix(rules, 'Mlle est servie')).to.eql('Mlle est servie')
     })
 
-    it('adds spaces around en dashes', () => {
+    it('adds spaces around en dashes between words', () => {
       expect(fix(rules, 'foo\u2013bar')).to.eql('foo\u00a0\u2013 bar')
+    })
+
+    it('removes spaces around en dashes between numbers', () => {
+      expect(fix(rules, '1000 \u2013 1500')).to.eql('1000\u20131500')
     })
   })
 
@@ -178,6 +182,10 @@ describe('fr-FR rules', () => {
 
     it('replaces hyphen in sentences with dashes', () => {
       expect(fix(rules, '- foo - bar - foo-bar')).to.eql('- foo\u00a0\u2013 bar\u00a0\u2013 foo-bar')
+    })
+
+    it('replaces hyphen between numbers with dashes', () => {
+      expect(fix(rules, '1000-1500')).to.eql('1000\u20131500')
     })
   })
 

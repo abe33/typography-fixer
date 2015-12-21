@@ -5,7 +5,9 @@ export default group([
   group('punctuations', [
     rule('collapseMultiplePunctuation', /([!?])\1+/, '$1'),
     rule('shortEtCaetera', /([Ee]tc)(\.{3}|\u2026)/, '$1.'),
-    rule('tripleDots', /\.{3,}/, '\u2026')
+    rule('tripleDots', /\.{3,}/, '\u2026'),
+    rule('enDashBetweenWords', /(\D\x20)-(\x20\D)/, '$1\u2013$2'),
+    rule('enDashBetweenNumbers', /(\d)\s*-\s*(\d)/, '$1\u2013$2')
   ]),
   group('quotes', [
     rule('singlePrime', /(\d)'/, '$1\u2032'),
@@ -18,11 +20,12 @@ export default group([
     rule('collapseMultipleSpaces', /\x20+/, ' '),
     rule('noSpaceBeforePunctuation', /(\x20|\u00a0)*(\.|,|;|:|!|\?|%|\)|\u2019|\u2026)/, '$2'),
     rule('noSpaceAfterPunctuation', /(\u2019|\()\s*/, '$1'),
+    rule('noSpaceAroundEnDashBetweenNumbers', /(\d)\s*\u2013\s*(\d)/, '$1\u2013$2'),
     rule('spaceAfterPunctuation', /(,|;|!|\?|%|\u2026)(?!\x20|$)/, '$1 '),
     rule('spaceAfterPunctuation', /(\D)(\.)(?!\x20|$)/, '$1$2 '),
     rule('spaceAfterColon', /(\D)(:)(?!\x20|$)/, '$1$2 '),
     rule('noSpaceAroundEmDash', /(\x20|\u00a0)*(\u2014)(\x20|\u00a0)*/, '$2'),
-    rule('spaceAroundEnDash', /\s*(\u2013)\s*/, '\u00a0$1 '),
+    rule('spaceAroundEnDash', /(\D)\s*(\u2013)\s*(\D)/, '$1\u00a0$2 $3'),
     rule('noSpaceAfterLeftQuote', /(\u201c)\s*(\S)/, '$1$2'),
     rule('noSpaceBeforeRightQuote', /(\S)\s*(\u201d)/, '$1$2'),
     rule('spaceAfterParenthesis', /(\))(\w)/, '$1 $2'),
