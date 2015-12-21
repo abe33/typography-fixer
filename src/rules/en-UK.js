@@ -15,7 +15,7 @@ export default group([
     rule('punctuationAfterQuote', /(\u201d)(\.|,)/, '$2$1')
   ]),
   group('spaces', [
-    rule('multipleSpaces', /\x20+/, ' '),
+    rule('collapseMultipleSpaces', /\x20+/, ' '),
     rule('noSpaceBeforePunctuation', /(\x20|\u00a0)*(\.|,|;|:|!|\?|%|\)|\u2019|\u2026)/, '$2'),
     rule('noSpaceAfterPunctuation', /(\u2019|\()\s*/, '$1'),
     rule('spaceAfterPunctuation', /(,|;|!|\?|%|\u2026)(?!\x20|$)/, '$1 '),

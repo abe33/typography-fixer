@@ -15,7 +15,7 @@ export default group([
     rule('doubleQuote', /"([^"]+)"/, '\u00ab$1\u00bb')
   ]),
   group('spaces', [
-    rule('multipleSpaces', /\x20+/, ' '),
+    rule('collapseMultipleSpaces', /\x20+/, ' '),
     rule('noSpaceBeforePunctuation', /\s*(,|\.|\)|\u2026|\u2019)/, '$1'),
     rule('noSpaceAfterPunctuation', /(\u2019|\()\s*/, '$1'),
     rule('nonBreakingSpaceBeforePunctuation', /(?:\x20)?([?!;%])/, '\u202F$1'),
