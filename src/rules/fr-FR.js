@@ -10,12 +10,21 @@ export default group([
     rule('numberAbbr', /(n|N)°/, '$1\u00ba'),
     rule('enDash', /(\w\x20)-(\x20\w)/, '$1\u2013$2')
   ]),
+  group('quotes', [
+    rule('singleQuote', /(\w)'(\w)/, '$1\u2019$2'),
+    rule('doubleQuote', /"([^"]+)"/, '\u00ab$1\u00bb')
+  ]),
   group('spaces', [
     rule('multipleSpaces', /\x20+/, ' '),
-    rule('noSpaceBefore', /(\x20|\u00a0|\u202F)*(,|\.|\u2026)/, '$2'),
+    rule('noSpaceBeforePunctuation', /\s*(,|\.|\)|\u2026|\u2019)/, '$1'),
+    rule('noSpaceAfterPunctuation', /(\u2019|\()\s*/, '$1'),
+    rule('nonBreakingSpaceBeforePunctuation', /(?:\x20)?([?!:;%])/, '\u202F$1'),
     rule('spaceAfterPunctuation', /([^&\n\s]*)(\.|,|;|:|!|\?|%|\u2026)(?!\x20|$)/, '$1$2 '),
-    rule('spaceBeforePunctuation', /(?:\x20)?([?!:;%])/, '\u202F$1'),
-    rule('spaceBeforeCurrency', `(\\d)\x20?([${currenciesRegExp}])`, '$1\u00a0$2')
+    rule('spaceAfterParenthesis', /(\))(\w)/, '$1 $2'),
+    rule('spaceBeforeParenthesis', /(\S)(\()/, '$1 $2'),
+    rule('spaceBeforeCurrency', `(\\d)\x20?([${currenciesRegExp}])`, '$1\u00a0$2'),
+    rule('spaceAfterLeftQuote', /(\u00ab)\s*(\S)/, '$1\u202F$2'),
+    rule('spaceBeforeRightQuote', /(\S)\s*(\u00bb)/, '$1\u202F$2')
   ]),
   group('ordinal', [
     rule('greaterThan10', /(\d{2,})emes/, '$1èmes'),
@@ -23,12 +32,6 @@ export default group([
     rule('lowerThan10', /((^|[^\d])\d)[èe]mes/, '$1es'),
     rule('firstFemale', /(\d)[èe]re/, '$1re'),
     rule('firstMale', /(\d)[èe]me(?!s)/, '$1e')
-  ]),
-  group('quotes', [
-    rule('singleQuote', /(\w)'(\w)/, '$1\u2019$2'),
-    rule('doubleQuote', /"([^"]+)"/, (_, m) => {
-      return `\u00ab\u202F${m.replace(/^\s+|\s+$/g, '')}\u202F\u00bb`
-    })
   ]),
   group('datetime', [
     rule('daysAndMonths', /(Lundi|Mardi|Mercredi|Jeudi|Vendredi|Samedi|Dimanche|Janvier|Février|Mars|Avril|Mai|Juin|Juillet|Aout|Septembre|Octobre|Novembre|Décembre)/, (s) => {
