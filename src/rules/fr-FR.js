@@ -7,6 +7,7 @@ export default group([
     rule('shortEtCaetera', /([Ee]tc)(\.{3}|\u2026)/, '$1.'),
     rule('tripleDots', /\.{3,}/, '\u2026'),
     rule('maleHonorific', /Mr\.?/, 'M.'),
+    rule('possessiveInterrogative', /a-t'il/, 'a-t-il'),
     rule('numberAbbr', /(n|N)°/, '$1\u00ba'),
     rule('enDash', /(\w\x20)-(\x20\w)/, '$1\u2013$2')
   ]),
