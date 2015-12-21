@@ -17,7 +17,7 @@ describe('en-UK rules', () => {
       })
     })
 
-    let charsWithNoSpaceBefore = [',', '.', '\u2026', '!', '?', ';', ':', '%', "'", ')']
+    let charsWithNoSpaceBefore = [',', '.', '\u2026', '!', '?', ';', ':', '%', '\u2019', ')']
     charsWithNoSpaceBefore.forEach((char) => {
       it(`removes space before ${char}`, () => {
         expect(fix(rules, `Foo ${char}`)).to.eql(`Foo${char}`)
@@ -29,7 +29,7 @@ describe('en-UK rules', () => {
       })
     })
 
-    let charsWithNoSpaceAfter = ["'", '(']
+    let charsWithNoSpaceAfter = ['\u2019', '(']
     charsWithNoSpaceAfter.forEach((char) => {
       it(`removes spaces after ${char}`, () => {
         expect(fix(rules, `foo ${char} bar`).indexOf(`${char}bar`)).not.to.be(-1)
@@ -90,6 +90,10 @@ describe('en-UK rules', () => {
   })
 
   describe('quotes', () => {
+    it('replaces single quotes with typographic ones', () => {
+      expect(fix(rules, "Don't")).to.eql('Don\u2019t')
+    })
+
     it('replaces double quotes around a sentence by quotation marks', () => {
       expect(fix(rules, 'in "Moby Dick"')).to.eql('in \u201cMoby Dick\u201d')
     })
@@ -97,6 +101,12 @@ describe('en-UK rules', () => {
     it('moves punctuation after a quotation mark inside it', () => {
       expect(fix(rules, 'in "Moby Dick".')).to.eql('in \u201cMoby Dick.\u201d')
       expect(fix(rules, 'in "Moby Dick",')).to.eql('in \u201cMoby Dick,\u201d')
+    })
+
+    it('replaces quotes by primes in dimensions', () => {
+      expect(fix(rules, "She's 5'6\" tall")).to.eql('She\u2019s 5\u20326\u2033 tall')
+      expect(fix(rules, "a 9\" nail")).to.eql('a 9\u2033 nail')
+      expect(fix(rules, "I Was Crushed By A 40' Man")).to.eql('I Was Crushed By A 40\u2032 Man')
     })
   })
 })

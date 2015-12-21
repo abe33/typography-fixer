@@ -8,13 +8,16 @@ export default group([
     rule('tripleDots', /\.{3,}/, '\u2026')
   ]),
   group('quotes', [
+    rule('singlePrime', /(\d)'/, '$1\u2032'),
+    rule('doublePrime', /(\d)"/, '$1\u2033'),
+    rule('singleQuote', /(\w)'(\w)/, '$1\u2019$2'),
     rule('doubleQuote', /"([^"]+)"/, '\u201c$1\u201d'),
     rule('punctuationAfterQuote', /(\u201d)(\.|,)/, '$2$1')
   ]),
   group('spaces', [
     rule('multipleSpaces', /\x20+/, ' '),
-    rule('noSpaceBeforePunctuation', /(\x20|\u00a0)*(\.|,|;|:|!|\?|%|\)|'|\u2026)/, '$2'),
-    rule('noSpaceAfterPunctuation', /('|\()\s*/, '$1'),
+    rule('noSpaceBeforePunctuation', /(\x20|\u00a0)*(\.|,|;|:|!|\?|%|\)|\u2019|\u2026)/, '$2'),
+    rule('noSpaceAfterPunctuation', /(\u2019|\()\s*/, '$1'),
     rule('spaceAfterPunctuation', /([^&\n\s]*)(\.|,|;|:|!|\?|%|\u2026)(?!\x20|$)/, '$1$2 '),
     rule('spacesAroundEmDash', /(\x20|\u00a0)*(\u2014)(\x20|\u00a0)*/, '$2'),
     rule('noSpaceAfterLeftQuote', /(\u201c)\s*(\S)/, '$1$2'),
