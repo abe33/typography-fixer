@@ -16,6 +16,9 @@ describe('en-UK rules', () => {
     charsWithSpaceAfter.forEach((char) => {
       it(`adds a space after ${char} if there is no space`, () => {
         expect(fix(rules, `Foo${char}bar`)).to.eql(`Foo${char} bar`)
+
+        expect(check(rules, `Foo${char}bar`)).to.have.length(1)
+        expect(check(rules, `Foo${char} bar`)).to.be(undefined)
       })
     })
 
@@ -25,10 +28,12 @@ describe('en-UK rules', () => {
         expect(fix(rules, `Foo ${char}`)).to.eql(`Foo${char}`)
         expect(fix(rules, `Foo  ${char}`)).to.eql(`Foo${char}`)
       })
+
       it(`removes a non-breaking space before ${char}`, () => {
         expect(fix(rules, `Foo\u00a0${char}`)).to.eql(`Foo${char}`)
         expect(fix(rules, `Foo\u00a0\u00a0${char}`)).to.eql(`Foo${char}`)
       })
+
       it(`checks only when there is a space before ${char}`, () => {
         expect(check(rules, `Foo ${char}`)).to.have.length(1)
         expect(check(rules, `Foo\u00a0${char}`)).to.have.length(1)
@@ -39,61 +44,105 @@ describe('en-UK rules', () => {
     let charsWithNoSpaceAfter = ['\u2019', '(']
     charsWithNoSpaceAfter.forEach((char) => {
       it(`removes spaces after ${char}`, () => {
-        expect(fix(rules, `foo ${char} bar`).indexOf(`${char}bar`)).not.to.be(-1)
-        expect(fix(rules, `foo  ${char} bar`).indexOf(`${char}bar`)).not.to.be(-1)
+        expect(fix(rules, `${char} bar`)).to.eql(`${char}bar`)
+        expect(fix(rules, `${char}  bar`)).to.eql(`${char}bar`)
       })
 
       it(`removes a non-breaking space after ${char}`, () => {
-        expect(fix(rules, `foo ${char}\u00a0bar`).indexOf(`${char}bar`)).not.to.be(-1)
-        expect(fix(rules, `foo ${char}\u00a0\u00a0bar`).indexOf(`${char}bar`)).not.to.be(-1)
+        expect(fix(rules, `${char}\u00a0bar`)).to.eql(`${char}bar`)
+        expect(fix(rules, `${char}\u00a0\u00a0bar`)).to.eql(`${char}bar`)
 
-        expect(fix(rules, `foo ${char}\u202Fbar`).indexOf(`${char}bar`)).not.to.be(-1)
-        expect(fix(rules, `foo ${char}\u202F\u202Fbar`).indexOf(`${char}bar`)).not.to.be(-1)
+        expect(fix(rules, `${char}\u202Fbar`)).to.eql(`${char}bar`)
+        expect(fix(rules, `${char}\u202F\u202Fbar`)).to.eql(`${char}bar`)
+      })
+
+      it(`checks only when there is a space after ${char}`, () => {
+        expect(check(rules, `${char} bar`)).to.have.length(1)
+        expect(check(rules, `${char}\u00a0bar`)).to.have.length(1)
+        expect(check(rules, `${char}bar`)).to.be(undefined)
       })
     })
 
     it('adds a space after a ) if the following char is not a punctuation', () => {
       expect(fix(rules, 'foo (bar)foo')).to.eql('foo (bar) foo')
       expect(fix(rules, 'foo (bar). foo')).to.eql('foo (bar). foo')
+
+      expect(check(rules, 'foo (bar)foo')).to.have.length(1)
+      expect(check(rules, 'foo (bar). foo')).to.be(undefined)
+      expect(check(rules, 'foo (bar) foo')).to.be(undefined)
     })
 
     it('removes spaces around em dashes', () => {
       expect(fix(rules, 'foo \u2014 bar')).to.eql('foo\u2014bar')
+      expect(fix(rules, 'foo\u2014 bar')).to.eql('foo\u2014bar')
+      expect(fix(rules, 'foo \u2014bar')).to.eql('foo\u2014bar')
+
+      expect(check(rules, 'foo \u2014 bar')).to.have.length(1)
+      expect(check(rules, 'foo\u2014bar')).to.be(undefined)
     })
 
     it('adds spaces around en dashes between words', () => {
       expect(fix(rules, 'foo\u2013bar')).to.eql('foo\u00a0\u2013 bar')
+      expect(fix(rules, 'foo \u2013bar')).to.eql('foo\u00a0\u2013 bar')
+      expect(fix(rules, 'foo\u2013 bar')).to.eql('foo\u00a0\u2013 bar')
+
+      expect(check(rules, 'foo\u2013bar')).to.have.length(1)
+      expect(check(rules, 'foo\u00a0\u2013 bar')).to.be(undefined)
     })
 
     it('removes spaces around en dashes between numbers', () => {
       expect(fix(rules, '1000 \u2013 1500')).to.eql('1000\u20131500')
+
+      expect(check(rules, '1000 \u2013 1500')).to.have.length(1)
+      expect(check(rules, '1000\u20131500')).to.be(undefined)
     })
 
     it('removes spaces inside quotation marks', () => {
       expect(fix(rules, 'in \u201c Moby Dick \u201d')).to.eql('in \u201cMoby Dick\u201d')
+
+      expect(check(rules, 'in \u201c Moby Dick \u201d')).to.have.length(2)
+      expect(check(rules, 'in \u201cMoby Dick\u201d')).to.be(undefined)
     })
 
     it('does not add a space after a period used in a floating number', () => {
       expect(fix(rules, 'as.30. 37.5')).to.eql('as. 30. 37.5')
+
+      expect(check(rules, 'as.30. 37.5')).to.have.length(1)
+      expect(check(rules, 'as. 30. 37.5')).to.be(undefined)
     })
 
     it('does not add spaces before and after a colon between two numbers', () => {
       expect(fix(rules, 'bar:12:21:56')).to.eql('bar: 12:21:56')
+
+      expect(check(rules, 'bar:12:21:56')).to.have.length(1)
+      expect(check(rules, 'bar: 12:21:56')).to.be(undefined)
     })
 
-    it('adds a non-breaking space after an honorific followed by a name', () => {
-      expect(fix(rules, 'Mr Smith')).to.eql('Mr\u00a0Smith')
-      expect(fix(rules, 'Ms Smith')).to.eql('Ms\u00a0Smith')
-      expect(fix(rules, 'Miss Smith')).to.eql('Miss\u00a0Smith')
+    let honorifics = ['Mr', 'Mrs', 'Ms', 'Miss', 'Sir', 'Lady']
+    honorifics.forEach((honorific) => {
+      it(`adds a non-breaking space after ${honorific} followed by a name`, () => {
+        expect(fix(rules, `${honorific} Smith`)).to.eql(`${honorific}\u00a0Smith`)
 
-      expect(fix(rules, 'Mr is served')).to.eql('Mr is served')
-      expect(fix(rules, 'Ms is served')).to.eql('Ms is served')
-      expect(fix(rules, 'Miss is served')).to.eql('Miss is served')
+        expect(fix(rules, `${honorific} is served`)).to.eql(`${honorific} is served`)
+      })
+
+      it(`checks only when ${honorific} has a simple space and is followed by a name`, () => {
+        expect(check(rules, `${honorific} Smith`)).to.have.length(1)
+
+        expect(check(rules, `${honorific}\00a0Smith`)).to.be(undefined)
+        expect(check(rules, `${honorific} is served`)).to.be(undefined)
+      })
     })
 
-    it('removes a space after currency', () => {
-      Object.keys(currencies).forEach((char) => {
+    Object.keys(currencies).forEach((char) => {
+      it(`removes a space after ${char}`, () => {
         expect(fix(rules, `${char} 10`)).to.eql(`${char}10`)
+      })
+
+      it(`checks only when there is a space after ${char}`, () => {
+        expect(check(rules, `${char} 10`)).to.have.length(1)
+
+        expect(check(rules, `${char}10`)).to.be(undefined)
       })
     })
   })
@@ -111,6 +160,11 @@ describe('en-UK rules', () => {
       })
     })
 
+    it('checks etc. only when followed by an ellipsis', () => {
+      expect(check(rules, 'etc.')).to.be(undefined)
+      expect(check(rules, 'Etc.')).to.be(undefined)
+    })
+
     it('replaces two or more ! with a single !', () => {
       expect(fix(rules, 'Foo!!')).to.eql('Foo!')
       expect(fix(rules, 'Foo!!!')).to.eql('Foo!')
@@ -121,6 +175,11 @@ describe('en-UK rules', () => {
       expect(fix(rules, 'Foo??')).to.eql('Foo?')
       expect(fix(rules, 'Foo???')).to.eql('Foo?')
       expect(fix(rules, 'Foo????')).to.eql('Foo?')
+    })
+
+    it('checks multiple punctuation chars only if there is two or more chars', () => {
+      expect(check(rules, 'Foo!')).to.be(undefined)
+      expect(check(rules, 'Foo?')).to.be(undefined)
     })
 
     it('replaces triple dots with a proper ellipsis', () => {

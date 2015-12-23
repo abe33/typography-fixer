@@ -21,16 +21,15 @@ export default group([
     rule('noSpaceBeforePunctuation', /\s+(\.|,|;|:|!|\?|%|\)|\u2019|\u2026)/, '$1'),
     rule('noSpaceAfterPunctuation', /(\u2019|\()\s+/, '$1'),
     rule('noSpaceAroundEnDashBetweenNumbers', /(\d)\s*\u2013\s*(\d)/, '$1\u2013$2'),
-    rule('spaceAfterPunctuation', /(,|;|!|\?|%|\u2026)(?!\x20|$)/, '$1 '),
-    rule('spaceAfterPunctuation', /(\D)(\.)(?!\x20|$)/, '$1$2 '),
-    rule('spaceAfterColon', /(\D)(:)(?!\x20|$)/, '$1$2 '),
-    rule('noSpaceAroundEmDash', /(\x20|\u00a0)*(\u2014)(\x20|\u00a0)*/, '$2'),
-    rule('spaceAroundEnDash', /(\D)\s*(\u2013)\s*(\D)/, '$1\u00a0$2 $3'),
+    rule('spaceAfterPunctuation', /(,|;|!|\?|%|\u2026)(\S)/, '$1 $2'),
+    rule('spaceAfterPeriodOrColon', /(\D)(\.|:)(\S)/, '$1$2 $3'),
+    rule('noSpaceAroundEmDash', /\s*(\u2014)\s*/, '$1'),
+    rule('spaceAroundEnDash', /([^\d\s])\x20*(\u2013)\x20*(\D)/, '$1\u00a0$2 $3'),
     rule('noSpaceAfterLeftQuote', /(\u201c)\s*(\S)/, '$1$2'),
     rule('noSpaceBeforeRightQuote', /(\S)\s*(\u201d)/, '$1$2'),
     rule('spaceAfterParenthesis', /(\))(\w)/, '$1 $2'),
     rule('spaceBeforeParenthesis', /(\S)(\()/, '$1 $2'),
-    rule('nonBreakingSpaceAfterHonorific', /(Mr|Ms|Miss)\s([A-Z])/, '$1\u00a0$2'),
+    rule('nonBreakingSpaceAfterHonorific', /(Mr|Mrs|Ms|Miss|Sir|Lady)\s([A-Z])/, '$1\u00a0$2'),
     rule('noSpaceAfterCurrency', `([${currenciesRegExp}])\\s*(\\d)`, '$1$2')
   ])
 ])
