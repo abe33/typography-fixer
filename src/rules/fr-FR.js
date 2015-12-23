@@ -37,18 +37,24 @@ export default group([
     rule('nonBreakingSpaceAfterHonorific', /(M\.|Mme|Mlle)\x20([A-Z])/, '$1\u00a0$2')
   ]),
   group('ordinal', [
-    rule('greaterThan10', /(\d{2,})emes/, '$1èmes'),
-    rule('firstFemalePlural', /(\d{1})[èe]res/, '$1res'),
-    rule('lowerThan10', /((^|[^\d])\d)[èe]mes/, '$1es'),
-    rule('firstFemale', /(\d)[èe]re/, '$1re'),
-    rule('firstMale', /(\d)[èe]me(?!s)/, '$1e')
+    rule('greaterThan10', /(\d{2,})emes\b/, '$1èmes'),
+    rule('firstFemalePlural', /(\d{1})[èe]res\b/, '$1res'),
+    rule('lowerThan10', /((^|[^\d])\d)[èe]mes\b/, '$1es'),
+    rule('firstFemale', /(\d)[èe]re\b/, '$1re'),
+    rule('firstMale', /(\d)[èe]me(?!s)\b/, '$1e')
   ]),
   group('datetime', [
     rule('daysAndMonths', /(Lundi|Mardi|Mercredi|Jeudi|Vendredi|Samedi|Dimanche|Janvier|Février|Mars|Avril|Mai|Juin|Juillet|Aout|Septembre|Octobre|Novembre|Décembre)/, (s) => {
       return s.toLowerCase()
     }),
-    rule('timeLong', /(\d)\s*h\s*(\d+)\s*min\s*(\d+)\s*s/, '$1\u00a0h\u00a0$2\u00a0min\u00a0$3\u00a0s'),
-    rule('timeShort', /(\d)\s*h\s*(\d)/, '$1\u00a0h\u00a0$2')
+    rule('time', /(\d+)\x20*(h)\x20*(\d+)(?:\x20*(m(?:in)?)(?:\x20*(\d+)\x20*(s(?:ec)?))?)?/, (m, ...args) => {
+      args.pop()
+      args.pop()
+
+      args = args.filter((v) => { return v })
+
+      return args.join('\u00a0')
+    })
   ]),
   group('ligatures', [
     rule('lowerOe', /oe/, '\u0153'),

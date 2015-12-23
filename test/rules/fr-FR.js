@@ -264,8 +264,15 @@ describe('fr-FR rules', () => {
       })
     })
 
+    it('checks c.-à-d. only when an invalid form is found', () => {
+      expect(check(rules, 'c.-à-d.')).to.be(undefined)
+    })
+
     it('replaces hyphen in sentences with dashes', () => {
       expect(fix(rules, '- foo - bar - foo-bar')).to.eql('- foo\u00a0\u2013 bar\u00a0\u2013 foo-bar')
+
+      expect(check(rules, '- foo - foo-bar')).to.have.length(1)
+      expect(check(rules, '- foo\u00a0\u2013 foo-bar')).to.be(undefined)
     })
 
     it('replaces hyphen between numbers with dashes', () => {
@@ -292,6 +299,9 @@ describe('fr-FR rules', () => {
     ordinalTests.forEach(([source, expected]) => {
       it(`replaces ${source} by ${expected}`, () => {
         expect(fix(rules, source)).to.eql(expected)
+
+        expect(check(rules, source)).to.have.length(1)
+        expect(check(rules, expected)).to.be(undefined)
       })
     })
   })
@@ -319,13 +329,17 @@ describe('fr-FR rules', () => {
     let hours = [
       ['13h37', '13\u00a0h\u00a037'],
       ['13 h 37', '13\u00a0h\u00a037'],
-      ['13h37min54s', '13\u00a0h\u00a037\u00a0min\u00a054\u00a0s'],
-      ['13 h 37 min 54 s', '13\u00a0h\u00a037\u00a0min\u00a054\u00a0s']
+      ['13h37min54sec', '13\u00a0h\u00a037\u00a0min\u00a054\u00a0sec'],
+      ['13h37m54s', '13\u00a0h\u00a037\u00a0m\u00a054\u00a0s'],
+      ['13 h 37 min 54 sec', '13\u00a0h\u00a037\u00a0min\u00a054\u00a0sec']
     ]
 
     hours.forEach(([source, expected]) => {
       it(`replaces ${source} with ${expected} using non-breaking spaces`, () => {
         expect(fix(rules, source)).to.eql(expected)
+
+        expect(check(rules, source)).to.have.length(1)
+        expect(check(rules, expected)).to.be(undefined)
       })
     })
   })
@@ -333,20 +347,32 @@ describe('fr-FR rules', () => {
   describe('ligatures', () => {
     it('replaces oe with \u0153', () => {
       expect(fix(rules, 'oeuf')).to.eql('\u0153uf')
+
+      expect(check(rules, 'oeuf')).to.have.length(1)
+      expect(check(rules, '\u0153uf')).to.be(undefined)
     })
 
     it('replaces Oe with \u0152', () => {
       expect(fix(rules, 'Oeuf')).to.eql('\u0152uf')
       expect(fix(rules, 'OEuf')).to.eql('\u0152uf')
+
+      expect(check(rules, 'Oeuf')).to.have.length(1)
+      expect(check(rules, 'OEuf')).to.have.length(1)
+      expect(check(rules, '\u0152uf')).to.be(undefined)
     })
 
     it('replaces ae with \u00e6', () => {
       expect(fix(rules, 'taenia')).to.eql('t\u00e6nia')
+
+      expect(check(rules, 'taenia')).to.have.length(1)
+      expect(check(rules, 't\u00e6nia')).to.be(undefined)
     })
 
     it('replaces Ae with \u00c6', () => {
       expect(fix(rules, 'TAENIA')).to.eql('T\u00c6NIA')
-      expect(fix(rules, 'TAENIA')).to.eql('T\u00c6NIA')
+
+      expect(check(rules, 'TAENIA')).to.have.length(1)
+      expect(check(rules, 'T\u00c6NIA')).to.be(undefined)
     })
   })
 })
