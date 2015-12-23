@@ -95,15 +95,16 @@ export function rule (name, expression, replacement) {
   return {
     name,
     check (string) {
-      const re = new RegExp(source, 'gm')
+      const searchRegExp = new RegExp(source, 'gm')
+      const matchRegExp = new RegExp(source)
       const matches = []
       let match
       do {
-        match = re.exec(string)
-        if (match && match[0] !== replacement) {
+        match = searchRegExp.exec(string)
+        if (match && match[0].replace(matchRegExp, replacement) !== match[0]) {
           matches.push({
             rule: this.name,
-            range: [match.index, re.lastIndex]
+            range: [match.index, searchRegExp.lastIndex]
           })
         }
       } while (match)

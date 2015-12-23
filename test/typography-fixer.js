@@ -39,7 +39,7 @@ describe('typographyFixer', () => {
       })
 
       it('returns an empty array if the match equals the replacement string', () => {
-        ruleObject = rule('Foo', /foo/, 'foo')
+        ruleObject = rule('Foo', /(\w{3})/, '$1')
 
         const reports = ruleObject.check('Da foo foo')
 
