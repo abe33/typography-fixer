@@ -12,6 +12,10 @@
   "keywords": [
     "typography"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/abe33/typography-fixer.git"
+  },
   "author": "Cédric Néhémie <cedric.nehemie@gmail.com>",
   "license": "MIT",
   "devDependencies": {
