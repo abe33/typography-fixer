@@ -18,8 +18,8 @@ export default group([
     rule('doubleQuote', /"([^"]+)"/, '\u00ab$1\u00bb')
   ]),
   group('spaces', [
-    rule('collapseMultipleSpaces', /\x20+/, ' '),
     rule('noSpaceBeforePunctuation', /\s*(,|\.|\)|\u2026|\u2019)/, '$1'),
+    rule('collapseMultipleSpaces', /\x20{2,}/, ' '),
     rule('noSpaceAfterPunctuation', /(\u2019|\()\s*/, '$1'),
     rule('noSpaceAroundEnDashBetweenNumbers', /(\d)\s*\u2013\s*(\d)/, '$1\u2013$2'),
     rule('nonBreakingSpaceBeforePunctuation', /(?:\x20)?([?!;%])/, '\u202F$1'),

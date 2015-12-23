@@ -1,12 +1,15 @@
 import expect from 'expect.js'
 import {currencies} from '../../src/constants'
-import {fix} from '../../src/typography-fixer'
+import {fix, check} from '../../src/typography-fixer'
 import rules from '../../src/rules/fr-FR'
 
 describe('fr-FR rules', () => {
   describe('spaces', () => {
     it('replaces consecutive spaces with a single space', () => {
       expect(fix(rules, 'Un    jour')).to.eql('Un jour')
+
+      expect(check(rules, 'Un    jour')).to.have.length(1)
+      expect(check(rules, 'Un jour')).to.be(undefined)
     })
 
     let charsWithNbspBefore = ['!', '?', ';', ':', '%']
