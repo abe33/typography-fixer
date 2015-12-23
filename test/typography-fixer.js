@@ -37,6 +37,14 @@ describe('typographyFixer', () => {
 
         expect(reports).to.eql([])
       })
+
+      it('returns an empty array if the match equals the replacement string', () => {
+        ruleObject = rule('Foo', /foo/, 'foo')
+
+        const reports = ruleObject.check('Da foo foo')
+
+        expect(reports).to.eql([])
+      })
     })
 
     describe('.fix', () => {

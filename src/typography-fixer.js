@@ -100,7 +100,7 @@ export function rule (name, expression, replacement) {
       let match
       do {
         match = re.exec(string)
-        if (match) {
+        if (match && match[0] !== replacement) {
           matches.push({
             rule: this.name,
             range: [match.index, re.lastIndex]
