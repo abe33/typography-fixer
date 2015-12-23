@@ -167,6 +167,8 @@ describe('fr-FR rules', () => {
 
     it('adds spaces around en dashes between words', () => {
       expect(fix(rules, 'foo\u2013bar')).to.eql('foo\u00a0\u2013 bar')
+      expect(fix(rules, 'foo \u2013bar')).to.eql('foo\u00a0\u2013 bar')
+      expect(fix(rules, 'foo\u2013 bar')).to.eql('foo\u00a0\u2013 bar')
 
       expect(check(rules, 'foo\u2013bar')).to.have.length(1)
       expect(check(rules, 'foo\u00a0\u2013 bar')).to.be(undefined)
@@ -174,6 +176,8 @@ describe('fr-FR rules', () => {
 
     it('removes spaces around en dashes between numbers', () => {
       expect(fix(rules, '1000 \u2013 1500')).to.eql('1000\u20131500')
+      expect(fix(rules, '1000\u2013 1500')).to.eql('1000\u20131500')
+      expect(fix(rules, '1000 \u20131500')).to.eql('1000\u20131500')
 
       expect(check(rules, '1000 \u2013 1500')).to.have.length(1)
       expect(check(rules, '1000\u20131500')).to.be(undefined)
