@@ -52,6 +52,18 @@ describe('typographyFixer', () => {
         expect(ruleObject.fix('Da foo foo')).to.eql('Da bar bar')
       })
     })
+
+    describe('when the expression has the ignored case flag', () => {
+      it('applies the flag to the internally created regexp', () => {
+        ruleObject = rule('Foo', /foo/i, 'bar')
+
+        expect(ruleObject.fix('foo')).to.eql('bar')
+        expect(ruleObject.fix('FOO')).to.eql('bar')
+
+        expect(ruleObject.check('foo')).to.have.length(1)
+        expect(ruleObject.check('FOO')).to.have.length(1)
+      })
+    })
   })
 
   describe('ignore', () => {

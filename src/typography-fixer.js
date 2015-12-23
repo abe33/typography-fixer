@@ -85,18 +85,23 @@ export function rule (name, expression, replacement) {
   }
 
   let source
+  let ignoreCase = false
 
   if (expression instanceof RegExp) {
     source = expression.source
+    ignoreCase = expression.ignoreCase
   } else {
     source = expression
   }
 
+  const searchFlags = ignoreCase ? 'gmi' : 'gm'
+  const matchFlags = ignoreCase ? 'i' : ''
+
   return {
     name,
     check (string) {
-      const searchRegExp = new RegExp(source, 'gm')
-      const matchRegExp = new RegExp(source)
+      const searchRegExp = new RegExp(source, searchFlags)
+      const matchRegExp = new RegExp(source, matchFlags)
       const matches = []
       let match
       do {
@@ -112,7 +117,7 @@ export function rule (name, expression, replacement) {
       return matches
     },
     fix (string) {
-      const re = new RegExp(source, 'gm')
+      const re = new RegExp(source, searchFlags)
       return string.replace(re, replacement)
     }
   }
