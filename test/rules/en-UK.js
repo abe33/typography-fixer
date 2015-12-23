@@ -1,6 +1,6 @@
 import expect from 'expect.js'
 import {currencies} from '../../src/constants'
-import {fix} from '../../src/typographic-fixer'
+import {fix} from '../../src/typography-fixer'
 import rules from '../../src/rules/en-UK'
 
 describe('en-UK rules', () => {

@@ -1,4 +1,4 @@
-import {ignore, group} from '../typographic-fixer'
+import {ignore, group} from '../typography-fixer'
 
 export default group('markdown', [
   ignore('imageAndLink', /!?\[[^\]]+\]\([^\)]+\)/),

@@ -1,5 +1,5 @@
 import expect from 'expect.js'
-import {rule, ignore, group, check, fix} from '../src/typographic-fixer'
+import {rule, ignore, group, check, fix} from '../src/typography-fixer'
 
 describe('typographyFixer', () => {
   describe('rule', () => {

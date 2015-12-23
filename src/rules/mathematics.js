@@ -1,4 +1,4 @@
-import {rule, group} from '../typographic-fixer'
+import {rule, group} from '../typography-fixer'
 import {fractions} from '../constants'
 
 export default group('mathematic', [

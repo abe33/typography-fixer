@@ -1,4 +1,4 @@
-import {rule, group} from '../typographic-fixer'
+import {rule, group} from '../typography-fixer'
 import {currenciesRegExp} from '../constants'
 
 export default group([

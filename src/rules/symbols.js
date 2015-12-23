@@ -1,4 +1,4 @@
-import {rule, group} from '../typographic-fixer'
+import {rule, group} from '../typography-fixer'
 
 export default group('symbols', [
   rule('copyright', /\([cC]\)/, '©'),

@@ -1,8 +1,8 @@
 {
-  "name": "typographic-fixer",
+  "name": "typography-fixer",
   "version": "0.0.1",
   "description": "Check or fix strings according to typographic rules",
-  "main": "lib/typographic-fixer.js",
+  "main": "lib/typography-fixer.js",
   "scripts": {
     "test": "mocha --recursive --compilers js:babel-register",
     "babel": "babel src --out-dir lib",

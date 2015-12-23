@@ -1,5 +1,5 @@
 import expect from 'expect.js'
-import {fix} from '../../src/typographic-fixer'
+import {fix} from '../../src/typography-fixer'
 import rules from '../../src/rules/symbols'
 
 describe('symbols rules', () => {

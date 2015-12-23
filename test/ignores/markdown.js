@@ -1,5 +1,5 @@
 import expect from 'expect.js'
-import {fix, rule} from '../../src/typographic-fixer'
+import {fix, rule} from '../../src/typography-fixer'
 import ignores from '../../src/ignores/markdown'
 
 describe('markdown ignores', () => {

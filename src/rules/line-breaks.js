@@ -1,4 +1,4 @@
-import {rule, group} from '../typographic-fixer'
+import {rule, group} from '../typography-fixer'
 
 export default group('line-breaks', [
   rule('numberBeforeWord', /(\d)\x20(\D)/, '$1\u00a0$2'),
