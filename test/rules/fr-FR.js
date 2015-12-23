@@ -15,11 +15,17 @@ describe('fr-FR rules', () => {
     let charsWithNbspBefore = ['!', '?', ';', ':', '%']
     charsWithNbspBefore.forEach((char) => {
       it(`replaces a simple space before ${char} with a non-breaking one`, () => {
-        expect(fix(rules, `Foo ${char}bar`)).to.eql(`Foo\u202F${char} bar`)
+        expect(fix(rules, `Foo ${char} bar`)).to.eql(`Foo\u202F${char} bar`)
       })
 
       it(`adds a non-breaking space before ${char} if there is no space`, () => {
         expect(fix(rules, `Foo${char}bar`)).to.eql(`Foo\u202F${char} bar`)
+      })
+
+      it(`checks only when there is simple space or no space before ${char}`, () => {
+        expect(check(rules, `Foo ${char}`)).to.have.length(1)
+        expect(check(rules, `Foo${char}`)).to.have.length(1)
+        expect(check(rules, `Foo\u202F${char}`)).to.be(undefined)
       })
     })
 
@@ -28,18 +34,44 @@ describe('fr-FR rules', () => {
       it(`adds a space before ${char} if there is no space`, () => {
         expect(fix(rules, `Foo${char}`)).to.eql(`Foo ${char}`)
       })
+
+      it(`checks only when there is no space before ${char}`, () => {
+        expect(check(rules, `Foo${char}`)).to.have.length(1)
+        expect(check(rules, `Foo ${char}`)).to.be(undefined)
+      })
     })
 
-    let charsWithSpaceAfter = [',', '.', '\u2026', '!', '?', ';', ':', '%']
+    let charsWithSpaceAfter = [',', '.', '\u2026']
     charsWithSpaceAfter.forEach((char) => {
       it(`adds a space after ${char} if there is no space`, () => {
-        expect(fix(rules, `Foo${char}bar`).indexOf(`${char} bar`)).not.to.eql(-1)
+        expect(fix(rules, `Foo${char}bar`)).to.eql(`Foo${char} bar`)
+      })
+
+      it(`checks only when there is no space after ${char}`, () => {
+        expect(check(rules, `Foo${char}bar`)).to.have.length(1)
+        expect(check(rules, `Foo${char} bar`)).to.be(undefined)
+      })
+    })
+
+    let charsWithSpaceBeforeAndAfter = ['!', '?', ';', ':', '%']
+    charsWithSpaceBeforeAndAfter.forEach((char) => {
+      it(`adds a space after ${char} if there is no space`, () => {
+        expect(fix(rules, `Foo\u202f${char}bar`)).to.eql(`Foo\u202f${char} bar`)
+      })
+
+      it(`checks only when there is no space after ${char}`, () => {
+        expect(check(rules, `Foo\u202f${char}bar`)).to.have.length(1)
+        expect(check(rules, `Foo\u202f${char} bar`)).to.be(undefined)
       })
     })
 
     it('adds a space after a ) if the following char is not a punctuation', () => {
       expect(fix(rules, 'foo (bar)foo')).to.eql('foo (bar) foo')
       expect(fix(rules, 'foo (bar). foo')).to.eql('foo (bar). foo')
+
+      expect(check(rules, 'foo (bar)foo')).to.have.length(1)
+      expect(check(rules, 'foo (bar). foo')).to.be(undefined)
+      expect(check(rules, 'foo (bar) foo')).to.be(undefined)
     })
 
     let charsWithNoSpaceBefore = [',', '.', '\)', '\u2026', '\u2019']
@@ -56,64 +88,95 @@ describe('fr-FR rules', () => {
         expect(fix(rules, `Foo\u202F${char}`)).to.eql(`Foo${char}`)
         expect(fix(rules, `Foo\u202F\u202F${char}`)).to.eql(`Foo${char}`)
       })
-    })
 
-    let charsWithNoSpaceAfter = ['\u2019', '(']
-    charsWithNoSpaceAfter.forEach((char) => {
-      it(`removes spaces after ${char}`, () => {
-        expect(fix(rules, `foo ${char} bar`).indexOf(`${char}bar`)).not.to.be(-1)
-        expect(fix(rules, `foo  ${char} bar`).indexOf(`${char}bar`)).not.to.be(-1)
-      })
-
-      it(`removes a non-breaking space after ${char}`, () => {
-        expect(fix(rules, `foo ${char}\u00a0bar`).indexOf(`${char}bar`)).not.to.be(-1)
-        expect(fix(rules, `foo ${char}\u00a0\u00a0bar`).indexOf(`${char}bar`)).not.to.be(-1)
-
-        expect(fix(rules, `foo ${char}\u202Fbar`).indexOf(`${char}bar`)).not.to.be(-1)
-        expect(fix(rules, `foo ${char}\u202F\u202Fbar`).indexOf(`${char}bar`)).not.to.be(-1)
+      it(`checks only when there is a space before ${char}`, () => {
+        expect(check(rules, `Foo ${char}`)).to.have.length(1)
+        expect(check(rules, `Foo\u00a0${char}`)).to.have.length(1)
+        expect(check(rules, `Foo${char}`)).to.be(undefined)
       })
     })
 
-    it('replaces a simple space before a currency with a non-breaking one', () => {
-      Object.keys(currencies).forEach((char) => {
+    it('removes spaces after \u2019', () => {
+      expect(fix(rules, 'foo\u2019 bar')).to.eql('foo\u2019bar')
+      expect(fix(rules, 'foo\u2019\u00a0bar')).to.eql('foo\u2019bar')
+      expect(fix(rules, 'foo\u2019\u202Fbar')).to.eql('foo\u2019bar')
+
+      expect(check(rules, 'foo\u2019 bar')).to.have.length(1)
+      expect(check(rules, 'foo\u2019bar')).to.be(undefined)
+    })
+
+    it('removes spaces after (', () => {
+      expect(fix(rules, 'foo ( bar')).to.eql('foo (bar')
+      expect(fix(rules, 'foo (\u00a0bar')).to.eql('foo (bar')
+      expect(fix(rules, 'foo (\u202Fbar')).to.eql('foo (bar')
+
+      expect(check(rules, 'foo ( bar')).to.have.length(1)
+      expect(check(rules, 'foo (bar')).to.be(undefined)
+    })
+
+    Object.keys(currencies).forEach((char) => {
+      it(`replaces a simple space before ${char} a non-breaking one`, () => {
         expect(fix(rules, `10 ${char}`)).to.eql(`10\u00a0${char}`)
       })
-    })
 
-    it('adds a non-breaking space before a currency if there is no space', () => {
-      Object.keys(currencies).forEach((char) => {
+      it(`adds a non-breaking space before ${char} if there is no space`, () => {
         expect(fix(rules, `10${char}`)).to.eql(`10\u00a0${char}`)
+      })
+
+      it(`checks only if when there no space or a simple space before ${char}`, () => {
+        expect(check(rules, `10${char}`)).to.have.length(1)
+        expect(check(rules, `10 ${char}`)).to.have.length(1)
+        expect(check(rules, `10\u00a0${char}`)).to.be(undefined)
       })
     })
 
     it('adds spaces inside typographic quotes', () => {
       expect(fix(rules, 'Le \u00abChat Botté\u00bb.')).to.eql('Le \u00ab\u202FChat Botté\u202F\u00bb.')
+
+      expect(check(rules, 'Le \u00abChat Botté\u00bb.')).to.have.length(2)
+      expect(check(rules, 'Le \u00ab\u202FChat Botté\u202F\u00bb.')).to.be(undefined)
     })
 
     it('does not add a space after a comma used in a floating number', () => {
       expect(fix(rules, 'as,30, 37,5')).to.eql('as, 30, 37,5')
+
+      expect(check(rules, 'as,30, 37,5')).to.have.length(1)
     })
 
     it('does not add spaces before and after a colon between two numbers', () => {
       expect(fix(rules, 'bar:12:21:56')).to.eql('bar\u202F: 12:21:56')
+
+      expect(check(rules, 'bar:12:21:56')).to.have.length(2)
     })
 
-    it('adds a non-breaking space after an honorific followed by a name', () => {
-      expect(fix(rules, 'M. Martin')).to.eql('M.\u00a0Martin')
-      expect(fix(rules, 'Mme Martin')).to.eql('Mme\u00a0Martin')
-      expect(fix(rules, 'Mlle Martin')).to.eql('Mlle\u00a0Martin')
+    let honorifics = ['M.', 'Mme', 'Mlle']
+    honorifics.forEach((honorific) => {
+      it(`adds a non-breaking space after ${honorific} followed by a name`, () => {
+        expect(fix(rules, `${honorific} Martin`)).to.eql(`${honorific}\u00a0Martin`)
 
-      expect(fix(rules, 'M. est servi')).to.eql('M. est servi')
-      expect(fix(rules, 'Mme est servie')).to.eql('Mme est servie')
-      expect(fix(rules, 'Mlle est servie')).to.eql('Mlle est servie')
+        expect(fix(rules, `${honorific} est servi`)).to.eql(`${honorific} est servi`)
+      })
+
+      it(`checks only when ${honorific} is followed by a name and separated with a simple space`, () => {
+        expect(check(rules, `${honorific} Martin`)).to.have.length(1)
+
+        expect(check(rules, `${honorific}\u00a0Martin`)).to.be(undefined)
+        expect(check(rules, `${honorific} est servi`)).to.be(undefined)
+      })
     })
 
     it('adds spaces around en dashes between words', () => {
       expect(fix(rules, 'foo\u2013bar')).to.eql('foo\u00a0\u2013 bar')
+
+      expect(check(rules, 'foo\u2013bar')).to.have.length(1)
+      expect(check(rules, 'foo\u00a0\u2013 bar')).to.be(undefined)
     })
 
     it('removes spaces around en dashes between numbers', () => {
       expect(fix(rules, '1000 \u2013 1500')).to.eql('1000\u20131500')
+
+      expect(check(rules, '1000 \u2013 1500')).to.have.length(1)
+      expect(check(rules, '1000\u20131500')).to.be(undefined)
     })
   })
 
