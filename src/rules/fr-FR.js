@@ -5,7 +5,7 @@ export default group([
   group('punctuations', [
     rule('collapseMultiplePunctuation', /([!?])\1+/, '$1'),
     rule('shortEtCaetera', /([Ee]tc)(\.{3}|\u2026)/, '$1.'),
-    rule('tripleDots', /\.{3,}/, '\u2026'),
+    rule('triplePeriods', /\.{3,}/, '\u2026'),
     rule('maleHonorific', /Mr\.?/, 'M.'),
     rule('possessiveInterrogative', /a-t'il/, 'a-t-il'),
     rule('cad', /c\.?-?[aà]-?d\.?/, 'c.-à-d.'),
