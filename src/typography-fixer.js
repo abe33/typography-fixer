@@ -129,17 +129,21 @@ export function ignore (name, expression) {
   }
 
   let source
+  let ignoreCase = false
 
   if (expression instanceof RegExp) {
     source = expression.source
+    ignoreCase = expression.ignoreCase
   } else {
     source = expression
   }
 
+  const searchFlags = ignoreCase ? 'gmi' : 'gm'
+
   return {
     name,
     ranges (string) {
-      const re = new RegExp(source, 'gm')
+      const re = new RegExp(source, searchFlags)
       const ranges = []
       let match
 

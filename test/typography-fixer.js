@@ -93,6 +93,15 @@ describe('typographyFixer', () => {
         ])
       })
     })
+
+    describe('when the expression has the ignored case flag', () => {
+      it('applies the flag to the internally created regexp', () => {
+        ignoreObject = ignore('Foo', /foo/i)
+
+        expect(ignoreObject.ranges('foo')).to.have.length(1)
+        expect(ignoreObject.ranges('FOO')).to.have.length(1)
+      })
+    })
   })
 
   describe('group', () => {
