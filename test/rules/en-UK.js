@@ -29,6 +29,11 @@ describe('en-UK rules', () => {
         expect(fix(rules, `Foo\u00a0${char}`)).to.eql(`Foo${char}`)
         expect(fix(rules, `Foo\u00a0\u00a0${char}`)).to.eql(`Foo${char}`)
       })
+      it(`checks only when there is a space before ${char}`, () => {
+        expect(check(rules, `Foo ${char}`)).to.have.length(1)
+        expect(check(rules, `Foo\u00a0${char}`)).to.have.length(1)
+        expect(check(rules, `Foo${char}`)).to.be(undefined)
+      })
     })
 
     let charsWithNoSpaceAfter = ['\u2019', '(']
