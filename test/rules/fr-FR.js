@@ -193,24 +193,42 @@ describe('fr-FR rules', () => {
       })
     })
 
+    it('checks etc. only when followed by an ellipsis', () => {
+      expect(check(rules, 'etc.')).to.be(undefined)
+      expect(check(rules, 'Etc.')).to.be(undefined)
+    })
+
     it('replaces two or more ! with a single !', () => {
       expect(fix(rules, 'Foo !!')).to.eql('Foo\u202F!')
       expect(fix(rules, 'Foo !!!')).to.eql('Foo\u202F!')
       expect(fix(rules, 'Foo !!!!')).to.eql('Foo\u202F!')
+
     })
 
     it('replaces two or more ? with a single ?', () => {
       expect(fix(rules, 'Foo ??')).to.eql('Foo\u202F?')
       expect(fix(rules, 'Foo ???')).to.eql('Foo\u202F?')
       expect(fix(rules, 'Foo ????')).to.eql('Foo\u202F?')
+
+    })
+
+    it('checks multiple punctuation chars only if there is two or more chars', () => {
+      expect(check(rules, 'Foo\u202F!')).to.be(undefined)
+      expect(check(rules, 'Foo\u202F?')).to.be(undefined)
     })
 
     it('replace N° with N\u00ba', () => {
       expect(fix(rules, 'N°')).to.eql('N\u00ba')
+
+      expect(check(rules, 'N°')).to.have.length(1)
+      expect(check(rules, 'N\u00ba')).to.be(undefined)
     })
 
     it('replace n° with n\u00ba', () => {
       expect(fix(rules, 'n°')).to.eql('n\u00ba')
+
+      expect(check(rules, 'n°')).to.have.length(1)
+      expect(check(rules, 'n\u00ba')).to.be(undefined)
     })
 
     it('replaces triple dots with a proper ellipsis', () => {
