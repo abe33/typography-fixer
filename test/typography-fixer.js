@@ -275,7 +275,7 @@ describe('typographyFixer', () => {
 
     describe('with ignore rules', () => {
       it('applies the rules unless in excluded ranges', () => {
-        const ruleObject = rule('Foo', /foo/, 'bar')
+        const ruleObject = rule('Foo', /foo|"/, 'bar')
         const ignoreObject = ignore('quotes', /"[^"]+"/)
 
         expect(fix([ruleObject, ignoreObject], 'foo "foo" foo "foo"')).to.eql('bar "foo" bar "foo"')
@@ -283,10 +283,10 @@ describe('typographyFixer', () => {
 
       describe('that is inverted', () => {
         it('applies the rules unless in excluded ranges', () => {
-          const ruleObject = rule('Foo', /foo/, 'bar')
+          const ruleObject = rule('Foo', /foo|"/, 'bar')
           const ignoreObject = ignore('quotes', /"[^"]+"/, true)
 
-          expect(fix([ruleObject, ignoreObject], 'foo "foo" foo "foo"')).to.eql('foo "bar" foo "bar"')
+          expect(fix([ruleObject, ignoreObject], 'foo "foo" foo "foo"')).to.eql('foo barbarbar foo barbarbar')
         })
       })
     })
