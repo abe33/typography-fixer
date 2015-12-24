@@ -1,6 +1,6 @@
 import expect from 'expect.js'
 import {fix, check} from '../../src/typography-fixer'
-import rules from '../../src/rules/ligatures'
+import rules from '../../src/rules/latin-ligatures'
 
 describe('ligature rules', () => {
   it('replaces ij with \u0133', () => {
