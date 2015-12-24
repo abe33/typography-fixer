@@ -92,6 +92,20 @@ describe('typographyFixer', () => {
           [14, 19]
         ])
       })
+
+      describe('when the invert range parameters is set to true', () => {
+        it('returns ranges for parts not matched by the expression', () => {
+          ignoreObject = ignore('Foo', /"[^"]+"/, true)
+
+          const ranges = ignoreObject.ranges('foo "foo" foo "foo"')
+
+          expect(ranges).to.eql([
+            [0, 3],
+            [9, 13],
+            [19, 19]
+          ])
+        })
+      })
     })
 
     describe('when the expression has the ignored case flag', () => {
@@ -214,6 +228,19 @@ describe('typographyFixer', () => {
           {rule: 'Foo', range: [10, 13]}
         ])
       })
+
+      describe('that is inverted', () => {
+        it('applies the rules unless in excluded ranges', () => {
+          const ruleObject = rule('Foo', /foo/, 'bar')
+          const ignoreObject = ignore('quotes', /"[^"]+"/, true)
+          const reports = check([ruleObject, ignoreObject], 'foo "foo" foo "foo"')
+
+          expect(reports).to.eql([
+            {rule: 'Foo', range: [5, 8]},
+            {rule: 'Foo', range: [15, 18]}
+          ])
+        })
+      })
     })
   })
 
@@ -252,6 +279,15 @@ describe('typographyFixer', () => {
         const ignoreObject = ignore('quotes', /"[^"]+"/)
 
         expect(fix([ruleObject, ignoreObject], 'foo "foo" foo "foo"')).to.eql('bar "foo" bar "foo"')
+      })
+
+      describe('that is inverted', () => {
+        it('applies the rules unless in excluded ranges', () => {
+          const ruleObject = rule('Foo', /foo/, 'bar')
+          const ignoreObject = ignore('quotes', /"[^"]+"/, true)
+
+          expect(fix([ruleObject, ignoreObject], 'foo "foo" foo "foo"')).to.eql('foo "bar" foo "bar"')
+        })
       })
     })
   })

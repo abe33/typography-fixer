@@ -123,7 +123,7 @@ export function rule (name, expression, replacement) {
   }
 }
 
-export function ignore (name, expression) {
+export function ignore (name, expression, invertRanges) {
   if (!name || !expression) {
     throw new Error('All arguments of the ignore function are mandatory')
   }
@@ -139,20 +139,43 @@ export function ignore (name, expression) {
   }
 
   const searchFlags = ignoreCase ? 'gmi' : 'gm'
+  if (invertRanges) {
+    return {
+      name,
+      ranges (string) {
+        const re = new RegExp(source, searchFlags)
+        const ranges = []
+        let start = 0
+        let match
 
-  return {
-    name,
-    ranges (string) {
-      const re = new RegExp(source, searchFlags)
-      const ranges = []
-      let match
+        do {
+          match = re.exec(string)
+          if (match) {
+            ranges.push([start, match.index - 1])
+            start = re.lastIndex
+          }
+        } while (match)
 
-      do {
-        match = re.exec(string)
-        if (match) { ranges.push([match.index, re.lastIndex]) }
-      } while (match)
+        ranges.push([start, string.length])
 
-      return ranges
+        return ranges
+      }
+    }
+  } else {
+    return {
+      name,
+      ranges (string) {
+        const re = new RegExp(source, searchFlags)
+        const ranges = []
+        let match
+
+        do {
+          match = re.exec(string)
+          if (match) { ranges.push([match.index, re.lastIndex]) }
+        } while (match)
+
+        return ranges
+      }
     }
   }
 }
