@@ -85,23 +85,19 @@ export function rule (name, expression, replacement) {
   }
 
   let source
-  let flags = ['g']
-  let ignoreCase = false
+  let flags = []
 
   if (expression instanceof RegExp) {
     source = expression.source
     if (expression.multiline) { flags.push('m') }
-    if (expression.ignoreCase) { 
-      flags.push('i')
-      ignoreCase = true
-    }
+    if (expression.ignoreCase) { flags.push('i') }
   } else {
     source = expression
     flags.push('m')
   }
 
-  const searchFlags = flags.join('')
-  const matchFlags = ignoreCase ? 'i' : ''
+  const searchFlags = flags.concat('g').join('')
+  const matchFlags = flags.join('')
 
   return {
     name,
