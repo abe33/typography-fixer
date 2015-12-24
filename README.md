@@ -43,17 +43,37 @@ Note that since the `check` function operates on a string without modifying it, 
 
 Internally, `typography-fixer` works on string using two kind of entities, `rules` and `ignores`. These objects can be created using the `rule` and `ignore` functions exposed by the package.
 
-- `rule(name, expression, replacement)` - defines a kind of errors to fix. The `expression` parameter can be either a `RegExp` or a `String` that will be used to create a regular expression (so take care of escaping backslashes). It returns an `Object` with the given name, and two functions `fix` and `check`, both taking a string as argument.
+- `rule(name, expression, replacement)` &ndash; defines a kind of errors to fix. The `expression` parameter can be either a `RegExp` or a `String` that will be used to create a regular expression (so take care of escaping backslashes). It returns an `Object` with the given name, and two functions `fix` and `check`, both taking a string as argument.
 
   For instance, the following code defines a rule that replaces three periods by an ellipsis:
 
   ```js
   rule('triplePeriods', /\.{3,}/, '\u2026'),
   ```
-- `ignore(name, expression)` - defines parts of a string where the rules don't apply. The `expression` parameter can be either a `RegExp` or a `String` that will be used to create a regular expression. It returns an `Object` with the given name and a `ranges` method that returns an array of the text ranges to preserve.
+- `ignore(name, expression)` &ndash; defines parts of a string where the rules don't apply. The `expression` parameter can be either a `RegExp` or a `String` that will be used to create a regular expression. It returns an `Object` with the given name and a `ranges` method that returns an array of the text ranges to preserve.
 
   For instance, the following code defines an ignore to preserve inline code blocks in Markdown:
 
   ```js
   ignore('codeInline', /(`{1,2}).*?\1/),
   ```
+
+### Groups
+
+Rules and ignores can be organized using the last exposed function: `group`. This function takes a name and an array of rules and returns a new array. Every rules in the new array will have a name such as `groupName.originalRuleName`.
+
+Groups can be be nested, so the following is possible:
+
+```js
+import {group, rule} from 'typography-fixer'
+
+// The resulting array will contains one rule with the
+// name topGroup.nestedGroup.theRule
+export default group('topGroup', [
+  group('nestedGroup', [
+    rule('theRule', /foo/, 'bar')
+  ])
+])
+```
+
+The result is always a flat array so that we can apply every array operations on a ruleset without having to care about nesting. For instance, excluding rules is as simple as running a filter on the array.
