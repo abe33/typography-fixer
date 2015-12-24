@@ -64,6 +64,19 @@ describe('typographyFixer', () => {
         expect(ruleObject.check('FOO')).to.have.length(1)
       })
     })
+
+    describe('when the expression has the multiline flag', () => {
+      it('applies the flag to the internally created regexp', () => {
+        const ruleObject1 = rule('Foo', /^foo$/m, 'bar')
+        const ruleObject2 = rule('Foo', /^foo$/, 'bar')
+
+        expect(ruleObject1.fix('foo\nbar')).to.eql('bar\nbar')
+        expect(ruleObject2.fix('foo\nbar')).to.eql('foo\nbar')
+
+        expect(ruleObject1.check('foo\nbar')).to.have.length(1)
+        expect(ruleObject2.check('foo\nbar')).to.have.length(0)
+      })
+    })
   })
 
   describe('ignore', () => {
@@ -114,6 +127,16 @@ describe('typographyFixer', () => {
 
         expect(ignoreObject.ranges('foo')).to.have.length(1)
         expect(ignoreObject.ranges('FOO')).to.have.length(1)
+      })
+    })
+
+    describe('when the expression has the multiline flag', () => {
+      it('applies the flag to the internally created regexp', () => {
+        let ignoreObject1 = ignore('Foo', /^foo$/m)
+        let ignoreObject2 = ignore('Foo', /^foo$/)
+
+        expect(ignoreObject1.ranges('foo\nbar')).to.have.length(1)
+        expect(ignoreObject2.ranges('foo\nbar')).to.have.length(0)
       })
     })
   })

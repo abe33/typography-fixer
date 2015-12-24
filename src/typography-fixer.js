@@ -85,16 +85,22 @@ export function rule (name, expression, replacement) {
   }
 
   let source
+  let flags = ['g']
   let ignoreCase = false
 
   if (expression instanceof RegExp) {
     source = expression.source
-    ignoreCase = expression.ignoreCase
+    if (expression.multiline) { flags.push('m') }
+    if (expression.ignoreCase) { 
+      flags.push('i')
+      ignoreCase = true
+    }
   } else {
     source = expression
+    flags.push('m')
   }
 
-  const searchFlags = ignoreCase ? 'gmi' : 'gm'
+  const searchFlags = flags.join('')
   const matchFlags = ignoreCase ? 'i' : ''
 
   return {
@@ -117,8 +123,8 @@ export function rule (name, expression, replacement) {
       return matches
     },
     fix (string) {
-      const re = new RegExp(source, searchFlags)
-      return string.replace(re, replacement)
+      const searchRegExp = new RegExp(source, searchFlags)
+      return string.replace(searchRegExp, replacement)
     }
   }
 }
@@ -129,16 +135,18 @@ export function ignore (name, expression, invertRanges) {
   }
 
   let source
-  let ignoreCase = false
+  let flags = ['g']
 
   if (expression instanceof RegExp) {
     source = expression.source
-    ignoreCase = expression.ignoreCase
+    if (expression.multiline) { flags.push('m') }
+    if (expression.ignoreCase) { flags.push('i') }
   } else {
     source = expression
+    flags.push('m')
   }
 
-  const searchFlags = ignoreCase ? 'gmi' : 'gm'
+  const searchFlags = flags.join('')
   if (invertRanges) {
     return {
       name,
