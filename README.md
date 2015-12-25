@@ -22,15 +22,18 @@ When using the package, the two functions you need to care about are `check` and
 
 ```js
 import {check, fix} from 'typography-fixer'
-import rules from 'typography-fixer/lib/rules/en-UK'
+import englishRules from 'typography-fixer/lib/rules/en-UK'
+import markdown from 'typography-fixer/lib/ignores/markdown'
+
+const rules = englishRules.concat(markdown)
 
 // returns an array with all the places where rules have been transgressed
 // or undefined if no rules were broken.
-const results = check(rules, 'Some text "to verify".')
+const checkResults = check(rules, 'Some text "to verify".')
 
 // returns the string with all rule violations fixed
 // in that case it returns: 'Some text “to verify.”'
-const results = fix(rules, 'Some text "to verify".')
+const fixedString = fix(rules, 'Some text "to verify".')
 ```
 
 The `check` function takes an array of rules and ignores, and returns an array of violations to the specified rules. A result is an object with the name of the broken rule and an array representing the range of the match. If a rule matches a part of a text but its application does't change this part then the match is simply ignored.
@@ -81,3 +84,15 @@ export default group('topGroup', [
 ```
 
 The result is always a flat array so that we can apply every array operations on a ruleset without having to care about nesting. For instance, excluding rules is as simple as running a filter on the array.
+
+### Available Rulesets
+
+The following rulesets are available:
+
+- `en-UK` &ndash; Rules for english typography in the United Kingdom.
+- `es-ES` &ndash; Rules for spanish typography in España.
+- `fr-FR` &ndash; Rules for french typography in France.
+- `line-breaks` &ndash; Rules to prevent lines from breaking after a word with three characters or less.
+- `mathematics` &ndash; Rules to replace common mathematic symbols.
+- `symbols` &ndash; Rules for common symbols such as trademark or copyright.
+- `latin-ligatures` &ndash; Rules to insert unicode latin ligatures.
