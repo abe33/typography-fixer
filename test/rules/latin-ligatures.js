@@ -3,14 +3,6 @@ import {fix, check} from '../../src/typography-fixer'
 import rules from '../../src/rules/latin-ligatures'
 
 describe('ligature rules', () => {
-  it('replaces ij with \u0133', () => {
-    expect(fix(rules, 'gaijin')).to.eql('ga\u0133in')
-  })
-
-  it('replaces IJ with \u0132', () => {
-    expect(fix(rules, 'GAIJIN')).to.eql('GA\u0132IN')
-  })
-
   it('replaces ff with \ufb00', () => {
     expect(fix(rules, 'effect')).to.eql('e\ufb00ect')
   })
