@@ -61,3 +61,151 @@ export const fractions = [
   [7, 8, '\u215e'],
   [0, 3, '\u2189']
 ]
+
+export const unitScales = [
+  'y',
+  'z',
+  'a',
+  'f',
+  'p',
+  'n',
+  'µ',
+  'm',
+  'c',
+  'd',
+  '',
+  'da',
+  'h',
+  'k',
+  'M',
+  'G',
+  'T',
+  'P',
+  'E',
+  'Z',
+  'Y'
+]
+
+export const scalableUnits = [
+  'm',
+  'm²',
+  'm³',
+  'g',
+  's',
+  'l',
+  'L',
+  'B',
+  'K',
+  'W',
+  'V',
+  'Hz',
+  'Ω',
+  'A',
+  'mol',
+  'cd',
+]
+
+export const surfaceUnits = [
+  'mile',
+  'in',
+  'yd',
+  'ft',
+  'm',
+]
+
+export const volumeUnits = [
+  'in',
+  'yd',
+  'ft',
+  'm',
+]
+
+export const otherUnits = [
+  // temperatures
+  '°C',
+  '°F',
+  '°Ré',
+  '°N',
+  '°Ra',
+  // distances
+  'mi',
+  'in',
+  'ft',
+  'yd',
+  'nautical mile',
+  // speed
+  'kmph',
+  'km/h',
+  'mps',
+  'm/s',
+  'mph',
+  'mi/h',
+  'knot',
+  'nautical mile/h',
+  'ma',
+  // surfaces
+  'ha',
+  'a',
+  'ca',
+  'mile²',
+  'in²',
+  'yd²',
+  'ft²',
+  'ro',
+  'acre',
+  'nautical mile²',
+  // volumes
+  'in³',
+  'ft³',
+  'yd³',
+  'gal',
+  'bbl',
+  'pt',
+  'fluid pt',
+  'dry pt',
+  // weight
+  't',
+  'carat',
+  'grain',
+  'oz',
+  'lb',
+  'cwt',
+  'ton',
+  'st',
+  // data
+  'b',
+  // time
+  'h',
+  'min',
+  // electric
+  'dBm',
+  'dBW',
+  'var',
+  'VA',
+  'F',
+  'H',
+  'S',
+  'C',
+  'Ah',
+  'J',
+  'kWh',
+  'eV',
+  'Ω∙m',
+  'S/m',
+  'V/m',
+  'N/C',
+  'V·m',
+  'T',
+  'G',
+  'Wb',
+  'dB',
+  'ppm',
+]
+
+function combine (a, b) {
+  return a
+  .map((u) => { return b.map((s) => { return `${s}${u}` }) })
+  .reduce((memo, el) => { return memo.concat(el) }, [])
+}
+
+export const units = otherUnits.concat(combine(scalableUnits, unitScales))
