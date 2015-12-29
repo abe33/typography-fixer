@@ -89,8 +89,8 @@ export function rule (name, expression, replacement) {
 
   if (expression instanceof RegExp) {
     source = expression.source
-    if (expression.multiline) { flags.push('m') }
-    if (expression.ignoreCase) { flags.push('i') }
+    if (expression.multiline) { flags.push('m') }
+    if (expression.ignoreCase) { flags.push('i') }
   } else {
     source = expression
     flags.push('m')
@@ -135,8 +135,8 @@ export function ignore (name, expression, invertRanges) {
 
   if (expression instanceof RegExp) {
     source = expression.source
-    if (expression.multiline) { flags.push('m') }
-    if (expression.ignoreCase) { flags.push('i') }
+    if (expression.multiline) { flags.push('m') }
+    if (expression.ignoreCase) { flags.push('i') }
   } else {
     source = expression
     flags.push('m')

@@ -102,7 +102,7 @@ export const scalableUnits = [
   'Ω',
   'A',
   'mol',
-  'cd',
+  'cd'
 ]
 
 export const surfaceUnits = [
@@ -110,14 +110,14 @@ export const surfaceUnits = [
   'in',
   'yd',
   'ft',
-  'm',
+  'm'
 ]
 
 export const volumeUnits = [
   'in',
   'yd',
   'ft',
-  'm',
+  'm'
 ]
 
 export const otherUnits = [
@@ -199,7 +199,7 @@ export const otherUnits = [
   'G',
   'Wb',
   'dB',
-  'ppm',
+  'ppm'
 ]
 
 function combine (a, b) {
