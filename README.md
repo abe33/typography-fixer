@@ -92,7 +92,8 @@ The following rulesets are available:
 - `en-UK` &ndash; Rules for english typography in the United Kingdom.
 - `es-ES` &ndash; Rules for spanish typography in España.
 - `fr-FR` &ndash; Rules for french typography in France.
+- `latin-ligatures` &ndash; Rules to insert unicode latin ligatures.
 - `line-breaks` &ndash; Rules to prevent lines from breaking after a word with three characters or less.
 - `mathematics` &ndash; Rules to replace common mathematic symbols.
 - `symbols` &ndash; Rules for common symbols such as trademark or copyright.
-- `latin-ligatures` &ndash; Rules to insert unicode latin ligatures.
+- `units` &ndash; Rules for formatting and spacing of international units.
