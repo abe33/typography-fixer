@@ -12,7 +12,7 @@ describe('fr-FR rules', () => {
       expect(check(rules, 'Un jour')).to.be(undefined)
     })
 
-    let charsWithNbspBefore = ['!', '?', ';', ':', '%']
+    let charsWithNbspBefore = ['!', '?', ';', ':', '%', '\u2030', '\u2031']
     charsWithNbspBefore.forEach((char) => {
       it(`replaces a simple space before ${char} with a non-breaking one`, () => {
         expect(fix(rules, `Foo ${char} bar`)).to.eql(`Foo\u202F${char} bar`)
@@ -53,7 +53,7 @@ describe('fr-FR rules', () => {
       })
     })
 
-    let charsWithSpaceBeforeAndAfter = ['!', '?', ';', ':', '%']
+    let charsWithSpaceBeforeAndAfter = ['!', '?', ';', ':', '%', '\u2030', '\u2031']
     charsWithSpaceBeforeAndAfter.forEach((char) => {
       it(`adds a space after ${char} if there is no space`, () => {
         expect(fix(rules, `Foo\u202f${char}bar`)).to.eql(`Foo\u202f${char} bar`)

@@ -5,7 +5,7 @@ import rules from '../../src/rules/es-ES'
 
 describe('es-ES rules', () => {
   describe('spaces', () => {
-    let charsWithSpaceAfter = [',', '.', '\u2026', ';', ':', '%']
+    let charsWithSpaceAfter = [',', '.', '\u2026', ';', ':', '%', '\u2030', '\u2031']
     charsWithSpaceAfter.forEach((char) => {
       it(`adds a space after ${char} if there is no space`, () => {
         expect(fix(rules, `Foo${char}bar`)).to.eql(`Foo${char} bar`)
@@ -15,7 +15,7 @@ describe('es-ES rules', () => {
       })
     })
 
-    let charsWithNoSpaceBefore = [',', '.', '\u2026', ';', ':', '%', '\u2019', ')']
+    let charsWithNoSpaceBefore = [',', '.', '\u2026', ';', ':', '%', ')', '\u2019', '\u2030', '\u2031']
     charsWithNoSpaceBefore.forEach((char) => {
       it(`removes space before ${char}`, () => {
         expect(fix(rules, `Foo ${char}`)).to.eql(`Foo${char}`)
