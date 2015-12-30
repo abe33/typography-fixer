@@ -1,5 +1,5 @@
-import {rule, group} from '../typography-fixer'
-import {currenciesRegExp} from '../constants'
+import {rule, group} from '../../typography-fixer'
+import {currenciesRegExp} from '../../constants'
 
 export default group([
   group('quotes', [

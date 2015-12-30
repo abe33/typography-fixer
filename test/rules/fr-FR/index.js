@@ -1,7 +1,7 @@
 import expect from 'expect.js'
-import {currencies} from '../../src/constants'
-import {fix, check} from '../../src/typography-fixer'
-import rules from '../../src/rules/fr-FR'
+import {currencies} from '../../../src/constants'
+import {fix, check} from '../../../src/typography-fixer'
+import rules from '../../../src/rules/fr-FR'
 
 describe('fr-FR rules', () => {
   describe('spaces', () => {
