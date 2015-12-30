@@ -47,6 +47,12 @@ describe('fr-FR rules', () => {
         expect(fix(rules, `Foo${char}bar`)).to.eql(`Foo${char} bar`)
       })
 
+      it(`does not add a space after ${char} if followed by a )`, () => {
+        expect(fix(rules, `(Foo${char})`)).to.eql(`(Foo${char})`)
+
+        expect(check(rules, `(Foo${char})`)).to.be(undefined)
+      })
+
       it(`checks only when there is no space after ${char}`, () => {
         expect(check(rules, `Foo${char}bar`)).to.have.length(1)
         expect(check(rules, `Foo${char} bar`)).to.be(undefined)
@@ -57,6 +63,12 @@ describe('fr-FR rules', () => {
     charsWithSpaceBeforeAndAfter.forEach((char) => {
       it(`adds a space after ${char} if there is no space`, () => {
         expect(fix(rules, `Foo\u202f${char}bar`)).to.eql(`Foo\u202f${char} bar`)
+      })
+
+      it(`does not add a space after ${char} if followed by a )`, () => {
+        expect(fix(rules, `(Foo\u202f${char})`)).to.eql(`(Foo\u202f${char})`)
+
+        expect(check(rules, `(Foo\u202f${char})`)).to.be(undefined)
       })
 
       it(`checks only when there is no space after ${char}`, () => {

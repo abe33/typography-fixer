@@ -13,6 +13,12 @@ describe('es-ES rules', () => {
         expect(check(rules, `Foo${char}bar`)).to.have.length(1)
         expect(check(rules, `Foo${char} bar`)).to.be(undefined)
       })
+
+      it(`does not add a space after ${char} if followed by a )`, () => {
+        expect(fix(rules, `(Foo${char})`)).to.eql(`(Foo${char})`)
+
+        expect(check(rules, `(Foo${char})`)).to.be(undefined)
+      })
     })
 
     let charsWithNoSpaceBefore = [',', '.', '\u2026', ';', ':', '%', ')', '\u2019', '\u2030', '\u2031']
