@@ -243,20 +243,24 @@ function alternateJoin (a, b) {
 function campactRanges (ranges) {
   if (ranges.length === 0) { return [] }
 
-  const newRanges = [ranges.shift()]
+  const newRanges = ranges.reduce((memo, rangeA) => {
+    if (memo.length === 0) {
+      memo.push(rangeA)
+      return memo
+    } else {
+      const newMemo = memo.filter((rangeB) => {
+        if (rangesIntersects(rangeA, rangeB)) {
+          rangeA[0] = Math.min(rangeA[0], rangeB[0])
+          rangeA[1] = Math.max(rangeA[1], rangeB[1])
+          return false
+        } else {
+          return true
+        }
+      })
 
-  ranges.forEach((rangeA) => {
-    for (let i = 0, len = newRanges.length; i < len; i++) {
-      const rangeB = newRanges[i]
-      if (rangesIntersects(rangeA, rangeB)) {
-        rangeB[0] = Math.min(rangeA[0], rangeB[0])
-        rangeB[1] = Math.max(rangeA[1], rangeB[1])
-        return
-      }
+      return newMemo.concat([rangeA])
     }
-
-    newRanges.push(rangeA)
-  })
+  }, [])
 
   return newRanges.sort((a, b) => {
     return a[0] - b[0]
