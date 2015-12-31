@@ -23,15 +23,12 @@ describe('units rules', () => {
   })
 
   units.forEach((unit) => {
-    it(`replaces 10${unit} with 10\u202f${unit}`, () => {
+    it(`adds a thin non-breaking space between a number and ${unit}`, () => {
       expect(fix(rules, `10${unit}`)).to.eql(`10\u202f${unit}`)
+      expect(fix(rules, `10 ${unit}`)).to.eql(`10\u202f${unit}`)
 
       expect(check(rules, `10${unit}`)).to.have.length(1)
       expect(check(rules, `10\u202f${unit}`)).to.be(undefined)
-    })
-
-    it(`replaces 10 ${unit} with 10\u202f${unit} with a non-breaking space`, () => {
-      expect(fix(rules, `10 ${unit}`)).to.eql(`10\u202f${unit}`)
 
       expect(check(rules, `10 ${unit}`)).to.have.length(1)
       expect(check(rules, `10\u202f${unit}`)).to.be(undefined)
