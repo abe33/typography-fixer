@@ -15,23 +15,23 @@ describe('markdown ignores', () => {
   })
 
   it('preserves inline images', () => {
-    expect(fix(rules, '![foo](http://foo.com/foo.jpg "foo")')).to.eql('![foo](http://foo.com/foo.jpg "foo")')
+    expect(fix(rules, '![foo](http://foo.com/foo.jpg "foo")')).to.eql('![bar](http://foo.com/foo.jpg "foo")')
   })
 
   it('preserves inline links', () => {
-    expect(fix(rules, '[foo](http://foo.com/foo.jpg)')).to.eql('[foo](http://foo.com/foo.jpg)')
+    expect(fix(rules, '[foo](http://foo.com/foo.jpg)')).to.eql('[bar](http://foo.com/foo.jpg)')
   })
 
   it('preserves images with external definition', () => {
-    expect(fix(rules, '![foo][foo]')).to.eql('![foo][foo]')
-    expect(fix(rules, '![foo] [foo]')).to.eql('![foo] [foo]')
-    expect(fix(rules, '![foo][]')).to.eql('![foo][]')
+    expect(fix(rules, '![foo][foo]')).to.eql('![bar][foo]')
+    expect(fix(rules, '![foo] [foo]')).to.eql('![bar] [foo]')
+    expect(fix(rules, '![foo][]')).to.eql('![bar][]')
   })
 
   it('preserves links with external definition', () => {
-    expect(fix(rules, '[foo][foo]')).to.eql('[foo][foo]')
-    expect(fix(rules, '[foo] [foo]')).to.eql('[foo] [foo]')
-    expect(fix(rules, '[foo][]')).to.eql('[foo][]')
+    expect(fix(rules, '[foo][foo]')).to.eql('[bar][foo]')
+    expect(fix(rules, '[foo] [foo]')).to.eql('[bar] [foo]')
+    expect(fix(rules, '[foo][]')).to.eql('[bar][]')
   })
 
   it('preserves links definition', () => {

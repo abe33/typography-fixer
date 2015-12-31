@@ -1,8 +1,9 @@
 import {ignore, group} from '../typography-fixer'
 
 export default group('markdown', [
-  ignore('imageAndLink', /!?\[[^\]]+\]\([^\)]+\)/),
-  ignore('imageAndLinkWithExternalDefinition', /!?\[[^\]]+\]\s*\[[^\]]*\]/),
+  ignore('imageAndLinkStart', /!?\[/),
+  ignore('imageAndLinkEnd', /\]\([^\)]+\)/),
+  ignore('imageAndLinkWithExternalDefinitionEnd', /\]\s*\[[^\]]*\]/),
   ignore('linkDefinition', /\[[^\]]+\]:.*$/m),
   ignore('codeBlock', /(```)(.|\n)*?\1/),
   ignore('preformattedBlock', /^\x20{4}.*$/m),
