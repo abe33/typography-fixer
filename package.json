@@ -7,6 +7,7 @@
     "test": "mocha --recursive --compilers js:babel-register",
     "babel": "babel src --out-dir lib",
     "standard": "standard src/*.js test/*.js",
+    "esdoc": "esdoc -c esdoc.json",
     "prepublish": "npm run standard && npm run test && npm run babel"
   },
   "keywords": [
@@ -24,7 +25,8 @@
     "babel-register": "^6.3.13",
     "expect.js": "^0.3.1",
     "mocha": "^2.3.4",
-    "standard": "^5.4.1"
+    "standard": "^5.4.1",
+    "esdoc": "^0.4.0"
   },
   "standard": {
     "globals": [
