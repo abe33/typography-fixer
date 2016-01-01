@@ -1,9 +1,23 @@
-export function check (allRules, string) {
-  if (!allRules || !string) {
+/**
+ * Returns an array of rule violations in the passed-in string.
+ *
+ * @param  {Array} ruleset the array with all the rules and ignores to use when
+ *                         checking the passed-in string
+ * @param  {string} string the string to check
+ * @throws {Error} when one argument is missing
+ * @return {Array|undefined} an array of rule violation results or `undefined`
+ *                           when there is no violations.<br>Each result
+ *                           object will have the following properties:
+ * @property {string} name the name of the broken rule
+ * @property {Array} range the range at which the violation can be found
+ *                         in the string
+ */
+export function check (ruleset, string) {
+  if (!ruleset || !string) {
     throw new Error('The check arguments are mandatory')
   }
 
-  let {ignores, rules} = collectRules(allRules)
+  let {ignores, rules} = collectRules(ruleset)
 
   if (rules.length === 0) { return undefined }
 
@@ -27,12 +41,21 @@ export function check (allRules, string) {
   return results.length > 0 ? results : undefined
 }
 
-export function fix (allRules, string) {
-  if (!allRules || !string) {
+/**
+ * Returns the passed-in string modified by the specified ruleset.
+ *
+ * @param  {Array} ruleset the array with all the rules and ignores to use to
+ *                         transform the passed-in string
+ * @param  {string} string the string to fix
+ * @return {string} the fixed string
+ * @throws {Error} when one argument is missing
+ */
+export function fix (ruleset, string) {
+  if (!ruleset || !string) {
     throw new Error('The fix arguments are mandatory')
   }
 
-  let {ignores, rules} = collectRules(allRules)
+  let {ignores, rules} = collectRules(ruleset)
 
   if (rules.length === 0) { return string }
 
@@ -52,6 +75,17 @@ export function fix (allRules, string) {
   return alternateJoin(included, excluded)
 }
 
+/**
+ * Returns a flat array of rules with names prefixed by the passed-in `name`.
+ *
+ * When called without a name the `group` function will only flatten the given
+ * rules array.
+ *
+ * @param  {string} [name] the name of the rules group
+ * @param  {Array} rules the rules to be part of the group
+ * @return {Array} an array of new rules prefixed with this group name
+ * @throws {Error} when the rules argument is missing
+ */
 export function group (name, rules) {
   let groupName
 
@@ -79,6 +113,23 @@ export function group (name, rules) {
   })
 }
 
+/**
+ * Creates a new rule object that matches the specified `expression`.
+ *
+ * @param  {string} name the name of the rule
+ * @param  {string|RegExp} expression the regular expression to match against
+ *                                    a string
+ * @param  {string|function} replacement the replacement string or function
+ *                                       to use when a match is found
+ * @throws {Error} when one argument is missing
+ * @return {Object} the rule object
+ * @property {string} name the rule's name
+ * @property {function(string:string):string} fix a function to apply the rule
+ *                                                on the passed-in string
+ * @property {function(string:string):Array} check a function to check
+ *                                                 violations in the passed-in
+ *                                                 string
+ */
 export function rule (name, expression, replacement) {
   if (!name || !expression || !replacement) {
     throw new Error('All arguments of the rule function are mandatory')
@@ -125,7 +176,24 @@ export function rule (name, expression, replacement) {
   }
 }
 
-export function ignore (name, expression, invertRanges) {
+/**
+ * Creates a new ignore rule that excludes the specified `expression`.
+ *
+ * @param  {string} name the name of the rule
+ * @param  {string|RegExp} expression the regular expression to match against
+ *                                    a string
+ * @param  {boolean} [invertRanges=false] if `true` the excluded ranges will
+ *                                        cover every part of the string that
+ *                                        is not matched by the expression
+ * @throws {Error} when one argument is missing
+ * @return {Object} [description]
+ * @property {string} name the name of the rule
+ * @property {function(string:string):Array} ranges a function that returns
+ *                                                  an array of the ranges to
+ *                                                  ignore in the passed-in
+ *                                                  string
+ */
+export function ignore (name, expression, invertRanges = false) {
   if (!name || !expression) {
     throw new Error('All arguments of the ignore function are mandatory')
   }
@@ -184,12 +252,12 @@ export function ignore (name, expression, invertRanges) {
   }
 }
 
-function collectRules (allRules) {
+function collectRules (ruleset) {
   const ignores = []
   const rules = []
 
-  for (let i = 0, len = allRules.length; i < len; i++) {
-    let rule = allRules[i]
+  for (let i = 0, len = ruleset.length; i < len; i++) {
+    let rule = ruleset[i]
 
     if (rule.ranges) {
       ignores.push(rule)
@@ -205,7 +273,10 @@ function rangesIntersects (rangeA, rangeB) {
   const [startA, endA] = rangeA
   const [startB, endB] = rangeB
 
-  return (startB >= startA && startB <= endA) || (endB >= startA && endB <= endA) || (startA >= startB && startA <= endB) || (endA >= startB && endA <= endB)
+  return (startB >= startA && startB <= endA) ||
+         (endB >= startA && endB <= endA) ||
+         (startA >= startB && startA <= endB) ||
+         (endA >= startB && endA <= endB)
 }
 
 function flatten (arr) {
@@ -262,7 +333,5 @@ function campactRanges (ranges) {
     }
   }, [])
 
-  return newRanges.sort((a, b) => {
-    return a[0] - b[0]
-  })
+  return newRanges.sort((a, b) => { return a[0] - b[0] })
 }
