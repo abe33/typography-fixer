@@ -17,7 +17,7 @@ export function check (ruleset, string) {
     throw new Error('The check arguments are mandatory')
   }
 
-  let {ignores, rules} = collectRules(ruleset)
+  let {ignores, rules} = filterRules(ruleset)
 
   if (rules.length === 0) { return undefined }
 
@@ -55,7 +55,7 @@ export function fix (ruleset, string) {
     throw new Error('The fix arguments are mandatory')
   }
 
-  let {ignores, rules} = collectRules(ruleset)
+  let {ignores, rules} = filterRules(ruleset)
 
   if (rules.length === 0) { return string }
 
@@ -252,7 +252,7 @@ export function ignore (name, expression, invertRanges = false) {
   }
 }
 
-function collectRules (ruleset) {
+function filterRules (ruleset) {
   const ignores = []
   const rules = []
 
