@@ -201,7 +201,7 @@ describe('fr-FR rules', () => {
       ['Etc...', 'Etc.'],
       ['Etc\u2026', 'Etc.'],
       ['etc...', 'etc.'],
-      ['etc\u2026', 'etc.'],
+      ['etc\u2026', 'etc.']
     ]
     etcTests.forEach(([source, expected]) => {
       it(`replaces ${source} by ${expected}`, () => {
@@ -309,7 +309,7 @@ describe('fr-FR rules', () => {
       ['1eres', '1res'],
       ['2emes', '2es'],
       ['2èmes', '2es'],
-      ['10emes', '10èmes'],
+      ['10emes', '10èmes']
     ]
 
     ordinalTests.forEach(([source, expected]) => {

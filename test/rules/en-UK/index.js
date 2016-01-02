@@ -158,7 +158,7 @@ describe('en-UK rules', () => {
       ['Etc...', 'Etc.'],
       ['Etc\u2026', 'Etc.'],
       ['etc...', 'etc.'],
-      ['etc\u2026', 'etc.'],
+      ['etc\u2026', 'etc.']
     ]
     etcTests.forEach(([source, expected]) => {
       it(`replaces ${source} by ${expected}`, () => {
