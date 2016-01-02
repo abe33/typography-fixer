@@ -1,6 +1,12 @@
 /**
  * Returns an array of rule violations in the passed-in string.
  *
+ * Ignores and rules are separated at the beginning of the call, then the ranges
+ * to ignore are computed. When the a check results intersect with or is
+ * contained in a range it will be simply ignored.
+ *
+ * If there's no results, the function returns `undefined`.
+ *
  * @param  {Array} ruleset the array with all the rules and ignores to use when
  *                         checking the passed-in string
  * @param  {string} string the string to check
@@ -11,6 +17,11 @@
  * @property {string} name the name of the broken rule
  * @property {Array} range the range at which the violation can be found
  *                         in the string
+ * @example
+ * import {check} from 'typography-fixer'
+ * import rules from 'typography-fixer/lib/rules/en-UK'
+ *
+ * const results = check(rules, 'Some string "to check".')
  */
 export function check (ruleset, string) {
   if (!ruleset || !string) {
@@ -44,11 +55,22 @@ export function check (ruleset, string) {
 /**
  * Returns the passed-in string modified by the specified ruleset.
  *
+ * Ignores and rules are separated at the beginning of the call, then the ranges
+ * to ignore are computed. The string is split using the ranges to have in one
+ * array all the parts that can be modified and in another array all the ignored
+ * parts. Once all the fixes were applied, the string from the two arrays are
+ * joined together into a new string and returned.
+ *
  * @param  {Array} ruleset the array with all the rules and ignores to use to
  *                         transform the passed-in string
  * @param  {string} string the string to fix
  * @return {string} the fixed string
  * @throws {Error} when one argument is missing
+ * @example
+ * import {fix} from 'typography-fixer'
+ * import rules from 'typography-fixer/lib/rules/en-UK'
+ *
+ * const string = fix(rules, 'Some string "to fix".')
  */
 export function fix (ruleset, string) {
   if (!ruleset || !string) {
@@ -81,10 +103,23 @@ export function fix (ruleset, string) {
  * When called without a name the `group` function will only flatten the given
  * rules array.
  *
+ * One use case of calling group without a name is when exporting a ruleset from
+ * a file so that nested groups get flatten into the exported array.
+ *
  * @param  {string} [name] the name of the rules group
  * @param  {Array} rules the rules to be part of the group
  * @return {Array} an array of new rules prefixed with this group name
  * @throws {Error} when the rules argument is missing
+ *
+ * @example
+ * import {group, rule} from 'typography-fixer'
+ *
+ * export default group([
+ *   group('spaces', [
+ *     rule('spaceAfterPeriodOrColon', /(\D)(\.|:)([^\s\)])/, '$1$2 $3'),
+ *     …
+ *   ])
+ * ])
  */
 export function group (name, rules) {
   let groupName
@@ -116,6 +151,26 @@ export function group (name, rules) {
 /**
  * Creates a new rule object that matches the specified `expression`.
  *
+ * A rule is an object with a name and two methods `fix` and `check`.
+ *
+ * A rule can be created with either a string or a regular expression as the
+ * `expression` parameter.
+ *
+ * - When given a regular expression the flags of the original expression
+ *   are preserved except for the `global` which will be forcefully defined
+ *   on the expression created when checking or fixing a string.
+ * - When given a string this string will be used a source for the regular
+ *   expressions. These expressions will be created with the `multiline` flag
+ *   enabled.
+ *
+ * The `replacement` parameter is used when a match is found and will be passed
+ * as the second argument of the `String#replace` method. A regular expression
+ * based on the one used to search the string will be passed as the first
+ * argument. It means that every group will be available to use in the
+ * replacement string. A function can also be passed in the `replacement`
+ * parameter and will then receive the matched string and the various groups as
+ * arguments.
+ *
  * @param  {string} name the name of the rule
  * @param  {string|RegExp} expression the regular expression to match against
  *                                    a string
@@ -129,6 +184,12 @@ export function group (name, rules) {
  * @property {function(string:string):Array} check a function to check
  *                                                 violations in the passed-in
  *                                                 string
+ * @example
+ * import {rule} from 'typography-fixer'
+ *
+ * // this rule adds a space after `.` and `:` unless the characted is preceded
+ * // by a number, as in 12.4 or 04:35, or followed by a space or `)`
+ * const ruleObject = rule('spaceAfterPeriodOrColon', /(\D)(\.|:)([^\s\)])/, '$1$2 $3')
  */
 export function rule (name, expression, replacement) {
   if (!name || !expression || !replacement) {
@@ -179,6 +240,25 @@ export function rule (name, expression, replacement) {
 /**
  * Creates a new ignore rule that excludes the specified `expression`.
  *
+ * An ignore rule is an object with a name and a `ranges` method.
+ *
+ * An ignore rule can be created with either a string or a regular expression
+ * as the `expression` parameter.
+ *
+ * - When given a regular expression the flags of the original expression
+ *   are preserved except for the `global` which will be forcefully defined
+ *   on the expression created when checking or fixing a string.
+ * - When given a string this string will be used a source for the regular
+ *   expressions. These expressions will be created with the `multiline` flag
+ *   enabled.
+ *
+ * The `ranges` function, when called with a string, returns an array of ranges
+ * of the ignored section of the string. A range is an array with two numbers
+ * for the start and end index in the string.
+ *
+ * An ignore rule can also ignores everything that is not matched by the
+ * expression by passing `true` as the third argument of the `ignore` function.
+ *
  * @param  {string} name the name of the rule
  * @param  {string|RegExp} expression the regular expression to match against
  *                                    a string
@@ -192,6 +272,11 @@ export function rule (name, expression, replacement) {
  *                                                  an array of the ranges to
  *                                                  ignore in the passed-in
  *                                                  string
+ * @example
+ * import {ignore} from 'typography-fixer'
+ *
+ * // this rule ignores markdown code blocks defined using three consecutive backticks
+ * const ignoreObject = ignore('codeBlock', /(```)(.|\n)*?\1/),
  */
 export function ignore (name, expression, invertRanges = false) {
   if (!name || !expression) {
