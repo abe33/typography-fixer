@@ -1,5 +1,6 @@
 {
   "source": "./src",
   "destination": "./pages",
+  "undocumentIdentifier": false,
   "plugins": []
 }

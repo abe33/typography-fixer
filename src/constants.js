@@ -1,6 +1,4 @@
-/**
- * @access private
- */
+
 export const currencies = {
   '¤': '¤',
   '¥': '¥',
@@ -39,16 +37,10 @@ export const currencies = {
   '\u20be': '\u20be'
 }
 
-/**
- * @access private
- */
 export const currenciesRegExp = Object.keys(currencies).map((c) => {
   return currencies[c]
 }).join('')
 
-/**
- * @access private
- */
 export const fractions = [
   [1, 4, '\u00bc'],
   [1, 2, '\u00bd'],
@@ -71,9 +63,6 @@ export const fractions = [
   [0, 3, '\u2189']
 ]
 
-/**
- * @access private
- */
 export const unitScales = [
   'y',
   'z',
@@ -98,9 +87,6 @@ export const unitScales = [
   'Y'
 ]
 
-/**
- * @access private
- */
 export const scalableUnits = [
   'm',
   'm²',
@@ -120,9 +106,6 @@ export const scalableUnits = [
   'cd'
 ]
 
-/**
- * @access private
- */
 export const surfaceUnits = [
   'mile',
   'in',
@@ -131,9 +114,6 @@ export const surfaceUnits = [
   'm'
 ]
 
-/**
- * @access private
- */
 export const volumeUnits = [
   'in',
   'yd',
@@ -141,9 +121,6 @@ export const volumeUnits = [
   'm'
 ]
 
-/**
- * @access private
- */
 export const otherUnits = [
   // temperatures
   '°C',
@@ -232,7 +209,4 @@ function combine (a, b) {
   .reduce((memo, el) => { return memo.concat(el) }, [])
 }
 
-/**
- * @access private
- */
 export const units = otherUnits.concat(combine(scalableUnits, unitScales))
