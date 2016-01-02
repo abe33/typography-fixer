@@ -1,7 +1,7 @@
 import {rule, group} from '../../typography-fixer'
 import {currenciesRegExp} from '../../constants'
 
-export default group([
+export default group('en-UK', [
   group('punctuations', [
     rule('collapseMultiplePunctuation', /([!?])\1+/, '$1'),
     rule('shortEtCaetera', /([Ee]tc)(\.{3}|\u2026)/, '$1.'),

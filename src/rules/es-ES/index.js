@@ -1,7 +1,7 @@
 import {rule, group} from '../../typography-fixer'
 import {currenciesRegExp} from '../../constants'
 
-export default group([
+export default group('es-ES', [
   group('quotes', [
     rule('singleQuote', /(\w)'(\w)/, '$1\u2019$2'),
     rule('doubleQuote', /"([^"]+)"/, '\u00ab$1\u00bb')
