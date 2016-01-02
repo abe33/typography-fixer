@@ -161,7 +161,7 @@ describe('fr-FR rules', () => {
       expect(check(rules, 'bar:12:21:56')).to.have.length(2)
     })
 
-    let honorifics = ['M.', 'Mme', 'Mlle']
+    let honorifics = ['M.', 'MM.', 'Mme', 'Mmes', 'Mlle', 'Mlles', 'Dr', 'Mgr', 'Me']
     honorifics.forEach((honorific) => {
       it(`adds a non-breaking space after ${honorific} followed by a name`, () => {
         expect(fix(rules, `${honorific} Martin`)).to.eql(`${honorific}\u00a0Martin`)

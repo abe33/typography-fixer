@@ -34,7 +34,7 @@ export default group('fr-FR', [
     rule('spaceAroundEnDash', /([^\d\s])\x20*(\u2013)\x20*(\D)/, '$1\u00a0$2 $3'),
     rule('spaceAfterLeftQuote', /(\u00ab)\x20*(\S)/, '$1\u202F$2'),
     rule('spaceBeforeRightQuote', /(\S)\x20*(\u00bb)/, '$1\u202F$2'),
-    rule('nonBreakingSpaceAfterHonorific', /(M\.|Mme|Mlle)\x20([A-Z])/, '$1\u00a0$2')
+    rule('nonBreakingSpaceAfterHonorific', /(MM\.|M\.|Mme|Mmes|Mlle|Mlles|Dr|Me|Mgr)\x20([A-Z])/, '$1\u00a0$2')
   ]),
   group('ordinal', [
     rule('greaterThan10', /(\d{2,})emes\b/, '$1èmes'),
