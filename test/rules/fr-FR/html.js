@@ -55,9 +55,11 @@ describe('fr-FR html rules', () => {
 
   it('wraps ampersand into a span', () => {
     expect(fix(rules, '&')).to.eql('<span class="amp">&</span>')
+    expect(fix(rules, '&amp;')).to.eql('<span class="amp">&amp;</span>')
     expect(fix(rules, '&nbsp;')).to.eql('&nbsp;')
 
     expect(check(rules, '&')).to.have.length(1)
+    expect(check(rules, '&amp;')).to.have.length(1)
     expect(check(rules, '&nbsp;')).to.be(undefined)
   })
 

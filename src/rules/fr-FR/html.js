@@ -6,6 +6,6 @@ export default group('fr-FR.html', [
   }),
   rule('ordinalNumbers', /(\d)(res|re|es|e|èmes)/, '$1<sup class="ord">$2</sup>'),
   rule('quotes', /(\u00ab|\u00bb)/, '<span class="dquo">$1</span>'),
-  rule('ampersand', /(&)($|\s)/, '<span class="amp">$1</span>$2'),
+  rule('ampersand', /(&amp;|&)($|\s)/, '<span class="amp">$1</span>$2'),
   rule('caps', /(([A-Z]\.?){2,})/, '<span class="caps">$1</span>')
 ])
