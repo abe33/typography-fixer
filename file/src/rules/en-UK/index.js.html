@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../../">
+  <title data-ice="title">src/rules/en-UK/index.js | API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+<link data-ice="userStyle" rel="stylesheet" href="user/css/0-styles.css">
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  <a href="./manual/index.html" data-ice="manualHeaderLink">Manual</a>
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <a data-ice="repoURL" href="git://github.com/abe33/typography-fixer.git">Repository</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-check">check</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-fix">fix</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-group">group</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-ignore">ignore</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-rule">rule</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules/fr-FR</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ruleset">ruleset</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/rules/en-UK/index.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {rule, group} from &apos;../../typography-fixer&apos;
+import {currenciesRegExp} from &apos;../../constants&apos;
+
+let ruleset
+
+export default ruleset = createRuleset()
+
+function createRuleset () {
+  return group(&apos;en-UK&apos;, [
+    group(&apos;punctuations&apos;, [
+      rule(&apos;collapseMultiplePunctuation&apos;, /([!?])\1+/, &apos;$1&apos;),
+      rule(&apos;shortEtCaetera&apos;, /([Ee]tc)(\.{3}|\u2026)/, &apos;$1.&apos;),
+      rule(&apos;triplePeriods&apos;, /\.{3,}/, &apos;\u2026&apos;),
+      rule(&apos;enDashBetweenWords&apos;, /(\D\x20)-(\x20\D)/, &apos;$1\u2013$2&apos;),
+      rule(&apos;enDashBetweenNumbers&apos;, /(\d)\s*-\s*(\d)/, &apos;$1\u2013$2&apos;)
+    ]),
+    group(&apos;quotes&apos;, [
+      rule(&apos;singlePrime&apos;, /(\d)&apos;/, &apos;$1\u2032&apos;),
+      rule(&apos;doublePrime&apos;, /(\d)&quot;/, &apos;$1\u2033&apos;),
+      rule(&apos;singleQuote&apos;, /(\w)&apos;(\w)/, &apos;$1\u2019$2&apos;),
+      rule(&apos;doubleQuote&apos;, /&quot;([^&quot;]+)&quot;/, &apos;\u201c$1\u201d&apos;),
+      rule(&apos;punctuationAfterQuote&apos;, /(\u201d)(\.|,)/, &apos;$2$1&apos;)
+    ]),
+    group(&apos;spaces&apos;, [
+      rule(&apos;collapseMultipleSpaces&apos;, /\x20{2,}/, &apos; &apos;),
+      rule(&apos;noSpaceBeforePunctuation&apos;, /\s+(\.|,|;|:|!|\?|%|\)|\u2019|\u2026|\u2030|\u2031)/, &apos;$1&apos;),
+      rule(&apos;noSpaceAfterPunctuation&apos;, /(\u2019|\()\s+/, &apos;$1&apos;),
+      rule(&apos;noSpaceAroundEnDashBetweenNumbers&apos;, /(\d)\s*\u2013\s*(\d)/, &apos;$1\u2013$2&apos;),
+      rule(&apos;spaceAfterPunctuation&apos;, /(,|;|!|\?|%|\u2026|\u2030|\u2031)([^\s\)])/, &apos;$1 $2&apos;),
+      rule(&apos;spaceAfterPeriodOrColon&apos;, /(\D)(\.|:)([^\s\)])/, &apos;$1$2 $3&apos;),
+      rule(&apos;noSpaceAroundEmDash&apos;, /\s*(\u2014)\s*/, &apos;$1&apos;),
+      rule(&apos;spaceAroundEnDash&apos;, /([^\d\s])\x20*(\u2013)\x20*(\D)/, &apos;$1\u00a0$2 $3&apos;),
+      rule(&apos;noSpaceAfterLeftQuote&apos;, /(\u201c)\s*(\S)/, &apos;$1$2&apos;),
+      rule(&apos;noSpaceBeforeRightQuote&apos;, /(\S)\s*(\u201d)/, &apos;$1$2&apos;),
+      rule(&apos;spaceAfterParenthesis&apos;, /(\))(\w)/, &apos;$1 $2&apos;),
+      rule(&apos;spaceBeforeParenthesis&apos;, /(\S)(\()/, &apos;$1 $2&apos;),
+      rule(&apos;nonBreakingSpaceAfterHonorific&apos;, /(Mr|Mrs|Ms|Miss|Sir|Lady)\s([A-Z])/, &apos;$1\u00a0$2&apos;),
+      rule(&apos;noSpaceAfterCurrency&apos;, `([${currenciesRegExp}])\\s*(\\d)`, &apos;$1$2&apos;)
+    ])
+  ])
+}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.3)</span></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

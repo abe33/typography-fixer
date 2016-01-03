@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../">
+  <title data-ice="title">Usage</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+<link data-ice="userStyle" rel="stylesheet" href="user/css/0-styles.css">
+</head>
+<body class="layout-container manual-root" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  <a href="./manual/index.html" data-ice="manualHeaderLink">Manual</a>
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <a data-ice="repoURL" href="git://github.com/abe33/typography-fixer.git">Repository</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div class="manual-toc-root">
+  
+<div data-ice="manual" data-toc-name="usage">
+    <h1 class="manual-toc-title"><a href="manual/usage.html" data-ice="title">Usage</a></h1>
+    <ul class="manual-toc">
+      
+    <li data-ice="manualNav" class="indent-h1"><span class="manual-dot"></span><a href="manual/usage.html#usage" data-ice="link">Usage</a></li>
+<li data-ice="manualNav" class="indent-h1"><span class="manual-dot"></span><a href="manual/usage.html#rules-and-ignores" data-ice="link">Rules And Ignores</a></li>
+<li data-ice="manualNav" class="indent-h2"><span class="manual-dot"></span><a href="manual/usage.html#groups" data-ice="link">Groups</a></li>
+</ul>
+  </div>
+<div data-ice="manual" data-toc-name="reference">
+    <h1 class="manual-toc-title"><a href="identifiers.html" data-ice="title">Reference</a></h1>
+    <ul class="manual-toc">
+      
+    <li data-ice="manualNav" class="indent-h1"><span class="manual-dot"></span><a href="identifiers.html#function" data-ice="link">Function</a></li>
+<li data-ice="manualNav" class="indent-h1"><span class="manual-dot"></span><a href="identifiers.html#variable" data-ice="link">Variable</a></li>
+</ul>
+  </div>
+<div data-ice="manual" data-toc-name="faq">
+    <h1 class="manual-toc-title"><a href="manual/faq.html" data-ice="title">FAQ</a></h1>
+    <ul class="manual-toc">
+      
+    <li data-ice="manualNav" class="indent-h2"><span class="manual-dot"></span><a href="manual/faq.html#what-about-html-entities" data-ice="link">What about HTML entities</a></li>
+</ul>
+  </div>
+<div data-ice="manual" data-toc-name="changelog">
+    <h1 class="manual-toc-title"><a href="manual/changelog.html" data-ice="title">Changelog</a></h1>
+    <ul class="manual-toc">
+      
+    </ul>
+  </div>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><div class="github-markdown">
+  <div class="manual-breadcrumb-list">
+    <a href="./manual/./index.html">Manual</a>
+    <span>&#xBB;</span>
+    <span data-ice="title">Usage</span>
+  </div>
+  <div data-ice="content"><h2 id="usage">Usage</h2>
+<p>When using the package, the two functions you need to care about are <code>check</code> and <code>fix</code>. But the packages exposes a total of five methods available using <code>require(&apos;typography-fixer&apos;)</code>. On top of that, rulesets can be found at the <code>typography-fixer/lib/rules</code> path, while ignore sets are located at <code>typography-fixer/lib/ignores</code>.</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">import {check, fix} from &apos;typography-fixer&apos;
+import englishRules from &apos;typography-fixer/lib/rules/en-UK&apos;
+import markdown from &apos;typography-fixer/lib/ignores/markdown&apos;
+
+const rules = englishRules.concat(markdown)
+
+// returns an array with all the places where rules have been transgressed
+// or undefined if no rules were broken.
+const checkResults = check(rules, &apos;Some text &quot;to verify&quot;.&apos;)
+
+// returns the string with all rule violations fixed
+// in that case it returns: &apos;Some text &#x201C;to verify.&#x201D;&apos;
+const fixedString = fix(rules, &apos;Some text &quot;to verify&quot;.&apos;)</code>
+</code></pre>
+<p>The <code>check</code> function takes an array of rules and ignores, and returns an array of violations to the specified rules. A result is an object with the name of the broken rule and an array representing the range of the match. If a rule matches a part of a text but its application does&apos;t change this part then the match is simply ignored.</p>
+<p>The <code>fix</code> function also takes an array of rules and ignores, and returns the corrected string.</p>
+<p>Note that since the <code>check</code> function operates on a string without modifying it, some fixes won&apos;t be detected are they would only be applied after a first batch of rules was applied, and other times several rules can returns violations at the same place, with some of them that won&apos;t be applied as they will become irrelevant after some replacements. One example of the latter is the rule for <code>etc...</code>, it will returns violations for both <code>etc</code> followed by an ellipsis and for an ellipsis formed with three periods.</p>
+<h2 id="rules-and-ignores">Rules And Ignores</h2>
+<p><code>typography-fixer</code> works using two kind of entities, <code>rules</code> and <code>ignores</code>. These objects can be created using the <code>rule</code> and <code>ignore</code> functions exposed by the package.</p>
+<ul>
+<li><p><code>rule(name, expression, replacement)</code> &#x2013; defines a pattern for a class of errors identified with its <code>name</code>. It returns an <code>Object</code> with the given name, and two functions <code>fix</code> and <code>check</code>, both taking a string as argument. The <code>replacement</code> parameter can either be a <code>String</code> or a <code>Function</code> to pass to the <code>String#replace</code> function.</p>
+<p>For instance, the following code defines a rule that replaces three periods by an ellipsis:</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">rule(&apos;triplePeriods&apos;, /\.{3,}/, &apos;\u2026&apos;),</code>
+</code></pre>
+</li>
+<li><p><code>ignore(name, expression, invertRanges)</code> &#x2013; defines parts of a string where the rules don&apos;t apply. It returns an <code>Object</code> with the given name and a <code>ranges</code> method that returns an array of the text ranges to preserve. When the <code>invertRanges</code> parameter is <code>true</code> the ranges returned by the <code>ranges</code> method will span every part of the string that are not matched by the expression.</p>
+<p>For instance, the following code defines an ignore to preserve inline code blocks in Markdown:</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">ignore(&apos;codeInline&apos;, /(`{1,2}).*?\1/),</code>
+</code></pre>
+</li>
+</ul>
+<p>Both functions take an <code>expression</code> parameter that can be either a <code>RegExp</code> or a <code>String</code>. It&apos;ll be used to create a regular expression (so take care of escaping backslashes when passing a string).</p>
+<p>When passing a regular expression, the <code>global</code> flag will be automatically defined for the regexes used to scan a string. The <code>multiline</code> or <code>ignoreCase</code> can be freely defined, they will be preserved in the regexes created in the rule&apos;s methods.</p>
+<h3 id="groups">Groups</h3>
+<p>Rules and ignores can be organized using the last exposed function: <code>group</code>. This function takes a name and an array of rules and returns a new array. Every rules in the new array will have a name such as <code>groupName.originalRuleName</code>.</p>
+<p>Groups can be be nested, so the following is possible:</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">import {group, rule} from &apos;typography-fixer&apos;
+
+// The resulting array will contains one rule with the
+// name topGroup.nestedGroup.theRule
+export default group(&apos;topGroup&apos;, [
+  group(&apos;nestedGroup&apos;, [
+    rule(&apos;theRule&apos;, /foo/, &apos;bar&apos;)
+  ])
+])</code>
+</code></pre>
+<p>The result is always a flat array so that we can apply every array operations on a ruleset without having to care about nesting. For instance, excluding rules is as simple as running a filter on the array.</p>
+</div>
+</div>
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.3)</span></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

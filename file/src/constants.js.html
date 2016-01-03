@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">src/constants.js | API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+<link data-ice="userStyle" rel="stylesheet" href="user/css/0-styles.css">
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  <a href="./manual/index.html" data-ice="manualHeaderLink">Manual</a>
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <a data-ice="repoURL" href="git://github.com/abe33/typography-fixer.git">Repository</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-check">check</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-fix">fix</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-group">group</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-ignore">ignore</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-rule">rule</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules/fr-FR</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ruleset">ruleset</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/constants.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">
+export const currencies = {
+  &apos;&#xA4;&apos;: &apos;&#xA4;&apos;,
+  &apos;&#xA5;&apos;: &apos;&#xA5;&apos;,
+  &apos;&#xA3;&apos;: &apos;&#xA3;&apos;,
+  &apos;$&apos;: &apos;\\$&apos;,
+  &apos;\u20a0&apos;: &apos;\u20a0&apos;,
+  &apos;\u20a1&apos;: &apos;\u20a1&apos;,
+  &apos;\u20a2&apos;: &apos;\u20a2&apos;,
+  &apos;\u20a3&apos;: &apos;\u20a3&apos;,
+  &apos;\u20a4&apos;: &apos;\u20a4&apos;,
+  &apos;\u20a5&apos;: &apos;\u20a5&apos;,
+  &apos;\u20a6&apos;: &apos;\u20a6&apos;,
+  &apos;\u20a7&apos;: &apos;\u20a7&apos;,
+  &apos;\u20a8&apos;: &apos;\u20a8&apos;,
+  &apos;\u20a9&apos;: &apos;\u20a9&apos;,
+  &apos;\u20aa&apos;: &apos;\u20aa&apos;,
+  &apos;\u20ab&apos;: &apos;\u20ab&apos;,
+  &apos;\u20ac&apos;: &apos;\u20ac&apos;,
+  &apos;\u20ad&apos;: &apos;\u20ad&apos;,
+  &apos;\u20ae&apos;: &apos;\u20ae&apos;,
+  &apos;\u20af&apos;: &apos;\u20af&apos;,
+  &apos;\u20b0&apos;: &apos;\u20b0&apos;,
+  &apos;\u20b1&apos;: &apos;\u20b1&apos;,
+  &apos;\u20b2&apos;: &apos;\u20b2&apos;,
+  &apos;\u20b3&apos;: &apos;\u20b3&apos;,
+  &apos;\u20b4&apos;: &apos;\u20b4&apos;,
+  &apos;\u20b5&apos;: &apos;\u20b5&apos;,
+  &apos;\u20b6&apos;: &apos;\u20b6&apos;,
+  &apos;\u20b7&apos;: &apos;\u20b7&apos;,
+  &apos;\u20b8&apos;: &apos;\u20b8&apos;,
+  &apos;\u20b9&apos;: &apos;\u20b9&apos;,
+  &apos;\u20ba&apos;: &apos;\u20ba&apos;,
+  &apos;\u20bb&apos;: &apos;\u20bb&apos;,
+  &apos;\u20bc&apos;: &apos;\u20bc&apos;,
+  &apos;\u20bd&apos;: &apos;\u20bd&apos;,
+  &apos;\u20be&apos;: &apos;\u20be&apos;
+}
+
+export const currenciesRegExp = Object.keys(currencies).map((c) =&gt; {
+  return currencies[c]
+}).join(&apos;&apos;)
+
+export const fractions = [
+  [1, 4, &apos;\u00bc&apos;],
+  [1, 2, &apos;\u00bd&apos;],
+  [3, 4, &apos;\u00be&apos;],
+  [1, 7, &apos;\u2150&apos;],
+  [1, 9, &apos;\u2151&apos;],
+  [1, 10, &apos;\u2152&apos;],
+  [1, 3, &apos;\u2153&apos;],
+  [2, 3, &apos;\u2154&apos;],
+  [1, 5, &apos;\u2155&apos;],
+  [2, 5, &apos;\u2156&apos;],
+  [3, 5, &apos;\u2157&apos;],
+  [4, 5, &apos;\u2158&apos;],
+  [1, 6, &apos;\u2159&apos;],
+  [5, 6, &apos;\u215a&apos;],
+  [1, 8, &apos;\u215b&apos;],
+  [3, 8, &apos;\u215c&apos;],
+  [5, 8, &apos;\u215d&apos;],
+  [7, 8, &apos;\u215e&apos;],
+  [0, 3, &apos;\u2189&apos;]
+]
+
+export const unitScales = [
+  &apos;y&apos;,
+  &apos;z&apos;,
+  &apos;a&apos;,
+  &apos;f&apos;,
+  &apos;p&apos;,
+  &apos;n&apos;,
+  &apos;&#xB5;&apos;,
+  &apos;m&apos;,
+  &apos;c&apos;,
+  &apos;d&apos;,
+  &apos;&apos;,
+  &apos;da&apos;,
+  &apos;h&apos;,
+  &apos;k&apos;,
+  &apos;M&apos;,
+  &apos;G&apos;,
+  &apos;T&apos;,
+  &apos;P&apos;,
+  &apos;E&apos;,
+  &apos;Z&apos;,
+  &apos;Y&apos;
+]
+
+export const scalableUnits = [
+  &apos;m&apos;,
+  &apos;m&#xB2;&apos;,
+  &apos;m&#xB3;&apos;,
+  &apos;g&apos;,
+  &apos;s&apos;,
+  &apos;l&apos;,
+  &apos;L&apos;,
+  &apos;B&apos;,
+  &apos;K&apos;,
+  &apos;W&apos;,
+  &apos;V&apos;,
+  &apos;Hz&apos;,
+  &apos;&#x3A9;&apos;,
+  &apos;A&apos;,
+  &apos;mol&apos;,
+  &apos;cd&apos;
+]
+
+export const surfaceUnits = [
+  &apos;mile&apos;,
+  &apos;in&apos;,
+  &apos;yd&apos;,
+  &apos;ft&apos;,
+  &apos;m&apos;
+]
+
+export const volumeUnits = [
+  &apos;in&apos;,
+  &apos;yd&apos;,
+  &apos;ft&apos;,
+  &apos;m&apos;
+]
+
+export const otherUnits = [
+  // temperatures
+  &apos;&#xB0;C&apos;,
+  &apos;&#xB0;F&apos;,
+  &apos;&#xB0;R&#xE9;&apos;,
+  &apos;&#xB0;N&apos;,
+  &apos;&#xB0;Ra&apos;,
+  // distances
+  &apos;mi&apos;,
+  &apos;in&apos;,
+  &apos;ft&apos;,
+  &apos;yd&apos;,
+  &apos;nautical mile&apos;,
+  // speed
+  &apos;kmph&apos;,
+  &apos;km/h&apos;,
+  &apos;mps&apos;,
+  &apos;m/s&apos;,
+  &apos;mph&apos;,
+  &apos;mi/h&apos;,
+  &apos;knot&apos;,
+  &apos;nautical mile/h&apos;,
+  &apos;ma&apos;,
+  // surfaces
+  &apos;ha&apos;,
+  &apos;a&apos;,
+  &apos;ca&apos;,
+  &apos;mile&#xB2;&apos;,
+  &apos;in&#xB2;&apos;,
+  &apos;yd&#xB2;&apos;,
+  &apos;ft&#xB2;&apos;,
+  &apos;ro&apos;,
+  &apos;acre&apos;,
+  &apos;nautical mile&#xB2;&apos;,
+  // volumes
+  &apos;in&#xB3;&apos;,
+  &apos;ft&#xB3;&apos;,
+  &apos;yd&#xB3;&apos;,
+  &apos;gal&apos;,
+  &apos;bbl&apos;,
+  &apos;pt&apos;,
+  &apos;fluid pt&apos;,
+  &apos;dry pt&apos;,
+  // weight
+  &apos;t&apos;,
+  &apos;carat&apos;,
+  &apos;grain&apos;,
+  &apos;oz&apos;,
+  &apos;lb&apos;,
+  &apos;cwt&apos;,
+  &apos;ton&apos;,
+  &apos;st&apos;,
+  // data
+  &apos;b&apos;,
+  // time
+  &apos;h&apos;,
+  &apos;min&apos;,
+  // electric
+  &apos;dBm&apos;,
+  &apos;dBW&apos;,
+  &apos;var&apos;,
+  &apos;VA&apos;,
+  &apos;F&apos;,
+  &apos;H&apos;,
+  &apos;S&apos;,
+  &apos;C&apos;,
+  &apos;Ah&apos;,
+  &apos;J&apos;,
+  &apos;kWh&apos;,
+  &apos;eV&apos;,
+  &apos;&#x3A9;&#x2219;m&apos;,
+  &apos;S/m&apos;,
+  &apos;V/m&apos;,
+  &apos;N/C&apos;,
+  &apos;V&#xB7;m&apos;,
+  &apos;T&apos;,
+  &apos;G&apos;,
+  &apos;Wb&apos;,
+  &apos;dB&apos;,
+  &apos;ppm&apos;
+]
+
+function combine (a, b) {
+  return a
+  .map((u) =&gt; { return b.map((s) =&gt; { return `${s}${u}` }) })
+  .reduce((memo, el) =&gt; { return memo.concat(el) }, [])
+}
+
+export const units = otherUnits.concat(combine(scalableUnits, unitScales))
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.3)</span></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

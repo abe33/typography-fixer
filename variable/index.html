@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../">
+  <title data-ice="title">Variable | API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+<link data-ice="userStyle" rel="stylesheet" href="user/css/0-styles.css">
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  <a href="./manual/index.html" data-ice="manualHeaderLink">Manual</a>
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <a data-ice="repoURL" href="git://github.com/abe33/typography-fixer.git">Repository</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-check">check</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-fix">fix</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-group">group</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-ignore">ignore</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-rule">rule</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules/fr-FR</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ruleset">ruleset</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">Variable</h1>
+<div data-ice="summaries"><table class="summary" data-ice="summary">
+  <thead><tr><td data-ice="title" colspan="3">Static Public Summary</td></tr></thead>
+  <tbody>
+  
+  <tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+           <span data-ice="name"><span><a href="variable/index.html#static-variable-ruleset">ruleset</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>The ruleset for french typography.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+</tbody>
+</table>
+</div>
+<div data-ice="details"><h2 data-ice="title">Static Public </h2>
+
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="static-variable-ruleset">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    <span data-ice="name">ruleset</span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/rules/fr-FR/index.js.html#lineNumber54">source</a></span></span>
+    </span>
+  </h3>
+
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import ruleset from &apos;<span><a href="file/src/rules/fr-FR/index.js.html#lineNumber54">typography-fixer/src/rules/fr-FR/index.js</a></span>&apos;</code></pre></div>
+  
+  
+  <div data-ice="description"><p>The ruleset for french typography.</p>
+<p>This ruleset is based on typographic rules from the Imprimerie Nationale
+used for all publishing works in France.</p>
+<p>Some rules can&apos;t possibly be implemented so they&apos;re simply ignored. It&apos;s the
+case for numbers below ten which should always be written in full text and
+not with digits. Because there&apos;s an inflection of the word <code>un</code> according
+to the gender of its noun when used as a determinant and given that there&apos;s
+over 100 000 common nouns in french, with so many exceptions that the
+gender can&apos;t be guessed from the spelling, implementing this rule would
+mean integrating a complete french dictionary and a syntactic engine. No need
+to say this is clearly out of the scope of this package.</p>
+<p>However a lot of rules can be and are implemented in this ruleset.
+It includes:</p>
+<ul>
+<li>Replacing consecutive <code>!</code> or <code>?</code> characters by a single one</li>
+<li>Replacing ellipsis after <code>etc</code> by a period</li>
+<li>Replacing three consecutive periods by an ellipsis character</li>
+<li>Replacing <code>Mr</code> by <code>M.</code> (<code>Mr</code> is the english abbreviation for mister, french
+uses <code>M.</code>)</li>
+<li>Replacing possessive interrogative <code>a-t&apos;il</code> with <code>a-t-il</code></li>
+<li>Properly formatting <code>c.-&#xE0;-d.</code> abbreviation</li>
+<li>Using a superscript <code>o</code> instead of <code>&#xB0;</code> for <code>num&#xE9;ro</code> abbreviation</li>
+<li>Replacing hyphen between numbers such as in <code>1939-1945</code> by an en dash</li>
+<li>Replacing hyphen between words such as in <code>Pierre &#x2013; tu le connais, hein ? &#x2013;
+est professeur de yoga</code> by an en dash</li>
+<li>Replacing single quote in <code>L&apos;arbre</code> with a typographic one (<code>&#x2019;</code>)</li>
+<li>Replacing double quotes around a sentence with <code>&#xAB;</code> and <code>&#xBB;</code></li>
+<li>Collapsing multiple spaces into a single one</li>
+<li>Removing spaces before <code>,</code>, <code>.</code>, <code>)</code>, <code>&#x2026;</code> and <code>&#x2019;</code></li>
+<li>Removing spaces after <code>&#x2019;</code> and <code>(</code></li>
+<li>Removing spaces around an en dash placed between two numbers</li>
+<li>Adding spaces around an en dash placed between two words</li>
+<li>Adding a space before <code>(</code></li>
+<li>Adding a non-breaking space between a number and a currency symbol</li>
+<li>Adding a non-breaking space after <code>&#xAB;</code> and before <code>&#xBB;</code></li>
+<li>Adding a non-breaking space between an honorific and a name</li>
+<li>Adding a thin non-breaking space before <code>?</code>, <code>!</code>, <code>;</code>, <code>%</code>, <code>&#x2030;</code>, <code>&#x2031;</code>, and
+<code>:</code></li>
+<li>Adding a space after <code>,</code>, <code>.</code>, <code>?</code>, <code>!</code>, <code>;</code>, <code>%</code>, <code>&#x2030;</code>, <code>&#x2031;</code>, <code>)</code>, and <code>:</code></li>
+</ul>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <div data-ice="see"><h4>See:</h4><ul><li><span><a href="http://j.poitou.free.fr/pro/html/typ/typ-intro.html">http://j.poitou.free.fr/pro/html/typ/typ-intro.html</a></span></li>
+<li><span><a href="http://gargas.biomedicale.univ-paris5.fr/lt/typo.html">http://gargas.biomedicale.univ-paris5.fr/lt/typo.html</a></span></li></ul></div>
+  
+</div>
+</div>
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.3)</span></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

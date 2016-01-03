@@ -1,0 +1,2136 @@
+[
+  {
+    "__docId__": 0,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/constants.js",
+    "memberof": null,
+    "longname": "src/constants.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 2,
+    "content": "\nexport const currencies = {\n  '¤': '¤',\n  '¥': '¥',\n  '£': '£',\n  '$': '\\\\$',\n  '\\u20a0': '\\u20a0',\n  '\\u20a1': '\\u20a1',\n  '\\u20a2': '\\u20a2',\n  '\\u20a3': '\\u20a3',\n  '\\u20a4': '\\u20a4',\n  '\\u20a5': '\\u20a5',\n  '\\u20a6': '\\u20a6',\n  '\\u20a7': '\\u20a7',\n  '\\u20a8': '\\u20a8',\n  '\\u20a9': '\\u20a9',\n  '\\u20aa': '\\u20aa',\n  '\\u20ab': '\\u20ab',\n  '\\u20ac': '\\u20ac',\n  '\\u20ad': '\\u20ad',\n  '\\u20ae': '\\u20ae',\n  '\\u20af': '\\u20af',\n  '\\u20b0': '\\u20b0',\n  '\\u20b1': '\\u20b1',\n  '\\u20b2': '\\u20b2',\n  '\\u20b3': '\\u20b3',\n  '\\u20b4': '\\u20b4',\n  '\\u20b5': '\\u20b5',\n  '\\u20b6': '\\u20b6',\n  '\\u20b7': '\\u20b7',\n  '\\u20b8': '\\u20b8',\n  '\\u20b9': '\\u20b9',\n  '\\u20ba': '\\u20ba',\n  '\\u20bb': '\\u20bb',\n  '\\u20bc': '\\u20bc',\n  '\\u20bd': '\\u20bd',\n  '\\u20be': '\\u20be'\n}\n\nexport const currenciesRegExp = Object.keys(currencies).map((c) => {\n  return currencies[c]\n}).join('')\n\nexport const fractions = [\n  [1, 4, '\\u00bc'],\n  [1, 2, '\\u00bd'],\n  [3, 4, '\\u00be'],\n  [1, 7, '\\u2150'],\n  [1, 9, '\\u2151'],\n  [1, 10, '\\u2152'],\n  [1, 3, '\\u2153'],\n  [2, 3, '\\u2154'],\n  [1, 5, '\\u2155'],\n  [2, 5, '\\u2156'],\n  [3, 5, '\\u2157'],\n  [4, 5, '\\u2158'],\n  [1, 6, '\\u2159'],\n  [5, 6, '\\u215a'],\n  [1, 8, '\\u215b'],\n  [3, 8, '\\u215c'],\n  [5, 8, '\\u215d'],\n  [7, 8, '\\u215e'],\n  [0, 3, '\\u2189']\n]\n\nexport const unitScales = [\n  'y',\n  'z',\n  'a',\n  'f',\n  'p',\n  'n',\n  'µ',\n  'm',\n  'c',\n  'd',\n  '',\n  'da',\n  'h',\n  'k',\n  'M',\n  'G',\n  'T',\n  'P',\n  'E',\n  'Z',\n  'Y'\n]\n\nexport const scalableUnits = [\n  'm',\n  'm²',\n  'm³',\n  'g',\n  's',\n  'l',\n  'L',\n  'B',\n  'K',\n  'W',\n  'V',\n  'Hz',\n  'Ω',\n  'A',\n  'mol',\n  'cd'\n]\n\nexport const surfaceUnits = [\n  'mile',\n  'in',\n  'yd',\n  'ft',\n  'm'\n]\n\nexport const volumeUnits = [\n  'in',\n  'yd',\n  'ft',\n  'm'\n]\n\nexport const otherUnits = [\n  // temperatures\n  '°C',\n  '°F',\n  '°Ré',\n  '°N',\n  '°Ra',\n  // distances\n  'mi',\n  'in',\n  'ft',\n  'yd',\n  'nautical mile',\n  // speed\n  'kmph',\n  'km/h',\n  'mps',\n  'm/s',\n  'mph',\n  'mi/h',\n  'knot',\n  'nautical mile/h',\n  'ma',\n  // surfaces\n  'ha',\n  'a',\n  'ca',\n  'mile²',\n  'in²',\n  'yd²',\n  'ft²',\n  'ro',\n  'acre',\n  'nautical mile²',\n  // volumes\n  'in³',\n  'ft³',\n  'yd³',\n  'gal',\n  'bbl',\n  'pt',\n  'fluid pt',\n  'dry pt',\n  // weight\n  't',\n  'carat',\n  'grain',\n  'oz',\n  'lb',\n  'cwt',\n  'ton',\n  'st',\n  // data\n  'b',\n  // time\n  'h',\n  'min',\n  // electric\n  'dBm',\n  'dBW',\n  'var',\n  'VA',\n  'F',\n  'H',\n  'S',\n  'C',\n  'Ah',\n  'J',\n  'kWh',\n  'eV',\n  'Ω∙m',\n  'S/m',\n  'V/m',\n  'N/C',\n  'V·m',\n  'T',\n  'G',\n  'Wb',\n  'dB',\n  'ppm'\n]\n\nfunction combine (a, b) {\n  return a\n  .map((u) => { return b.map((s) => { return `${s}${u}` }) })\n  .reduce((memo, el) => { return memo.concat(el) }, [])\n}\n\nexport const units = otherUnits.concat(combine(scalableUnits, unitScales))\n"
+  },
+  {
+    "__docId__": 1,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "currencies",
+    "memberof": "src/constants.js",
+    "longname": "src/constants.js~currencies",
+    "access": null,
+    "export": true,
+    "importPath": "typography-fixer/src/constants.js",
+    "importStyle": "{currencies}",
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 2,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "currenciesRegExp",
+    "memberof": "src/constants.js",
+    "longname": "src/constants.js~currenciesRegExp",
+    "access": null,
+    "export": true,
+    "importPath": "typography-fixer/src/constants.js",
+    "importStyle": "{currenciesRegExp}",
+    "description": null,
+    "lineNumber": 40,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 3,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "fractions",
+    "memberof": "src/constants.js",
+    "longname": "src/constants.js~fractions",
+    "access": null,
+    "export": true,
+    "importPath": "typography-fixer/src/constants.js",
+    "importStyle": "{fractions}",
+    "description": null,
+    "lineNumber": 44,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 4,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "unitScales",
+    "memberof": "src/constants.js",
+    "longname": "src/constants.js~unitScales",
+    "access": null,
+    "export": true,
+    "importPath": "typography-fixer/src/constants.js",
+    "importStyle": "{unitScales}",
+    "description": null,
+    "lineNumber": 66,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 5,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "scalableUnits",
+    "memberof": "src/constants.js",
+    "longname": "src/constants.js~scalableUnits",
+    "access": null,
+    "export": true,
+    "importPath": "typography-fixer/src/constants.js",
+    "importStyle": "{scalableUnits}",
+    "description": null,
+    "lineNumber": 90,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 6,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "surfaceUnits",
+    "memberof": "src/constants.js",
+    "longname": "src/constants.js~surfaceUnits",
+    "access": null,
+    "export": true,
+    "importPath": "typography-fixer/src/constants.js",
+    "importStyle": "{surfaceUnits}",
+    "description": null,
+    "lineNumber": 109,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 7,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "volumeUnits",
+    "memberof": "src/constants.js",
+    "longname": "src/constants.js~volumeUnits",
+    "access": null,
+    "export": true,
+    "importPath": "typography-fixer/src/constants.js",
+    "importStyle": "{volumeUnits}",
+    "description": null,
+    "lineNumber": 117,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 8,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "otherUnits",
+    "memberof": "src/constants.js",
+    "longname": "src/constants.js~otherUnits",
+    "access": null,
+    "export": true,
+    "importPath": "typography-fixer/src/constants.js",
+    "importStyle": "{otherUnits}",
+    "description": null,
+    "lineNumber": 124,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 9,
+    "kind": "function",
+    "static": true,
+    "variation": null,
+    "name": "combine",
+    "memberof": "src/constants.js",
+    "longname": "src/constants.js~combine",
+    "access": null,
+    "export": false,
+    "importPath": "typography-fixer/src/constants.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 206,
+    "undocument": true,
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "b",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 10,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "units",
+    "memberof": "src/constants.js",
+    "longname": "src/constants.js~units",
+    "access": null,
+    "export": true,
+    "importPath": "typography-fixer/src/constants.js",
+    "importStyle": "{units}",
+    "description": null,
+    "lineNumber": 212,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 11,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/ignores/html.js",
+    "memberof": null,
+    "longname": "src/ignores/html.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "import {ignore, group} from '../typography-fixer'\n\nlet ignoreset\n\nexport default ignoreset = createIgnoreset()\n\nfunction createIgnoreset () {\n  return group('html', [\n    ignore('tag', /<[^>]+>/),\n    ignore('plainTextTagContent', /<(pre|kbd|code|style|script|textarea)[^>]*>.*?<\\/\\1>/)\n  ])\n}\n"
+  },
+  {
+    "__docId__": 12,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "ignoreset",
+    "memberof": "src/ignores/html.js",
+    "longname": "src/ignores/html.js~ignoreset",
+    "access": null,
+    "export": true,
+    "importPath": "typography-fixer/src/ignores/html.js",
+    "importStyle": "ignoreset",
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true
+  },
+  {
+    "__docId__": 13,
+    "kind": "function",
+    "static": true,
+    "variation": null,
+    "name": "createIgnoreset",
+    "memberof": "src/ignores/html.js",
+    "longname": "src/ignores/html.js~createIgnoreset",
+    "access": null,
+    "export": false,
+    "importPath": "typography-fixer/src/ignores/html.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 7,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 14,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/ignores/markdown.js",
+    "memberof": null,
+    "longname": "src/ignores/markdown.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "import {ignore, group} from '../typography-fixer'\n\nlet ignoreset\n\nexport default ignoreset = createIgnoreset()\n\nfunction createIgnoreset () {\n  return group('markdown', [\n    ignore('imageAndLinkStart', /!?\\[/),\n    ignore('imageAndLinkEnd', /\\]\\([^\\)]+\\)/),\n    ignore('imageAndLinkWithExternalDefinitionEnd', /\\]\\s*\\[[^\\]]*\\]/),\n    ignore('linkDefinition', /\\[[^\\]]+\\]:.*$/m),\n    ignore('codeBlock', /(```)(.|\\n)*?\\1/),\n    ignore('preformattedBlock', /^\\x20{4}.*$/m),\n    ignore('codeInline', /(`{1,2}).*?\\1/),\n    ignore('url', /\\b((?:[a-zA-Z][\\w-]+:(?:\\/{1,3}|[a-zA-Z0-9%])|www\\d{0,3}[.]|[a-zA-Z0-9.\\-]+[.][a-zA-Z]{2,4}\\/)(?:[^\\s()<>]+|\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\))+(?:\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\)|[^\\s`!()\\[\\]{};:'\".,<>?«»“”‘’]))/)\n  ])\n}\n"
+  },
+  {
+    "__docId__": 15,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "ignoreset",
+    "memberof": "src/ignores/markdown.js",
+    "longname": "src/ignores/markdown.js~ignoreset",
+    "access": null,
+    "export": true,
+    "importPath": "typography-fixer/src/ignores/markdown.js",
+    "importStyle": "ignoreset",
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true
+  },
+  {
+    "__docId__": 16,
+    "kind": "function",
+    "static": true,
+    "variation": null,
+    "name": "createIgnoreset",
+    "memberof": "src/ignores/markdown.js",
+    "longname": "src/ignores/markdown.js~createIgnoreset",
+    "access": null,
+    "export": false,
+    "importPath": "typography-fixer/src/ignores/markdown.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 7,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 17,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/rules/en-UK/index.js",
+    "memberof": null,
+    "longname": "src/rules/en-UK/index.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "import {rule, group} from '../../typography-fixer'\nimport {currenciesRegExp} from '../../constants'\n\nlet ruleset\n\nexport default ruleset = createRuleset()\n\nfunction createRuleset () {\n  return group('en-UK', [\n    group('punctuations', [\n      rule('collapseMultiplePunctuation', /([!?])\\1+/, '$1'),\n      rule('shortEtCaetera', /([Ee]tc)(\\.{3}|\\u2026)/, '$1.'),\n      rule('triplePeriods', /\\.{3,}/, '\\u2026'),\n      rule('enDashBetweenWords', /(\\D\\x20)-(\\x20\\D)/, '$1\\u2013$2'),\n      rule('enDashBetweenNumbers', /(\\d)\\s*-\\s*(\\d)/, '$1\\u2013$2')\n    ]),\n    group('quotes', [\n      rule('singlePrime', /(\\d)'/, '$1\\u2032'),\n      rule('doublePrime', /(\\d)\"/, '$1\\u2033'),\n      rule('singleQuote', /(\\w)'(\\w)/, '$1\\u2019$2'),\n      rule('doubleQuote', /\"([^\"]+)\"/, '\\u201c$1\\u201d'),\n      rule('punctuationAfterQuote', /(\\u201d)(\\.|,)/, '$2$1')\n    ]),\n    group('spaces', [\n      rule('collapseMultipleSpaces', /\\x20{2,}/, ' '),\n      rule('noSpaceBeforePunctuation', /\\s+(\\.|,|;|:|!|\\?|%|\\)|\\u2019|\\u2026|\\u2030|\\u2031)/, '$1'),\n      rule('noSpaceAfterPunctuation', /(\\u2019|\\()\\s+/, '$1'),\n      rule('noSpaceAroundEnDashBetweenNumbers', /(\\d)\\s*\\u2013\\s*(\\d)/, '$1\\u2013$2'),\n      rule('spaceAfterPunctuation', /(,|;|!|\\?|%|\\u2026|\\u2030|\\u2031)([^\\s\\)])/, '$1 $2'),\n      rule('spaceAfterPeriodOrColon', /(\\D)(\\.|:)([^\\s\\)])/, '$1$2 $3'),\n      rule('noSpaceAroundEmDash', /\\s*(\\u2014)\\s*/, '$1'),\n      rule('spaceAroundEnDash', /([^\\d\\s])\\x20*(\\u2013)\\x20*(\\D)/, '$1\\u00a0$2 $3'),\n      rule('noSpaceAfterLeftQuote', /(\\u201c)\\s*(\\S)/, '$1$2'),\n      rule('noSpaceBeforeRightQuote', /(\\S)\\s*(\\u201d)/, '$1$2'),\n      rule('spaceAfterParenthesis', /(\\))(\\w)/, '$1 $2'),\n      rule('spaceBeforeParenthesis', /(\\S)(\\()/, '$1 $2'),\n      rule('nonBreakingSpaceAfterHonorific', /(Mr|Mrs|Ms|Miss|Sir|Lady)\\s([A-Z])/, '$1\\u00a0$2'),\n      rule('noSpaceAfterCurrency', `([${currenciesRegExp}])\\\\s*(\\\\d)`, '$1$2')\n    ])\n  ])\n}\n"
+  },
+  {
+    "__docId__": 18,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "ruleset",
+    "memberof": "src/rules/en-UK/index.js",
+    "longname": "src/rules/en-UK/index.js~ruleset",
+    "access": null,
+    "export": true,
+    "importPath": "typography-fixer/src/rules/en-UK/index.js",
+    "importStyle": "ruleset",
+    "description": null,
+    "lineNumber": 6,
+    "undocument": true
+  },
+  {
+    "__docId__": 19,
+    "kind": "function",
+    "static": true,
+    "variation": null,
+    "name": "createRuleset",
+    "memberof": "src/rules/en-UK/index.js",
+    "longname": "src/rules/en-UK/index.js~createRuleset",
+    "access": null,
+    "export": false,
+    "importPath": "typography-fixer/src/rules/en-UK/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 8,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 20,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/rules/es-ES/index.js",
+    "memberof": null,
+    "longname": "src/rules/es-ES/index.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "import {rule, group} from '../../typography-fixer'\nimport {currenciesRegExp} from '../../constants'\n\nlet ruleset\n\nexport default ruleset = createRuleset()\n\nfunction createRuleset () {\n  return group('es-ES', [\n    group('quotes', [\n      rule('singleQuote', /(\\w)'(\\w)/, '$1\\u2019$2'),\n      rule('doubleQuote', /\"([^\"]+)\"/, '\\u00ab$1\\u00bb')\n    ]),\n    group('spaces', [\n      rule('nonBreakingSpaceBeforePunctuation', /(\\S)(?:\\x20)?([?!])/, '$1\\u202F$2'),\n      rule('nonBreakingSpaceAfterPunctuation', /([¿¡])\\x20*(\\S)/, '$1\\u202F$2'),\n      rule('noSpaceBeforePunctuation', /\\s+(\\.|,|;|:|%|\\)|\\u2019|\\u2026|\\u2030|\\u2031)/, '$1'),\n      rule('noSpaceAfterPunctuation', /(\\u2019|\\()\\s+/, '$1'),\n      rule('noSpaceAroundEnDashBetweenNumbers', /(\\d)\\s*\\u2013\\s*(\\d)/, '$1\\u2013$2'),\n      rule('spaceAroundEnDash', /([^\\d\\s])\\x20*(\\u2013)\\x20*(\\D)/, '$1\\u00a0$2 $3'),\n      rule('spaceAfterPunctuation', /(\\.|;|!|\\?|%|\\u2026|\\u2030|\\u2031)([^\\s\\)])/, '$1 $2'),\n      rule('spaceAfterColon', /(\\D\\s?)(:)([^\\s\\)])/, '$1$2 $3'),\n      rule('spaceAfterComma', /(\\D)(,)([^\\s\\)])/, '$1$2 $3'),\n      rule('spaceAfterLeftQuote', /(\\u00ab)\\x20*(\\S)/, '$1\\u202F$2'),\n      rule('spaceBeforeRightQuote', /(\\S)\\x20*(\\u00bb)/, '$1\\u202F$2'),\n      rule('spaceAfterParenthesis', /(\\))(\\w)/, '$1 $2'),\n      rule('spaceBeforeParenthesis', /(\\S)(\\()/, '$1 $2'),\n      rule('spaceBeforeCurrency', `(\\\\d)\\x20?([${currenciesRegExp}])`, '$1\\u00a0$2'),\n    ])\n  ])\n\n}\n"
+  },
+  {
+    "__docId__": 21,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "ruleset",
+    "memberof": "src/rules/es-ES/index.js",
+    "longname": "src/rules/es-ES/index.js~ruleset",
+    "access": null,
+    "export": true,
+    "importPath": "typography-fixer/src/rules/es-ES/index.js",
+    "importStyle": "ruleset",
+    "description": null,
+    "lineNumber": 6,
+    "undocument": true
+  },
+  {
+    "__docId__": 22,
+    "kind": "function",
+    "static": true,
+    "variation": null,
+    "name": "createRuleset",
+    "memberof": "src/rules/es-ES/index.js",
+    "longname": "src/rules/es-ES/index.js~createRuleset",
+    "access": null,
+    "export": false,
+    "importPath": "typography-fixer/src/rules/es-ES/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 8,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 23,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/rules/fr-FR/html.js",
+    "memberof": null,
+    "longname": "src/rules/fr-FR/html.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "import {rule, group} from '../../typography-fixer'\n\nlet ruleset\n\nexport default ruleset = createRuleset()\n\nfunction createRuleset () {\n  return group('fr-FR.html', [\n    rule('abbrWithSuperText', /Mmes|Mme|Mlles|Mlle|Me|Mgr|Dr|cie|Cie|Sté/, (m) => {\n      return `${m[0]}<sup>${m.slice(1, m.length)}</sup>`\n    }),\n    rule('ordinalNumbers', /(\\d)(res|re|es|e|èmes)/, '$1<sup class=\"ord\">$2</sup>'),\n    rule('quotes', /(\\u00ab|\\u00bb)/, '<span class=\"dquo\">$1</span>'),\n    rule('ampersand', /(&amp;|&)($|\\s)/, '<span class=\"amp\">$1</span>$2'),\n    rule('caps', /(([A-Z]\\.?){2,})/, '<span class=\"caps\">$1</span>')\n  ])\n}\n"
+  },
+  {
+    "__docId__": 24,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "ruleset",
+    "memberof": "src/rules/fr-FR/html.js",
+    "longname": "src/rules/fr-FR/html.js~ruleset",
+    "access": null,
+    "export": true,
+    "importPath": "typography-fixer/src/rules/fr-FR/html.js",
+    "importStyle": "ruleset",
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true
+  },
+  {
+    "__docId__": 25,
+    "kind": "function",
+    "static": true,
+    "variation": null,
+    "name": "createRuleset",
+    "memberof": "src/rules/fr-FR/html.js",
+    "longname": "src/rules/fr-FR/html.js~createRuleset",
+    "access": null,
+    "export": false,
+    "importPath": "typography-fixer/src/rules/fr-FR/html.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 7,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 26,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/rules/fr-FR/index.js",
+    "memberof": null,
+    "longname": "src/rules/fr-FR/index.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "import {rule, group} from '../../typography-fixer'\nimport {currenciesRegExp} from '../../constants'\n\nlet ruleset\n\n/**\n * The ruleset for french typography.\n *\n * This ruleset is based on typographic rules from the Imprimerie Nationale\n * used for all publishing works in France.\n *\n * Some rules can't possibly be implemented so they're simply ignored. It's the\n * case for numbers below ten which should always be written in full text and\n * not with digits. Because there's an inflection of the word `un` according\n * to the gender of its noun when used as a determinant and given that there's\n * over 100 000 common nouns in french, with so many exceptions that the\n * gender can't be guessed from the spelling, implementing this rule would\n * mean integrating a complete french dictionary and a syntactic engine. No need\n * to say this is clearly out of the scope of this package.\n *\n * However a lot of rules can be and are implemented in this ruleset.\n * It includes:\n *\n * - Replacing consecutive `!` or `?` characters by a single one\n * - Replacing ellipsis after `etc` by a period\n * - Replacing three consecutive periods by an ellipsis character\n * - Replacing `Mr` by `M.` (`Mr` is the english abbreviation for mister, french\n *   uses `M.`)\n * - Replacing possessive interrogative `a-t'il` with `a-t-il`\n * - Properly formatting `c.-à-d.` abbreviation\n * - Using a superscript `o` instead of `°` for `numéro` abbreviation\n * - Replacing hyphen between numbers such as in `1939-1945` by an en dash\n * - Replacing hyphen between words such as in `Pierre – tu le connais, hein ? –\n *   est professeur de yoga` by an en dash\n * - Replacing single quote in `L'arbre` with a typographic one (`’`)\n * - Replacing double quotes around a sentence with `«` and `»`\n * - Collapsing multiple spaces into a single one\n * - Removing spaces before `,`, `.`, `)`, `…` and `’`\n * - Removing spaces after `’` and `(`\n * - Removing spaces around an en dash placed between two numbers\n * - Adding spaces around an en dash placed between two words\n * - Adding a space before `(`\n * - Adding a non-breaking space between a number and a currency symbol\n * - Adding a non-breaking space after `«` and before `»`\n * - Adding a non-breaking space between an honorific and a name\n * - Adding a thin non-breaking space before `?`, `!`, `;`, `%`, `‰`, `‱`, and\n *   `:`\n * - Adding a space after `,`, `.`, `?`, `!`, `;`, `%`, `‰`, `‱`, `)`, and `:`\n *\n * @see http://j.poitou.free.fr/pro/html/typ/typ-intro.html\n * @see http://gargas.biomedicale.univ-paris5.fr/lt/typo.html\n * @type {Array}\n */\nexport default ruleset = createRuleset()\n\nfunction createRuleset () {\n  return group('fr-FR', [\n    group('punctuations', [\n      rule('collapseMultiplePunctuation', /([!?])\\1+/, '$1'),\n      rule('shortEtCaetera', /([Ee]tc)(\\.{3}|\\u2026)/, '$1.'),\n      rule('triplePeriods', /\\.{3,}/, '\\u2026'),\n      rule('maleHonorific', /Mr\\.?/, 'M.'),\n      rule('possessiveInterrogative', /a-t'il/, 'a-t-il'),\n      rule('cad', /c\\.?-?[aà]-?d\\.?/, 'c.-à-d.'),\n      rule('numberAbbr', /(n|N)°/, '$1\\u00ba'),\n      rule('enDashBetweenWords', /(\\D\\x20)-(\\x20\\D)/, '$1\\u2013$2'),\n      rule('enDashBetweenNumbers', /(\\d)\\s*-\\s*(\\d)/, '$1\\u2013$2')\n    ]),\n    group('quotes', [\n      rule('singleQuote', /(\\w)'(\\w)/, '$1\\u2019$2'),\n      rule('doubleQuote', /\"([^\"]+)\"/, '\\u00ab$1\\u00bb')\n    ]),\n    group('spaces', [\n      rule('collapseMultipleSpaces', /\\x20{2,}/, ' '),\n      rule('noSpaceBeforePunctuation', /\\s+(,|\\.|\\)|\\u2026|\\u2019)/, '$1'),\n      rule('noSpaceAfterPunctuation', /(\\u2019|\\()\\s+/, '$1'),\n      rule('noSpaceAroundEnDashBetweenNumbers', /(\\d)\\s*\\u2013\\s*(\\d)/, '$1\\u2013$2'),\n      rule('nonBreakingSpaceBeforePunctuation', /(\\S)(?:\\x20)?([?!;%\\u2030\\u2031])/, '$1\\u202F$2'),\n      rule('nonBreakingSpaceBeforeColon', /([^\\s\\d])(?:\\x20)?(:)/, '$1\\u202F$2'),\n      rule('nonBreakingSpaceBeforeColonBetweenTwoNumbers1', /(\\d)\\s*(:)(\\s\\d)/, '$1\\u202F$2$3'),\n      rule('nonBreakingSpaceBeforeColonBetweenTwoNumbers2', /(\\d)\\s(:)(\\d)/, '$1\\u202F$2$3'),\n      rule('nonBreakingSpaceBeforeColonAfterNumber', /(\\d)\\s*(:)(\\D)/, '$1\\u202F$2$3'),\n      rule('spaceAfterPunctuation', /(;|!|\\?|%|\\u2026|\\u2030|\\u2031)([^\\s\\)])/, '$1 $2'),\n      rule('spaceAfterPeriod', /(\\.)([^\\)\\s-])/, '$1 $2'),\n      rule('spaceAfterColon', /(\\D\\s?)(:)([^\\s\\)])/, '$1$2 $3'),\n      rule('spaceAfterComma', /(\\D)(,)([^\\s\\)])/, '$1$2 $3'),\n      rule('spaceAfterParenthesis', /(\\))(\\w)/, '$1 $2'),\n      rule('spaceBeforeParenthesis', /(\\S)(\\()/, '$1 $2'),\n      rule('spaceBeforeCurrency', `(\\\\d)\\x20?([${currenciesRegExp}])`, '$1\\u00a0$2'),\n      rule('spaceAroundEnDash', /([^\\d\\s])\\x20*(\\u2013)\\x20*(\\D)/, '$1\\u00a0$2 $3'),\n      rule('spaceAfterLeftQuote', /(\\u00ab)\\x20*(\\S)/, '$1\\u202F$2'),\n      rule('spaceBeforeRightQuote', /(\\S)\\x20*(\\u00bb)/, '$1\\u202F$2'),\n      rule('nonBreakingSpaceAfterHonorific', /(MM\\.|M\\.|Mme|Mmes|Mlle|Mlles|Dr|Me|Mgr)\\x20([A-Z])/, '$1\\u00a0$2')\n    ]),\n    group('ordinal', [\n      rule('greaterThan10', /(\\d{2,})emes\\b/, '$1èmes'),\n      rule('firstFemalePlural', /(\\d{1})[èe]res\\b/, '$1res'),\n      rule('lowerThan10', /((^|[^\\d])\\d)[èe]mes\\b/, '$1es'),\n      rule('firstFemale', /(\\d)[èe]re\\b/, '$1re'),\n      rule('firstMale', /(\\d)[èe]me(?!s)\\b/, '$1e')\n    ]),\n    group('datetime', [\n      rule('daysAndMonths', /(Lundi|Mardi|Mercredi|Jeudi|Vendredi|Samedi|Dimanche|Janvier|Février|Mars|Avril|Mai|Juin|Juillet|Aout|Septembre|Octobre|Novembre|Décembre)/, (s) => {\n        return s.toLowerCase()\n      }),\n      rule('time', /(\\d+)\\x20*(h)\\x20*(\\d+)(?:\\x20*(m(?:in)?)(?:\\x20*(\\d+)\\x20*(s(?:ec)?))?)?/, (m, ...args) => {\n        args.pop()\n        args.pop()\n\n        args = args.filter((v) => { return v })\n\n        return args.join('\\u00a0')\n      })\n    ]),\n    group('ligatures', [\n      rule('lowerOe', /oe/, '\\u0153'),\n      rule('upperOe', /O[eE]/, '\\u0152'),\n      rule('lowerAe', /ae/, '\\u00e6'),\n      rule('upperAe', /A[eE]/, '\\u00c6')\n    ])\n  ])\n}\n"
+  },
+  {
+    "__docId__": 27,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "ruleset",
+    "memberof": "src/rules/fr-FR/index.js",
+    "longname": "src/rules/fr-FR/index.js~ruleset",
+    "access": null,
+    "export": true,
+    "importPath": "typography-fixer/src/rules/fr-FR/index.js",
+    "importStyle": "ruleset",
+    "description": "The ruleset for french typography.\n\nThis ruleset is based on typographic rules from the Imprimerie Nationale\nused for all publishing works in France.\n\nSome rules can't possibly be implemented so they're simply ignored. It's the\ncase for numbers below ten which should always be written in full text and\nnot with digits. Because there's an inflection of the word `un` according\nto the gender of its noun when used as a determinant and given that there's\nover 100 000 common nouns in french, with so many exceptions that the\ngender can't be guessed from the spelling, implementing this rule would\nmean integrating a complete french dictionary and a syntactic engine. No need\nto say this is clearly out of the scope of this package.\n\nHowever a lot of rules can be and are implemented in this ruleset.\nIt includes:\n\n- Replacing consecutive `!` or `?` characters by a single one\n- Replacing ellipsis after `etc` by a period\n- Replacing three consecutive periods by an ellipsis character\n- Replacing `Mr` by `M.` (`Mr` is the english abbreviation for mister, french\n  uses `M.`)\n- Replacing possessive interrogative `a-t'il` with `a-t-il`\n- Properly formatting `c.-à-d.` abbreviation\n- Using a superscript `o` instead of `°` for `numéro` abbreviation\n- Replacing hyphen between numbers such as in `1939-1945` by an en dash\n- Replacing hyphen between words such as in `Pierre – tu le connais, hein ? –\n  est professeur de yoga` by an en dash\n- Replacing single quote in `L'arbre` with a typographic one (`’`)\n- Replacing double quotes around a sentence with `«` and `»`\n- Collapsing multiple spaces into a single one\n- Removing spaces before `,`, `.`, `)`, `…` and `’`\n- Removing spaces after `’` and `(`\n- Removing spaces around an en dash placed between two numbers\n- Adding spaces around an en dash placed between two words\n- Adding a space before `(`\n- Adding a non-breaking space between a number and a currency symbol\n- Adding a non-breaking space after `«` and before `»`\n- Adding a non-breaking space between an honorific and a name\n- Adding a thin non-breaking space before `?`, `!`, `;`, `%`, `‰`, `‱`, and\n  `:`\n- Adding a space after `,`, `.`, `?`, `!`, `;`, `%`, `‰`, `‱`, `)`, and `:`",
+    "see": [
+      "http://j.poitou.free.fr/pro/html/typ/typ-intro.html",
+      "http://gargas.biomedicale.univ-paris5.fr/lt/typo.html"
+    ],
+    "lineNumber": 54,
+    "type": {
+      "nullable": null,
+      "types": [
+        "Array"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 28,
+    "kind": "function",
+    "static": true,
+    "variation": null,
+    "name": "createRuleset",
+    "memberof": "src/rules/fr-FR/index.js",
+    "longname": "src/rules/fr-FR/index.js~createRuleset",
+    "access": null,
+    "export": false,
+    "importPath": "typography-fixer/src/rules/fr-FR/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 56,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 29,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/rules/latin-ligatures.js",
+    "memberof": null,
+    "longname": "src/rules/latin-ligatures.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "import {rule, group} from '../typography-fixer'\n\nlet ruleset\n\nexport default ruleset = createRuleset()\n\nfunction createRuleset () {\n  return group('ligatures', [\n    rule('ffi', /ffi/, '\\ufb03'),\n    rule('ffl', /ffl/, '\\ufb04'),\n    rule('ff', /ff/, '\\ufb00'),\n    rule('fi', /fi/, '\\ufb01'),\n    rule('fl', /fl/, '\\ufb02'),\n    rule('ft', /ft/, '\\ufb05'),\n    rule('st', /st/, '\\ufb06'),\n  ])\n}\n"
+  },
+  {
+    "__docId__": 30,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "ruleset",
+    "memberof": "src/rules/latin-ligatures.js",
+    "longname": "src/rules/latin-ligatures.js~ruleset",
+    "access": null,
+    "export": true,
+    "importPath": "typography-fixer/src/rules/latin-ligatures.js",
+    "importStyle": "ruleset",
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true
+  },
+  {
+    "__docId__": 31,
+    "kind": "function",
+    "static": true,
+    "variation": null,
+    "name": "createRuleset",
+    "memberof": "src/rules/latin-ligatures.js",
+    "longname": "src/rules/latin-ligatures.js~createRuleset",
+    "access": null,
+    "export": false,
+    "importPath": "typography-fixer/src/rules/latin-ligatures.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 7,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 32,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/rules/line-breaks.js",
+    "memberof": null,
+    "longname": "src/rules/line-breaks.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "import {rule, group} from '../typography-fixer'\n\nlet ruleset\n\nexport default ruleset = createRuleset()\n\nfunction createRuleset () {\n  return group('line-breaks', [\n    rule('numberBeforeWord', /(\\d)\\x20(\\D)/, '$1\\u00a0$2'),\n    rule('shortWords', /\\b(\\w{1,3})\\x20/, '$1\\u00a0'),\n    rule('lastParagraphWords', /(\\w+)\\s(\\w+\\.)$/m, '$1\\u00a0$2')\n  ])\n}\n"
+  },
+  {
+    "__docId__": 33,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "ruleset",
+    "memberof": "src/rules/line-breaks.js",
+    "longname": "src/rules/line-breaks.js~ruleset",
+    "access": null,
+    "export": true,
+    "importPath": "typography-fixer/src/rules/line-breaks.js",
+    "importStyle": "ruleset",
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true
+  },
+  {
+    "__docId__": 34,
+    "kind": "function",
+    "static": true,
+    "variation": null,
+    "name": "createRuleset",
+    "memberof": "src/rules/line-breaks.js",
+    "longname": "src/rules/line-breaks.js~createRuleset",
+    "access": null,
+    "export": false,
+    "importPath": "typography-fixer/src/rules/line-breaks.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 7,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 35,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/rules/mathematics.js",
+    "memberof": null,
+    "longname": "src/rules/mathematics.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "import {rule, group} from '../typography-fixer'\nimport {fractions} from '../constants'\n\nlet ruleset\n\nexport default ruleset = createRuleset()\n\nfunction createRuleset () {\n  return group('mathematic', [\n    group('vulgarFractions', fractions.map(([a,b,char]) => {\n      return rule(`${a}On${b}`, `\\\\b${a}\\\\s*/\\\\s*${b}\\\\b`, char)\n    })),\n    rule('multiplication', /(\\d)\\s*x\\s*(\\d)/, '$1\\u00a0\\u00d7\\u00a0$2'),\n    rule('division', /(\\d)\\s*\\/\\s*(\\d)/, '$1\\u00a0\\u00f7\\u00a0$2'),\n    rule('subtraction', /(\\d)\\s*-\\s*(\\d)/, '$1\\u00a0\\u2212\\u00a0$2'),\n    rule('addition', /(\\d)\\s*\\+\\s*(\\d)/, '$1\\u00a0+\\u00a0$2')\n  ])\n}\n"
+  },
+  {
+    "__docId__": 36,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "ruleset",
+    "memberof": "src/rules/mathematics.js",
+    "longname": "src/rules/mathematics.js~ruleset",
+    "access": null,
+    "export": true,
+    "importPath": "typography-fixer/src/rules/mathematics.js",
+    "importStyle": "ruleset",
+    "description": null,
+    "lineNumber": 6,
+    "undocument": true
+  },
+  {
+    "__docId__": 37,
+    "kind": "function",
+    "static": true,
+    "variation": null,
+    "name": "createRuleset",
+    "memberof": "src/rules/mathematics.js",
+    "longname": "src/rules/mathematics.js~createRuleset",
+    "access": null,
+    "export": false,
+    "importPath": "typography-fixer/src/rules/mathematics.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 8,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 38,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/rules/symbols.js",
+    "memberof": null,
+    "longname": "src/rules/symbols.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "import {rule, group} from '../typography-fixer'\n\nlet ruleset\n\nexport default ruleset = createRuleset()\n\nfunction createRuleset () {\n  return group('symbols', [\n    rule('copyright', /\\([cC]\\)/, '©'),\n    rule('trademark', /\\bTM\\b/, '™'),\n    rule('registered', /\\([rR]\\)/, '®')\n  ])\n}\n"
+  },
+  {
+    "__docId__": 39,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "ruleset",
+    "memberof": "src/rules/symbols.js",
+    "longname": "src/rules/symbols.js~ruleset",
+    "access": null,
+    "export": true,
+    "importPath": "typography-fixer/src/rules/symbols.js",
+    "importStyle": "ruleset",
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true
+  },
+  {
+    "__docId__": 40,
+    "kind": "function",
+    "static": true,
+    "variation": null,
+    "name": "createRuleset",
+    "memberof": "src/rules/symbols.js",
+    "longname": "src/rules/symbols.js~createRuleset",
+    "access": null,
+    "export": false,
+    "importPath": "typography-fixer/src/rules/symbols.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 7,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 41,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/rules/units.js",
+    "memberof": null,
+    "longname": "src/rules/units.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1,
+    "content": "import {rule, group} from '../typography-fixer'\nimport {units, surfaceUnits, volumeUnits} from '../constants'\n\nlet ruleset\n\nexport default ruleset = createRuleset()\n\nfunction createRuleset () {\n  return group('units', [\n    group('exponent', [\n      rule('surface', `(${surfaceUnits.join('|')})2`, '$1²'),\n      rule('volume', `(${volumeUnits.join('|')})3`, '$1³')\n    ]),\n    rule('unitSpace', `(\\\\d)\\\\s*(${units.join('|')})`, '$1\\u202f$2')\n  ])\n}\n"
+  },
+  {
+    "__docId__": 42,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "ruleset",
+    "memberof": "src/rules/units.js",
+    "longname": "src/rules/units.js~ruleset",
+    "access": null,
+    "export": true,
+    "importPath": "typography-fixer/src/rules/units.js",
+    "importStyle": "ruleset",
+    "description": null,
+    "lineNumber": 6,
+    "undocument": true
+  },
+  {
+    "__docId__": 43,
+    "kind": "function",
+    "static": true,
+    "variation": null,
+    "name": "createRuleset",
+    "memberof": "src/rules/units.js",
+    "longname": "src/rules/units.js~createRuleset",
+    "access": null,
+    "export": false,
+    "importPath": "typography-fixer/src/rules/units.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 8,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 44,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/typography-fixer.js",
+    "memberof": null,
+    "longname": "src/typography-fixer.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 26,
+    "content": "/**\n * Returns an array of rule violations in the passed-in string.\n *\n * Ignores and rules are separated at the beginning of the call, then the ranges\n * to ignore are computed. When the a check results intersect with or is\n * contained in a range it will be simply ignored.\n *\n * If there's no results, the function returns `undefined`.\n *\n * @param  {Array} ruleset the array with all the rules and ignores to use when\n *                         checking the passed-in string\n * @param  {string} string the string to check\n * @throws {Error} when one argument is missing\n * @return {Array|undefined} an array of rule violation results or `undefined`\n *                           when there is no violations.<br>Each result\n *                           object will have the following properties:\n * @property {string} name the name of the broken rule\n * @property {Array} range the range at which the violation can be found\n *                         in the string\n * @example\n * import {check} from 'typography-fixer'\n * import rules from 'typography-fixer/lib/rules/en-UK'\n *\n * const results = check(rules, 'Some string \"to check\".')\n */\nexport function check (ruleset, string) {\n  if (!ruleset || !string) {\n    throw new Error('The check arguments are mandatory')\n  }\n\n  let {ignores, rules} = filterRules(ruleset)\n\n  if (rules.length === 0) { return undefined }\n\n  const ranges = flatten(ignores.map((ignore) => {\n    return ignore.ranges(string)\n  }))\n\n  let results = []\n\n  for (let i = 0, len = rules.length; i < len; i++) {\n    const rule = rules[i]\n    results = results.concat(rule.check(string))\n  }\n\n  results = results.filter((result) => {\n    return !ranges.some((range) => {\n      return rangesIntersects(range, result.range)\n    })\n  })\n\n  return results.length > 0 ? results : undefined\n}\n\n/**\n * Returns the passed-in string modified by the specified ruleset.\n *\n * Ignores and rules are separated at the beginning of the call, then the ranges\n * to ignore are computed. The string is split using the ranges to have in one\n * array all the parts that can be modified and in another array all the ignored\n * parts. Once all the fixes were applied, the string from the two arrays are\n * joined together into a new string and returned.\n *\n * @param  {Array} ruleset the array with all the rules and ignores to use to\n *                         transform the passed-in string\n * @param  {string} string the string to fix\n * @return {string} the fixed string\n * @throws {Error} when one argument is missing\n * @example\n * import {fix} from 'typography-fixer'\n * import rules from 'typography-fixer/lib/rules/en-UK'\n *\n * const string = fix(rules, 'Some string \"to fix\".')\n */\nexport function fix (ruleset, string) {\n  if (!ruleset || !string) {\n    throw new Error('The fix arguments are mandatory')\n  }\n\n  let {ignores, rules} = filterRules(ruleset)\n\n  if (rules.length === 0) { return string }\n\n  const ranges = campactRanges(flatten(ignores.map((ignore) => {\n    return ignore.ranges(string)\n  })))\n\n  const {included, excluded} = splitByRanges(string, ranges)\n\n  for (let i = 0, len = included.length; i < len; i++) {\n    for (let j = 0, len = rules.length; j < len; j++) {\n      const rule = rules[j]\n      included[i] = rule.fix(included[i])\n    }\n  }\n\n  return alternateJoin(included, excluded)\n}\n\n/**\n * Returns a flat array of rules with names prefixed by the passed-in `name`.\n *\n * When called without a name the `group` function will only flatten the given\n * rules array.\n *\n * One use case of calling group without a name is when exporting a ruleset from\n * a file so that nested groups get flatten into the exported array.\n *\n * @param  {string} [name] the name of the rules group\n * @param  {Array} rules the rules to be part of the group\n * @return {Array} an array of new rules prefixed with this group name\n * @throws {Error} when the rules argument is missing\n *\n * @example\n * import {group, rule} from 'typography-fixer'\n *\n * export default group([\n *   group('spaces', [\n *     rule('spaceAfterPeriodOrColon', /(\\D)(\\.|:)([^\\s\\)])/, '$1$2 $3'),\n *     …\n *   ])\n * ])\n */\nexport function group (name, rules) {\n  let groupName\n\n  if (Array.isArray(name)) {\n    rules = name\n    groupName = []\n  } else {\n    if (!name || !rules) {\n      throw new Error('The group rules argument is mandatory')\n    }\n    groupName = [name]\n  }\n\n  return flatten(rules).map((rule) => {\n    let newObject = {\n      name: groupName.concat(rule.name).join('.')\n    }\n\n    for (const key in rule) {\n      if (key === 'name') { continue }\n      newObject[key] = rule[key]\n    }\n\n    return newObject\n  })\n}\n\n/**\n * Creates a new rule object that matches the specified `expression`.\n *\n * A rule is an object with a name and two methods `fix` and `check`.\n *\n * A rule can be created with either a string or a regular expression as the\n * `expression` parameter.\n *\n * - When given a regular expression the flags of the original expression\n *   are preserved except for the `global` which will be forcefully defined\n *   on the expression created when checking or fixing a string.\n * - When given a string this string will be used a source for the regular\n *   expressions. These expressions will be created with the `multiline` flag\n *   enabled.\n *\n * The `replacement` parameter is used when a match is found and will be passed\n * as the second argument of the `String#replace` method. A regular expression\n * based on the one used to search the string will be passed as the first\n * argument. It means that every group will be available to use in the\n * replacement string. A function can also be passed in the `replacement`\n * parameter and will then receive the matched string and the various groups as\n * arguments.\n *\n * @param  {string} name the name of the rule\n * @param  {string|RegExp} expression the regular expression to match against\n *                                    a string\n * @param  {string|function} replacement the replacement string or function\n *                                       to use when a match is found\n * @throws {Error} when one argument is missing\n * @return {Object} the rule object\n * @property {string} name the rule's name\n * @property {function(string:string):string} fix a function to apply the rule\n *                                                on the passed-in string\n * @property {function(string:string):Array} check a function to check\n *                                                 violations in the passed-in\n *                                                 string\n * @example\n * import {rule} from 'typography-fixer'\n *\n * // this rule adds a space after `.` and `:` unless the characted is preceded\n * // by a number, as in 12.4 or 04:35, or followed by a space or `)`\n * const ruleObject = rule('spaceAfterPeriodOrColon', /(\\D)(\\.|:)([^\\s\\)])/, '$1$2 $3')\n */\nexport function rule (name, expression, replacement) {\n  if (!name || !expression || !replacement) {\n    throw new Error('All arguments of the rule function are mandatory')\n  }\n\n  let source\n  let flags = []\n\n  if (expression instanceof RegExp) {\n    source = expression.source\n    if (expression.multiline) { flags.push('m') }\n    if (expression.ignoreCase) { flags.push('i') }\n  } else {\n    source = expression\n    flags.push('m')\n  }\n\n  const searchFlags = flags.concat('g').join('')\n  const matchFlags = flags.join('')\n\n  return {\n    name,\n    check (string) {\n      const searchRegExp = new RegExp(source, searchFlags)\n      const matchRegExp = new RegExp(source, matchFlags)\n      const matches = []\n      let match\n      do {\n        match = searchRegExp.exec(string)\n        if (match && match[0].replace(matchRegExp, replacement) !== match[0]) {\n          matches.push({\n            rule: this.name,\n            range: [match.index, searchRegExp.lastIndex]\n          })\n        }\n      } while (match)\n\n      return matches\n    },\n    fix (string) {\n      const searchRegExp = new RegExp(source, searchFlags)\n      return string.replace(searchRegExp, replacement)\n    }\n  }\n}\n\n/**\n * Creates a new ignore rule that excludes the specified `expression`.\n *\n * An ignore rule is an object with a name and a `ranges` method.\n *\n * An ignore rule can be created with either a string or a regular expression\n * as the `expression` parameter.\n *\n * - When given a regular expression the flags of the original expression\n *   are preserved except for the `global` which will be forcefully defined\n *   on the expression created when checking or fixing a string.\n * - When given a string this string will be used a source for the regular\n *   expressions. These expressions will be created with the `multiline` flag\n *   enabled.\n *\n * The `ranges` function, when called with a string, returns an array of ranges\n * of the ignored section of the string. A range is an array with two numbers\n * for the start and end index in the string.\n *\n * An ignore rule can also ignores everything that is not matched by the\n * expression by passing `true` as the third argument of the `ignore` function.\n *\n * @param  {string} name the name of the rule\n * @param  {string|RegExp} expression the regular expression to match against\n *                                    a string\n * @param  {boolean} [invertRanges=false] if `true` the excluded ranges will\n *                                        cover every part of the string that\n *                                        is not matched by the expression\n * @throws {Error} when one argument is missing\n * @return {Object} [description]\n * @property {string} name the name of the rule\n * @property {function(string:string):Array} ranges a function that returns\n *                                                  an array of the ranges to\n *                                                  ignore in the passed-in\n *                                                  string\n * @example\n * import {ignore} from 'typography-fixer'\n *\n * // this rule ignores markdown code blocks defined using three consecutive backticks\n * const ignoreObject = ignore('codeBlock', /(```)(.|\\n)*?\\1/),\n */\nexport function ignore (name, expression, invertRanges = false) {\n  if (!name || !expression) {\n    throw new Error('All arguments of the ignore function are mandatory')\n  }\n\n  let source\n  let flags = ['g']\n\n  if (expression instanceof RegExp) {\n    source = expression.source\n    if (expression.multiline) { flags.push('m') }\n    if (expression.ignoreCase) { flags.push('i') }\n  } else {\n    source = expression\n    flags.push('m')\n  }\n\n  const searchFlags = flags.join('')\n  if (invertRanges) {\n    return {\n      name,\n      ranges (string) {\n        const re = new RegExp(source, searchFlags)\n        const ranges = []\n        let start = 0\n        let match\n\n        do {\n          match = re.exec(string)\n          if (match) {\n            ranges.push([start, match.index - 1])\n            start = re.lastIndex\n          }\n        } while (match)\n\n        ranges.push([start, string.length])\n\n        return ranges\n      }\n    }\n  } else {\n    return {\n      name,\n      ranges (string) {\n        const re = new RegExp(source, searchFlags)\n        const ranges = []\n        let match\n\n        do {\n          match = re.exec(string)\n          if (match) { ranges.push([match.index, re.lastIndex]) }\n        } while (match)\n\n        return ranges\n      }\n    }\n  }\n}\n\nfunction filterRules (ruleset) {\n  const ignores = []\n  const rules = []\n\n  for (let i = 0, len = ruleset.length; i < len; i++) {\n    let rule = ruleset[i]\n\n    if (rule.ranges) {\n      ignores.push(rule)\n    } else {\n      rules.push(rule)\n    }\n  }\n\n  return {ignores, rules}\n}\n\nfunction rangesIntersects (rangeA, rangeB) {\n  const [startA, endA] = rangeA\n  const [startB, endB] = rangeB\n\n  return (startB >= startA && startB <= endA) ||\n         (endB >= startA && endB <= endA) ||\n         (startA >= startB && startA <= endB) ||\n         (endA >= startB && endA <= endB)\n}\n\nfunction flatten (arr) {\n  return arr.reduce((memo, el) => { return memo.concat(el) }, [])\n}\n\nfunction splitByRanges (string, ranges) {\n  const included = []\n  const excluded = []\n\n  let start = 0\n  for (let i = 0, len = ranges.length; i < len; i++) {\n    const range = ranges[i]\n\n    included.push(string.slice(start, range[0]))\n    excluded.push(string.slice(range[0], range[1]))\n    start = range[1]\n  }\n  included.push(string.slice(start, string.length))\n\n  return {included, excluded}\n}\n\nfunction alternateJoin (a, b) {\n  let string = ''\n\n  for (let i = 0, len = a.length; i < len; i++) {\n    string += a[i]\n    if (b[i]) { string += b[i] }\n  }\n\n  return string\n}\n\nfunction campactRanges (ranges) {\n  if (ranges.length === 0) { return [] }\n\n  const newRanges = ranges.reduce((memo, rangeA) => {\n    if (memo.length === 0) {\n      memo.push(rangeA)\n      return memo\n    } else {\n      const newMemo = memo.filter((rangeB) => {\n        if (rangesIntersects(rangeA, rangeB)) {\n          rangeA[0] = Math.min(rangeA[0], rangeB[0])\n          rangeA[1] = Math.max(rangeA[1], rangeB[1])\n          return false\n        } else {\n          return true\n        }\n      })\n\n      return newMemo.concat([rangeA])\n    }\n  }, [])\n\n  return newRanges.sort((a, b) => { return a[0] - b[0] })\n}\n"
+  },
+  {
+    "__docId__": 45,
+    "kind": "function",
+    "static": true,
+    "variation": null,
+    "name": "check",
+    "memberof": "src/typography-fixer.js",
+    "longname": "src/typography-fixer.js~check",
+    "access": null,
+    "export": true,
+    "importPath": "typography-fixer/src/typography-fixer.js",
+    "importStyle": "{check}",
+    "description": "Returns an array of rule violations in the passed-in string.\n\nIgnores and rules are separated at the beginning of the call, then the ranges\nto ignore are computed. When the a check results intersect with or is\ncontained in a range it will be simply ignored.\n\nIf there's no results, the function returns `undefined`.",
+    "examples": [
+      "import {check} from 'typography-fixer'\nimport rules from 'typography-fixer/lib/rules/en-UK'\n\nconst results = check(rules, 'Some string \"to check\".')"
+    ],
+    "lineNumber": 26,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Array"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "ruleset",
+        "description": "the array with all the rules and ignores to use when\n                        checking the passed-in string"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "string",
+        "description": "the string to check"
+      }
+    ],
+    "properties": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "name",
+        "description": "the name of the broken rule"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Array"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "range",
+        "description": "the range at which the violation can be found\n                        in the string"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Array",
+        "undefined"
+      ],
+      "spread": false,
+      "description": "an array of rule violation results or `undefined`\n                          when there is no violations.<br>Each result\n                          object will have the following properties:"
+    },
+    "throws": [
+      {
+        "types": [
+          "Error"
+        ],
+        "description": "when one argument is missing"
+      }
+    ],
+    "generator": false
+  },
+  {
+    "__docId__": 46,
+    "kind": "function",
+    "static": true,
+    "variation": null,
+    "name": "fix",
+    "memberof": "src/typography-fixer.js",
+    "longname": "src/typography-fixer.js~fix",
+    "access": null,
+    "export": true,
+    "importPath": "typography-fixer/src/typography-fixer.js",
+    "importStyle": "{fix}",
+    "description": "Returns the passed-in string modified by the specified ruleset.\n\nIgnores and rules are separated at the beginning of the call, then the ranges\nto ignore are computed. The string is split using the ranges to have in one\narray all the parts that can be modified and in another array all the ignored\nparts. Once all the fixes were applied, the string from the two arrays are\njoined together into a new string and returned.",
+    "examples": [
+      "import {fix} from 'typography-fixer'\nimport rules from 'typography-fixer/lib/rules/en-UK'\n\nconst string = fix(rules, 'Some string \"to fix\".')"
+    ],
+    "lineNumber": 75,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Array"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "ruleset",
+        "description": "the array with all the rules and ignores to use to\n                        transform the passed-in string"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "string",
+        "description": "the string to fix"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "string"
+      ],
+      "spread": false,
+      "description": "the fixed string"
+    },
+    "throws": [
+      {
+        "types": [
+          "Error"
+        ],
+        "description": "when one argument is missing"
+      }
+    ],
+    "generator": false
+  },
+  {
+    "__docId__": 47,
+    "kind": "function",
+    "static": true,
+    "variation": null,
+    "name": "group",
+    "memberof": "src/typography-fixer.js",
+    "longname": "src/typography-fixer.js~group",
+    "access": null,
+    "export": true,
+    "importPath": "typography-fixer/src/typography-fixer.js",
+    "importStyle": "{group}",
+    "description": "Returns a flat array of rules with names prefixed by the passed-in `name`.\n\nWhen called without a name the `group` function will only flatten the given\nrules array.\n\nOne use case of calling group without a name is when exporting a ruleset from\na file so that nested groups get flatten into the exported array.",
+    "examples": [
+      "import {group, rule} from 'typography-fixer'\n\nexport default group([\n  group('spaces', [\n    rule('spaceAfterPeriodOrColon', /(\\D)(\\.|:)([^\\s\\)])/, '$1$2 $3'),\n    …\n  ])\n])"
+    ],
+    "lineNumber": 124,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": true,
+        "name": "name",
+        "description": "the name of the rules group"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Array"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "rules",
+        "description": "the rules to be part of the group"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Array"
+      ],
+      "spread": false,
+      "description": "an array of new rules prefixed with this group name"
+    },
+    "throws": [
+      {
+        "types": [
+          "Error"
+        ],
+        "description": "when the rules argument is missing"
+      }
+    ],
+    "generator": false
+  },
+  {
+    "__docId__": 48,
+    "kind": "function",
+    "static": true,
+    "variation": null,
+    "name": "rule",
+    "memberof": "src/typography-fixer.js",
+    "longname": "src/typography-fixer.js~rule",
+    "access": null,
+    "export": true,
+    "importPath": "typography-fixer/src/typography-fixer.js",
+    "importStyle": "{rule}",
+    "description": "Creates a new rule object that matches the specified `expression`.\n\nA rule is an object with a name and two methods `fix` and `check`.\n\nA rule can be created with either a string or a regular expression as the\n`expression` parameter.\n\n- When given a regular expression the flags of the original expression\n  are preserved except for the `global` which will be forcefully defined\n  on the expression created when checking or fixing a string.\n- When given a string this string will be used a source for the regular\n  expressions. These expressions will be created with the `multiline` flag\n  enabled.\n\nThe `replacement` parameter is used when a match is found and will be passed\nas the second argument of the `String#replace` method. A regular expression\nbased on the one used to search the string will be passed as the first\nargument. It means that every group will be available to use in the\nreplacement string. A function can also be passed in the `replacement`\nparameter and will then receive the matched string and the various groups as\narguments.",
+    "examples": [
+      "import {rule} from 'typography-fixer'\n\n// this rule adds a space after `.` and `:` unless the characted is preceded\n// by a number, as in 12.4 or 04:35, or followed by a space or `)`\nconst ruleObject = rule('spaceAfterPeriodOrColon', /(\\D)(\\.|:)([^\\s\\)])/, '$1$2 $3')"
+    ],
+    "lineNumber": 194,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "name",
+        "description": "the name of the rule"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "string",
+          "RegExp"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "expression",
+        "description": "the regular expression to match against\n                                   a string"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "string",
+          "function"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "replacement",
+        "description": "the replacement string or function\n                                      to use when a match is found"
+      }
+    ],
+    "properties": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "name",
+        "description": "the rule's name"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "function(string:string):string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "fix",
+        "description": "a function to apply the rule\n                                               on the passed-in string"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "function(string:string):Array"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "check",
+        "description": "a function to check\n                                                violations in the passed-in\n                                                string"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Object"
+      ],
+      "spread": false,
+      "description": "the rule object"
+    },
+    "throws": [
+      {
+        "types": [
+          "Error"
+        ],
+        "description": "when one argument is missing"
+      }
+    ],
+    "generator": false
+  },
+  {
+    "__docId__": 49,
+    "kind": "function",
+    "static": true,
+    "variation": null,
+    "name": "ignore",
+    "memberof": "src/typography-fixer.js",
+    "longname": "src/typography-fixer.js~ignore",
+    "access": null,
+    "export": true,
+    "importPath": "typography-fixer/src/typography-fixer.js",
+    "importStyle": "{ignore}",
+    "description": "Creates a new ignore rule that excludes the specified `expression`.\n\nAn ignore rule is an object with a name and a `ranges` method.\n\nAn ignore rule can be created with either a string or a regular expression\nas the `expression` parameter.\n\n- When given a regular expression the flags of the original expression\n  are preserved except for the `global` which will be forcefully defined\n  on the expression created when checking or fixing a string.\n- When given a string this string will be used a source for the regular\n  expressions. These expressions will be created with the `multiline` flag\n  enabled.\n\nThe `ranges` function, when called with a string, returns an array of ranges\nof the ignored section of the string. A range is an array with two numbers\nfor the start and end index in the string.\n\nAn ignore rule can also ignores everything that is not matched by the\nexpression by passing `true` as the third argument of the `ignore` function.",
+    "examples": [
+      "import {ignore} from 'typography-fixer'\n\n// this rule ignores markdown code blocks defined using three consecutive backticks\nconst ignoreObject = ignore('codeBlock', /(```)(.|\\n)*?\\1/),"
+    ],
+    "lineNumber": 281,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "name",
+        "description": "the name of the rule"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "string",
+          "RegExp"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "expression",
+        "description": "the regular expression to match against\n                                   a string"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "boolean"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": "false",
+        "defaultRaw": false,
+        "name": "invertRanges",
+        "description": "if `true` the excluded ranges will\n                                       cover every part of the string that\n                                       is not matched by the expression"
+      }
+    ],
+    "properties": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "name",
+        "description": "the name of the rule"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "function(string:string):Array"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "ranges",
+        "description": "a function that returns\n                                                 an array of the ranges to\n                                                 ignore in the passed-in\n                                                 string"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Object"
+      ],
+      "spread": false,
+      "description": "[description]"
+    },
+    "throws": [
+      {
+        "types": [
+          "Error"
+        ],
+        "description": "when one argument is missing"
+      }
+    ],
+    "generator": false
+  },
+  {
+    "__docId__": 50,
+    "kind": "function",
+    "static": true,
+    "variation": null,
+    "name": "filterRules",
+    "memberof": "src/typography-fixer.js",
+    "longname": "src/typography-fixer.js~filterRules",
+    "access": null,
+    "export": false,
+    "importPath": "typography-fixer/src/typography-fixer.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 340,
+    "undocument": true,
+    "params": [
+      {
+        "name": "ruleset",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 51,
+    "kind": "function",
+    "static": true,
+    "variation": null,
+    "name": "rangesIntersects",
+    "memberof": "src/typography-fixer.js",
+    "longname": "src/typography-fixer.js~rangesIntersects",
+    "access": null,
+    "export": false,
+    "importPath": "typography-fixer/src/typography-fixer.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 357,
+    "undocument": true,
+    "params": [
+      {
+        "name": "rangeA",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "rangeB",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 52,
+    "kind": "function",
+    "static": true,
+    "variation": null,
+    "name": "flatten",
+    "memberof": "src/typography-fixer.js",
+    "longname": "src/typography-fixer.js~flatten",
+    "access": null,
+    "export": false,
+    "importPath": "typography-fixer/src/typography-fixer.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 367,
+    "undocument": true,
+    "params": [
+      {
+        "name": "arr",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 53,
+    "kind": "function",
+    "static": true,
+    "variation": null,
+    "name": "splitByRanges",
+    "memberof": "src/typography-fixer.js",
+    "longname": "src/typography-fixer.js~splitByRanges",
+    "access": null,
+    "export": false,
+    "importPath": "typography-fixer/src/typography-fixer.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 371,
+    "undocument": true,
+    "params": [
+      {
+        "name": "string",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "ranges",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 54,
+    "kind": "function",
+    "static": true,
+    "variation": null,
+    "name": "alternateJoin",
+    "memberof": "src/typography-fixer.js",
+    "longname": "src/typography-fixer.js~alternateJoin",
+    "access": null,
+    "export": false,
+    "importPath": "typography-fixer/src/typography-fixer.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 388,
+    "undocument": true,
+    "params": [
+      {
+        "name": "a",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "b",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 55,
+    "kind": "function",
+    "static": true,
+    "variation": null,
+    "name": "campactRanges",
+    "memberof": "src/typography-fixer.js",
+    "longname": "src/typography-fixer.js~campactRanges",
+    "access": null,
+    "export": false,
+    "importPath": "typography-fixer/src/typography-fixer.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 399,
+    "undocument": true,
+    "params": [
+      {
+        "name": "ranges",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 57,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Infinity",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Infinity",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Infinity",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 58,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "NaN",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~NaN",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 59,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "undefined",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~undefined",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 60,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "null",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~null",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 61,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Object",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Object",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 62,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "object",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~object",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 63,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Function",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Function",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 64,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "function",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~function",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 65,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Boolean",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Boolean",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 66,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "boolean",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~boolean",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 67,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Symbol",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Symbol",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 68,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Error",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Error",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 69,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "EvalError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/EvalError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~EvalError",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 70,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "InternalError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/InternalError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~InternalError",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 71,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "RangeError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~RangeError",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 72,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "ReferenceError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~ReferenceError",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 73,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "SyntaxError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~SyntaxError",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 74,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "TypeError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~TypeError",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 75,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "URIError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/URIError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~URIError",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 76,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Number",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Number",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 77,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "number",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~number",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 78,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Date",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Date",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 79,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "String",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~String",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 80,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "string",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~string",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 81,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "RegExp",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~RegExp",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 82,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Array",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 83,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Int8Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int8Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Int8Array",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 84,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Uint8Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Uint8Array",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 85,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Uint8ClampedArray",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Uint8ClampedArray",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 86,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Int16Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int16Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Int16Array",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 87,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Uint16Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint16Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Uint16Array",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 88,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Int32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int32Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Int32Array",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 89,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Uint32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Uint32Array",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 90,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Float32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Float32Array",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 91,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Float64Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Float64Array",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 92,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Map",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Map",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 93,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Set",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Set",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 94,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "WeakMap",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~WeakMap",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 95,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "WeakSet",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~WeakSet",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 96,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "ArrayBuffer",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~ArrayBuffer",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 97,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "DataView",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~DataView",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 98,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "JSON",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~JSON",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 99,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Promise",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Promise",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 100,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Generator",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Generator",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 101,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "GeneratorFunction",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~GeneratorFunction",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 102,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Reflect",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Reflect",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 103,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Proxy",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Proxy",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 105,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "CanvasRenderingContext2D",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~CanvasRenderingContext2D",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 106,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "DocumentFragment",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~DocumentFragment",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 107,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Element",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/Element",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~Element",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 108,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Event",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/Event",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~Event",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 109,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Node",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/Node",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~Node",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 110,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "NodeList",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/NodeList",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~NodeList",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 111,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "XMLHttpRequest",
+    "externalLink": "https://developer.mozilla.org/en/docs/Web/API/XMLHttpRequest",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~XMLHttpRequest",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 112,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "AudioContext",
+    "externalLink": "https://developer.mozilla.org/en/docs/Web/API/AudioContext",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~AudioContext",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  }
+]
