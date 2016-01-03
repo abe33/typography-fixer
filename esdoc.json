@@ -2,5 +2,10 @@
   "source": "./src",
   "destination": "./pages",
   "undocumentIdentifier": false,
-  "plugins": []
+  "plugins": [],
+  "manual": {
+    "faq": ["./FAQ.md"],
+    "usage": ["./USAGE.md"],
+    "changelog": ["./CHANGELOG.md"]
+  }
 }
