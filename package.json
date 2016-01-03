@@ -8,6 +8,7 @@
     "babel": "babel src --out-dir lib",
     "standard": "standard src/*.js test/*.js",
     "esdoc": "esdoc -c esdoc.json",
+    "changelog": "changelog_gen",
     "prepublish": "npm run standard && npm run test && npm run babel"
   },
   "keywords": [
@@ -17,6 +18,8 @@
     "type": "git",
     "url": "git://github.com/abe33/typography-fixer.git"
   },
+  "bugs": "http://github.com/abe33/typography-fixer/issues",
+  "commits": "http://github.com/abe33/typography-fixer/commits",
   "author": "Cédric Néhémie <cedric.nehemie@gmail.com>",
   "license": "MIT",
   "devDependencies": {
@@ -26,7 +29,8 @@
     "expect.js": "^0.3.1",
     "mocha": "^2.3.4",
     "standard": "^5.4.1",
-    "esdoc": "^0.4.0"
+    "esdoc": "^0.4.0",
+    "changelog-gen": "*"
   },
   "standard": {
     "globals": [

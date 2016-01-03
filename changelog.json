@@ -1,0 +1,26 @@
+{
+  "sections": [
+    {
+      "name": ":sparkles: Features",
+      "match": "^((Add|Implement)|(:(fr|uk|es):))(.*)$",
+      "include_body": true,
+      "grouping_capture": 3,
+      "replace": "\\2\\5"
+    },
+    {
+      "name": ":bug: Bug Fixes",
+      "match": "^(:bug:\\s+|(Fix))(.*)$",
+      "replace": "\\2\\3"
+    },
+    {
+      "name": ":racehorse: Performances",
+      "match": "^:racehorse:\\s+(.*)$",
+      "replace": "\\1"
+    },
+    {
+      "name": ":arrow_up: Dependencies Update",
+      "match": "^:arrow_up:\\s+(.*)$",
+      "replace": "\\1"
+    }
+  ]
+}
