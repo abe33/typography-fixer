@@ -61,5 +61,8 @@ export default group('fr-FR', [
     rule('upperOe', /O[eE]/, '\u0152'),
     rule('lowerAe', /ae/, '\u00e6'),
     rule('upperAe', /A[eE]/, '\u00c6')
+      rule('nonBreakingSpaceBeforeColonBetweenTwoNumbers1', /(\d)\s*(:)(\s\d)/, '$1\u202F$2$3'),
+      rule('nonBreakingSpaceBeforeColonBetweenTwoNumbers2', /(\d)\s(:)(\d)/, '$1\u202F$2$3'),
+      rule('nonBreakingSpaceBeforeColonAfterNumber', /(\d)\s*(:)(\D)/, '$1\u202F$2$3'),
   ])
 ])

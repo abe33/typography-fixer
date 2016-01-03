@@ -29,6 +29,18 @@ describe('fr-FR rules', () => {
       })
     })
 
+    it('adds a thin breaking space before a : with numbers before and text after', () => {
+      expect(fix(rules, 'Pour 2016 : pas de prévision')).to.eql('Pour 2016\u202F: pas de prévision')
+      expect(fix(rules, 'Pour 2016: pas de prévision')).to.eql('Pour 2016\u202F: pas de prévision')
+
+      expect(fix(rules, 'Pour 2016 : 50\u202F% de chance')).to.eql('Pour 2016\u202F: 50\u202F% de chance')
+      expect(fix(rules, 'Pour 2016: 50\u202F% de chance')).to.eql('Pour 2016\u202F: 50\u202F% de chance')
+      expect(fix(rules, 'Pour 2016 :50\u202F% de chance')).to.eql('Pour 2016\u202F: 50\u202F% de chance')
+
+      expect(fix(rules, 'Pour le reste : 50\u202F% de chance')).to.eql('Pour le reste\u202F: 50\u202F% de chance')
+      expect(fix(rules, 'Pour le reste :50\u202F% de chance')).to.eql('Pour le reste\u202F: 50\u202F% de chance')
+    })
+
     let charsWithSpaceBefore = ['(']
     charsWithSpaceBefore.forEach((char) => {
       it(`adds a space before ${char} if there is no space`, () => {
@@ -57,6 +69,10 @@ describe('fr-FR rules', () => {
         expect(check(rules, `Foo${char}bar`)).to.have.length(1)
         expect(check(rules, `Foo${char} bar`)).to.be(undefined)
       })
+    })
+
+    it('does not remove the space after a comma between two numbers', () => {
+      expect(fix(rules, 'Dans 20, 30 ou 50 ans')).to.eql('Dans 20, 30 ou 50 ans')
     })
 
     let charsWithSpaceBeforeAndAfter = ['!', '?', ';', ':', '%', '\u2030', '\u2031']
@@ -106,6 +122,10 @@ describe('fr-FR rules', () => {
         expect(check(rules, `Foo\u00a0${char}`)).to.have.length(1)
         expect(check(rules, `Foo${char}`)).to.be(undefined)
       })
+    })
+
+    it('removes the space before a comma between two numbers if there is a space after the comma', () => {
+      expect(fix(rules, 'Dans 20 , 30 ou 50 ans')).to.eql('Dans 20, 30 ou 50 ans')
     })
 
     it('removes spaces after \u2019', () => {
