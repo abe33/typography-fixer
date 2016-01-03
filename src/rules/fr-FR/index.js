@@ -3,6 +3,54 @@ import {currenciesRegExp} from '../../constants'
 
 let ruleset
 
+/**
+ * The ruleset for french typography.
+ *
+ * This ruleset is based on typographic rules from the Imprimerie Nationale
+ * used for all publishing works in France.
+ *
+ * Some rules can't possibly be implemented so they're simply ignored. It's the
+ * case for numbers below ten which should always be written in full text and
+ * not with digits. Because there's an inflection of the word `un` according
+ * to the gender of its noun when used as a determinant and given that there's
+ * over 100 000 common nouns in french, with so many exceptions that the
+ * gender can't be guessed from the spelling, implementing this rule would
+ * mean integrating a complete french dictionary and a syntactic engine. No need
+ * to say this is clearly out of the scope of this package.
+ *
+ * However a lot of rules can be and are implemented in this ruleset.
+ * It includes:
+ *
+ * - Replacing consecutive `!` or `?` characters by a single one
+ * - Replacing ellipsis after `etc` by a period
+ * - Replacing three consecutive periods by an ellipsis character
+ * - Replacing `Mr` by `M.` (`Mr` is the english abbreviation for mister, french
+ *   uses `M.`)
+ * - Replacing possessive interrogative `a-t'il` with `a-t-il`
+ * - Properly formatting `c.-à-d.` abbreviation
+ * - Using a superscript `o` instead of `°` for `numéro` abbreviation
+ * - Replacing hyphen between numbers such as in `1939-1945` by an en dash
+ * - Replacing hyphen between words such as in `Pierre – tu le connais, hein ? –
+ *   est professeur de yoga` by an en dash
+ * - Replacing single quote in `L'arbre` with a typographic one (`’`)
+ * - Replacing double quotes around a sentence with `«` and `»`
+ * - Collapsing multiple spaces into a single one
+ * - Removing spaces before `,`, `.`, `)`, `…` and `’`
+ * - Removing spaces after `’` and `(`
+ * - Removing spaces around an en dash placed between two numbers
+ * - Adding spaces around an en dash placed between two words
+ * - Adding a space before `(`
+ * - Adding a non-breaking space between a number and a currency symbol
+ * - Adding a non-breaking space after `«` and before `»`
+ * - Adding a non-breaking space between an honorific and a name
+ * - Adding a thin non-breaking space before `?`, `!`, `;`, `%`, `‰`, `‱`, and
+ *   `:`
+ * - Adding a space after `,`, `.`, `?`, `!`, `;`, `%`, `‰`, `‱`, `)`, and `:`
+ *
+ * @see http://j.poitou.free.fr/pro/html/typ/typ-intro.html
+ * @see http://gargas.biomedicale.univ-paris5.fr/lt/typo.html
+ * @type {Array}
+ */
 export default ruleset = createRuleset()
 
 function createRuleset () {
