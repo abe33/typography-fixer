@@ -1,9 +1,9 @@
 import {rule, group} from '../typography-fixer'
 import {allUnits, surfaceUnits, volumeUnits} from '../constants'
 
-let ruleset
+let units
 
-export default ruleset = createRuleset()
+export default units = createRuleset()
 
 function createRuleset () {
   return group('units', [

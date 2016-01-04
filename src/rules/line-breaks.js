@@ -1,8 +1,8 @@
 import {rule, group} from '../typography-fixer'
 
-let ruleset
+let lineBreaks
 
-export default ruleset = createRuleset()
+export default lineBreaks = createRuleset()
 
 function createRuleset () {
   return group('line-breaks', [

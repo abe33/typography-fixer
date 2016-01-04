@@ -1,9 +1,9 @@
 import {rule, group} from '../typography-fixer'
 import {vulgarFractions} from '../constants'
 
-let ruleset
+let fractions
 
-export default ruleset = createRuleset()
+export default fractions = createRuleset()
 
 function createRuleset () {
   return group('fractions', vulgarFractions.map(([a,b,char]) => {

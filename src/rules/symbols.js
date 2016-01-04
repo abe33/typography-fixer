@@ -1,8 +1,8 @@
 import {rule, group} from '../typography-fixer'
 
-let ruleset
+let symbols
 
-export default ruleset = createRuleset()
+export default symbols = createRuleset()
 
 function createRuleset () {
   return group('symbols', [
