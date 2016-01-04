@@ -5,8 +5,6 @@
   "plugins": [],
   "styles": ["./esdoc/styles.css"],
   "manual": {
-    "faq": ["./FAQ.md"],
-    "usage": ["./USAGE.md"],
     "changelog": ["./CHANGELOG.md"]
   }
 }
