@@ -3,7 +3,7 @@ import {allUnits, surfaceUnits, volumeUnits} from '../../src/constants'
 import {fix, check} from '../../src/typography-fixer'
 import rules from '../../src/rules/units'
 
-describe('units rules', () => {
+describe('units ruleset', () => {
   surfaceUnits.forEach((unit) => {
     it(`replaces ${unit}2 by ${unit}²`, () => {
       expect(fix(rules, `${unit}2`)).to.eql(`${unit}²`)

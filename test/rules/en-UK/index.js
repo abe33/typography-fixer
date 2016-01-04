@@ -3,7 +3,7 @@ import {currencies} from '../../../src/constants'
 import {fix, check} from '../../../src/typography-fixer'
 import rules from '../../../src/rules/en-UK'
 
-describe('en-UK rules', () => {
+describe('en-UK ruleset', () => {
   it('includes fraction rules', () => {
     expect(rules.some((r) => {
       return r.name.indexOf('fractions') >= 0
