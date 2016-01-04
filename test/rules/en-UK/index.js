@@ -186,6 +186,11 @@ describe('en-UK ruleset', () => {
         expect(check(rules, `${char}10`)).to.be(undefined)
       })
     })
+
+    it('adds a non-breaking space after \u2116', () => {
+      expect(fix(rules, '\u2116 20')).to.eql('\u2116\u00a020')
+      expect(fix(rules, '\u211620')).to.eql('\u2116\u00a020')
+    })
   })
 
   describe('punctuations', () => {
@@ -267,6 +272,21 @@ describe('en-UK ruleset', () => {
       expect(fix(rules, "She's 5'6\" tall")).to.eql('She\u2019s 5\u20326\u2033 tall')
       expect(fix(rules, "a 9\" nail")).to.eql('a 9\u2033 nail')
       expect(fix(rules, "I Was Crushed By A 40' Man")).to.eql('I Was Crushed By A 40\u2032 Man')
+    })
+  })
+
+  describe('abbreviations', () => {
+    it('replaces No. with \u2116 but only when followed by a number', () => {
+      expect(fix(rules, 'No. 10')).to.eql('\u2116\u00a010')
+      expect(fix(rules, 'no. 10')).to.eql('\u2116\u00a010')
+
+      expect(fix(rules, 'No.')).to.eql('No.')
+      expect(fix(rules, 'no.')).to.eql('no.')
+
+      expect(check(rules, 'No. 10')).to.have.length(1)
+      expect(check(rules, 'no. 10')).to.have.length(1)
+      expect(check(rules, '\u2116\u00a010')).to.be(undefined)
+      expect(check(rules, 'no.')).to.be(undefined)
     })
   })
 })

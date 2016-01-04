@@ -22,6 +22,9 @@ export default ruleset = createRuleset().concat(fractions).concat(units).concat(
 
 function createRuleset () {
   return group('en-UK', [
+    group('abbr', [
+      rule('numeroSign', /(?:N|n)o\.(\s*\d)/, '\u2116\u00a0$1')
+    ]),
     group('punctuations', [
       rule('collapseMultiplePunctuation', /([!?])\1+/, '$1'),
       rule('shortEtCaetera', /([Ee]tc)(\.{3,}|\u2026)/, '$1.'),
@@ -46,13 +49,14 @@ function createRuleset () {
       rule('spaceAfterPunctuation', /(,|;|!|\?|%|\u2026|\u2030|\u2031)([^\s\)])/, '$1 $2'),
       rule('spaceAfterPeriodOrColon', /(\D)(\.|:)([^\s\)])/, '$1$2 $3'),
       rule('noSpaceAroundEmDash', /\s*(\u2014)\s*/, '$1'),
-      rule('spaceAroundEnDash', /([^\d\s])\x20*(\u2013)\x20*(\D)/, '$1\u00a0$2 $3'),
       rule('noSpaceAfterLeftQuote', /(\u201c)\s*(\S)/, '$1$2'),
+      rule('noSpaceAfterCurrency', `([${currenciesRegExp}])\\s*(\\d)`, '$1$2'),
       rule('noSpaceBeforeRightQuote', /(\S)\s*(\u201d)/, '$1$2'),
+      rule('spaceAroundEnDash', /([^\d\s])\x20*(\u2013)\x20*(\D)/, '$1\u00a0$2 $3'),
       rule('spaceAfterParenthesis', /(\))(\w)/, '$1 $2'),
       rule('spaceBeforeParenthesis', /(\S)(\()/, '$1 $2'),
       rule('nonBreakingSpaceAfterHonorific', /(Mr|Mrs|Ms|Miss|Sir|Lady)\s([A-Z])/, '$1\u00a0$2'),
-      rule('noSpaceAfterCurrency', `([${currenciesRegExp}])\\s*(\\d)`, '$1$2')
+      rule('nonBreakingSpaceAfterNumeroSign', /(\u2116)\s*(\d)/, '$1\u00a0$2')
     ])
   ])
 }
