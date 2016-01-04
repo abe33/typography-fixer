@@ -190,12 +190,10 @@ describe('en-UK ruleset', () => {
 
   describe('punctuations', () => {
     let etcTests = [
-      ['Etc.', 'Etc'],
-      ['Etc...', 'Etc'],
-      ['Etc\u2026', 'Etc'],
-      ['etc.', 'etc'],
-      ['etc...', 'etc'],
-      ['etc\u2026', 'etc']
+      ['Etc...', 'Etc.'],
+      ['Etc\u2026', 'Etc.'],
+      ['etc...', 'etc.'],
+      ['etc\u2026', 'etc.']
     ]
     etcTests.forEach(([source, expected]) => {
       it(`replaces ${source} by ${expected}`, () => {
@@ -206,14 +204,11 @@ describe('en-UK ruleset', () => {
     })
 
     it('checks etc. only when followed by an ellipsis', () => {
-      expect(check(rules, 'etc')).to.be(undefined)
-      expect(check(rules, 'Etc')).to.be(undefined)
+      expect(check(rules, 'etc.')).to.be(undefined)
+      expect(check(rules, 'Etc.')).to.be(undefined)
     })
 
-    let abbrWithoutFullStop = [
-      'eg', 'am', 'pm', 'op', 'no', 'cf', 'ie', 'ed',
-      'Mr', 'Ms', 'Mrs', 'Prof', 'Dr'
-    ]
+    let abbrWithoutFullStop = ['Mr', 'Ms', 'Mrs', 'Prof', 'Dr']
     abbrWithoutFullStop.forEach((abbr) => {
       it(`removes a period placed after ${abbr}`, () => {
         expect(fix(rules, `${abbr}.`)).to.eql(`${abbr}`)
