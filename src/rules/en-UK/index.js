@@ -12,10 +12,11 @@ function createRuleset () {
   return group('en-UK', [
     group('punctuations', [
       rule('collapseMultiplePunctuation', /([!?])\1+/, '$1'),
-      rule('shortEtCaetera', /([Ee]tc)(\.{3}|\u2026)/, '$1.'),
+      rule('shortEtCaetera', /([Ee]tc)(\.{1,}|\u2026)/, '$1'),
       rule('triplePeriods', /\.{3,}/, '\u2026'),
       rule('enDashBetweenWords', /(\D\x20)-(\x20\D)/, '$1\u2013$2'),
-      rule('enDashBetweenNumbers', /(\d)\s*-\s*(\d)/, '$1\u2013$2')
+      rule('enDashBetweenNumbers', /(\d)\s*-\s*(\d)/, '$1\u2013$2'),
+      rule('noPeriodAfterAbbr', /\b(eg|am|pm|op|no|cf|ie|ed|Mr|Ms|Mrs|Prof|Dr)\./, '$1')
     ]),
     group('quotes', [
       rule('singlePrime', /(\d)'/, '$1\u2032'),

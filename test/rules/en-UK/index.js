@@ -190,21 +190,39 @@ describe('en-UK ruleset', () => {
 
   describe('punctuations', () => {
     let etcTests = [
-      ['Etc...', 'Etc.'],
-      ['Etc\u2026', 'Etc.'],
-      ['etc...', 'etc.'],
-      ['etc\u2026', 'etc.']
+      ['Etc.', 'Etc'],
+      ['Etc...', 'Etc'],
+      ['Etc\u2026', 'Etc'],
+      ['etc.', 'etc'],
+      ['etc...', 'etc'],
+      ['etc\u2026', 'etc']
     ]
     etcTests.forEach(([source, expected]) => {
       it(`replaces ${source} by ${expected}`, () => {
         expect(fix(rules, source)).to.eql(expected)
+
+        expect(check(rules, source)).not.to.be(undefined)
       })
     })
 
     it('checks etc. only when followed by an ellipsis', () => {
-      expect(check(rules, 'etc.')).to.be(undefined)
-      expect(check(rules, 'Etc.')).to.be(undefined)
+      expect(check(rules, 'etc')).to.be(undefined)
+      expect(check(rules, 'Etc')).to.be(undefined)
     })
+
+    let abbrWithoutFullStop = [
+      'eg', 'am', 'pm', 'op', 'no', 'cf', 'ie', 'ed',
+      'Mr', 'Ms', 'Mrs', 'Prof', 'Dr'
+    ]
+    abbrWithoutFullStop.forEach((abbr) => {
+      it(`removes a period placed after ${abbr}`, () => {
+        expect(fix(rules, `${abbr}.`)).to.eql(`${abbr}`)
+
+        expect(check(rules, `${abbr}.`)).to.have.length(1)
+        expect(check(rules, `${abbr}`)).to.be(undefined)
+      })
+    })
+
 
     it('replaces two or more ! with a single !', () => {
       expect(fix(rules, 'Foo!!')).to.eql('Foo!')
