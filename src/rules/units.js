@@ -1,5 +1,5 @@
 import {rule, group} from '../typography-fixer'
-import {units, surfaceUnits, volumeUnits} from '../constants'
+import {allUnits, surfaceUnits, volumeUnits} from '../constants'
 
 let ruleset
 
@@ -11,6 +11,6 @@ function createRuleset () {
       rule('surface', `(${surfaceUnits.join('|')})2`, '$1²'),
       rule('volume', `(${volumeUnits.join('|')})3`, '$1³')
     ]),
-    rule('unitSpace', `(\\d)\\s*(${units.join('|')})(?=[\\.,\\)\\s]|$)`, '$1\u202f$2')
+    rule('unitSpace', `(\\d)\\s*(${allUnits.join('|')})(?=[\\.,\\)\\s]|$)`, '$1\u202f$2')
   ])
 }

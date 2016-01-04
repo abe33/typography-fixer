@@ -1,5 +1,5 @@
 import expect from 'expect.js'
-import {units, surfaceUnits, volumeUnits} from '../../src/constants'
+import {allUnits, surfaceUnits, volumeUnits} from '../../src/constants'
 import {fix, check} from '../../src/typography-fixer'
 import rules from '../../src/rules/units'
 
@@ -22,7 +22,7 @@ describe('units rules', () => {
     })
   })
 
-  units.forEach((unit) => {
+  allUnits.forEach((unit) => {
     it(`adds a thin non-breaking space between a number and ${unit}`, () => {
       expect(fix(rules, `10${unit}`)).to.eql(`10\u202f${unit}`)
       expect(fix(rules, `10 ${unit}`)).to.eql(`10\u202f${unit}`)

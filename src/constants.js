@@ -41,7 +41,7 @@ export const currenciesRegExp = Object.keys(currencies).map((c) => {
   return currencies[c]
 }).join('')
 
-export const fractions = [
+export const vulgarFractions = [
   [1, 4, '\u00bc'],
   [1, 2, '\u00bd'],
   [3, 4, '\u00be'],
@@ -209,4 +209,4 @@ function combine (a, b) {
   .reduce((memo, el) => { return memo.concat(el) }, [])
 }
 
-export const units = otherUnits.concat(combine(scalableUnits, unitScales))
+export const allUnits = otherUnits.concat(combine(scalableUnits, unitScales))
