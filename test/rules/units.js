@@ -26,9 +26,15 @@ describe('units rules', () => {
     it(`adds a thin non-breaking space between a number and ${unit}`, () => {
       expect(fix(rules, `10${unit}`)).to.eql(`10\u202f${unit}`)
       expect(fix(rules, `10 ${unit}`)).to.eql(`10\u202f${unit}`)
+      expect(fix(rules, `10 ${unit}, foo`)).to.eql(`10\u202f${unit}, foo`)
+      expect(fix(rules, `10 ${unit}.`)).to.eql(`10\u202f${unit}.`)
+      expect(fix(rules, `10 ${unit} bar`)).to.eql(`10\u202f${unit} bar`)
+      expect(fix(rules, `(10 ${unit})`)).to.eql(`(10\u202f${unit})`)
+      expect(fix(rules, `10 ${unit}foo`)).to.eql(`10 ${unit}foo`)
 
       expect(check(rules, `10${unit}`)).to.have.length(1)
       expect(check(rules, `10\u202f${unit}`)).to.be(undefined)
+      expect(check(rules, `10 ${unit}foo`)).to.be(undefined)
 
       expect(check(rules, `10 ${unit}`)).to.have.length(1)
       expect(check(rules, `10\u202f${unit}`)).to.be(undefined)

@@ -11,6 +11,6 @@ function createRuleset () {
       rule('surface', `(${surfaceUnits.join('|')})2`, '$1²'),
       rule('volume', `(${volumeUnits.join('|')})3`, '$1³')
     ]),
-    rule('unitSpace', `(\\d)\\s*(${units.join('|')})`, '$1\u202f$2')
+    rule('unitSpace', `(\\d)\\s*(${units.join('|')})(?=[\\.,\\)\\s]|$)`, '$1\u202f$2')
   ])
 }
