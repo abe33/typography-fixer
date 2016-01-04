@@ -65,26 +65,43 @@ describe('en-UK ruleset', () => {
       })
     })
 
-    let charsWithNoSpaceAfter = ['\u2019', '(']
-    charsWithNoSpaceAfter.forEach((char) => {
-      it(`removes spaces after ${char}`, () => {
-        expect(fix(rules, `${char} bar`)).to.eql(`${char}bar`)
-        expect(fix(rules, `${char}  bar`)).to.eql(`${char}bar`)
-      })
+    it('removes spaces after \u2019 only if it is preceded by a s', () => {
+      expect(fix(rules, 'ain\u2019 t no sunshine')).to.eql('ain\u2019t no sunshine')
+      expect(fix(rules, 'sisters\u2019 bar')).to.eql('sisters\u2019 bar')
+      expect(fix(rules, 'sister\u2019 s bar')).to.eql('sister\u2019s bar')
 
-      it(`removes a non-breaking space after ${char}`, () => {
-        expect(fix(rules, `${char}\u00a0bar`)).to.eql(`${char}bar`)
-        expect(fix(rules, `${char}\u00a0\u00a0bar`)).to.eql(`${char}bar`)
+      expect(check(rules, 'ain\u2019 t no sunshine')).to.have.length(1)
+      expect(check(rules, 'ain\u2019t no sunshine')).to.be(undefined)
 
-        expect(fix(rules, `${char}\u202Fbar`)).to.eql(`${char}bar`)
-        expect(fix(rules, `${char}\u202F\u202Fbar`)).to.eql(`${char}bar`)
-      })
+      expect(check(rules, 'sisters\u2019 bar')).to.be(undefined)
 
-      it(`checks only when there is a space after ${char}`, () => {
-        expect(check(rules, `${char} bar`)).to.have.length(1)
-        expect(check(rules, `${char}\u00a0bar`)).to.have.length(1)
-        expect(check(rules, `${char}bar`)).to.be(undefined)
-      })
+      expect(check(rules, 'sister\u2019 s bar')).to.have.length(1)
+      expect(check(rules, 'sister\u2019s bar')).to.be(undefined)
+    })
+
+    it('removes a non-breaking space after \u2019', () => {
+      expect(fix(rules, 'ain\u2019\u00a0t no sunshine')).to.eql('ain\u2019t no sunshine')
+
+      expect(check(rules, 'ain\u2019\u00a0t no sunshine')).to.have.length(1)
+    })
+
+    it('removes spaces after (', () => {
+      expect(fix(rules, '( bar')).to.eql('(bar')
+      expect(fix(rules, '(  bar')).to.eql('(bar')
+    })
+
+    it('removes a non-breaking space after (', () => {
+      expect(fix(rules, '(\u00a0bar')).to.eql('(bar')
+      expect(fix(rules, '(\u00a0\u00a0bar')).to.eql('(bar')
+
+      expect(fix(rules, '(\u202Fbar')).to.eql('(bar')
+      expect(fix(rules, '(\u202F\u202Fbar')).to.eql('(bar')
+    })
+
+    it('checks only when there is a space after (', () => {
+      expect(check(rules, '( bar')).to.have.length(1)
+      expect(check(rules, '(\u00a0bar')).to.have.length(1)
+      expect(check(rules, '(bar')).to.be(undefined)
     })
 
     it('adds a space after a ) if the following char is not a punctuation', () => {

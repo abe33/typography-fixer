@@ -27,7 +27,8 @@ function createRuleset () {
     group('spaces', [
       rule('collapseMultipleSpaces', /\x20{2,}/, ' '),
       rule('noSpaceBeforePunctuation', /\s+(\.|,|;|:|!|\?|%|\)|\u2019|\u2026|\u2030|\u2031)/, '$1'),
-      rule('noSpaceAfterPunctuation', /(\u2019|\()\s+/, '$1'),
+      rule('noSpaceAfterParenthesis', /(\()\s+/, '$1'),
+      rule('noSpaceAfterQuote', /([^s])(\u2019)\s+/, '$1$2'),
       rule('noSpaceAroundEnDashBetweenNumbers', /(\d)\s*\u2013\s*(\d)/, '$1\u2013$2'),
       rule('spaceAfterPunctuation', /(,|;|!|\?|%|\u2026|\u2030|\u2031)([^\s\)])/, '$1 $2'),
       rule('spaceAfterPeriodOrColon', /(\D)(\.|:)([^\s\)])/, '$1$2 $3'),
