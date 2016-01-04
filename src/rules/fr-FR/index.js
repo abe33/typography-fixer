@@ -49,7 +49,7 @@ let ruleset
  * - Adding a thin non-breaking space before `?`, `!`, `;`, `%`, `‰`, `‱`, and
  *   `:`
  * - Adding a space after `,`, `.`, `?`, `!`, `;`, `%`, `‰`, `‱`, `)`, and `:`
- * - Replacing invalid ordinal numbers such `1er` by their proper form
+ * - Replacing invalid ordinal numbers such `1ère` by their proper form
  * - Enforcing lowercase for months and days names
  * - Enforcing use of ligatures for `ae` and `oe`
  *
