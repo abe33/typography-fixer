@@ -6,6 +6,18 @@ import units from '../units'
 
 let ruleset
 
+/**
+ * The ruleset for english typography in the United Kingdom.
+ *
+ * Finally, the following rulesets are also included:
+ *
+ * - {@link src/rules/fractions.js~fractions}
+ * - {@link src/rules/symbols.js~symbols}
+ * - {@link src/rules/units.js~units}
+ *
+ * @see http://www.cam.ac.uk/brand-resources/guidelines/editorial-style-guide
+ * @type {Array<Object>}
+ */
 export default ruleset = createRuleset().concat(fractions).concat(units).concat(symbols)
 
 function createRuleset () {
