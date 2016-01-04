@@ -33,7 +33,7 @@ let ruleset
  * - Properly formatting `c.-à-d.` abbreviation
  * - Using a superscript `o` instead of `°` for `numéro` abbreviation
  * - Replacing hyphen between numbers such as in `1939-1945` by an en dash
- * - Replacing hyphen between words such as in `Pierre – tu le connais, hein ? –
+ * - Replacing hyphen between words such as in `Pierre - tu le connais, hein ? -
  *   est professeur de yoga` by an en dash
  * - Replacing single quote in `L'arbre` with a typographic one (`’`)
  * - Replacing double quotes around a sentence with `«` and `»`
@@ -49,10 +49,19 @@ let ruleset
  * - Adding a thin non-breaking space before `?`, `!`, `;`, `%`, `‰`, `‱`, and
  *   `:`
  * - Adding a space after `,`, `.`, `?`, `!`, `;`, `%`, `‰`, `‱`, `)`, and `:`
+ * - Replacing invalid ordinal numbers such `1er` by their proper form
+ * - Enforcing lowercase for months and days names
+ * - Enforcing use of ligatures for `ae` and `oe`
+ *
+ * Finally, the following rulesets are also included:
+ *
+ * - {@link src/rules/fractions.js~fractions}
+ * - {@link src/rules/symbols.js~symbols}
+ * - {@link src/rules/units.js~units}
  *
  * @see http://j.poitou.free.fr/pro/html/typ/typ-intro.html
  * @see http://gargas.biomedicale.univ-paris5.fr/lt/typo.html
- * @type {Array}
+ * @type {Array<Object>}
  */
 export default ruleset = createRuleset().concat(fractions).concat(units).concat(symbols)
 
