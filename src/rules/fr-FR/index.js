@@ -1,5 +1,7 @@
 import {rule, group} from '../../typography-fixer'
 import {currenciesRegExp} from '../../constants'
+import fractions from '../fractions'
+import units from '../units'
 
 let ruleset
 
@@ -51,7 +53,7 @@ let ruleset
  * @see http://gargas.biomedicale.univ-paris5.fr/lt/typo.html
  * @type {Array}
  */
-export default ruleset = createRuleset()
+export default ruleset = createRuleset().concat(fractions).concat(units)
 
 function createRuleset () {
   return group('fr-FR', [

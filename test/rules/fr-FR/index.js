@@ -4,6 +4,18 @@ import {fix, check} from '../../../src/typography-fixer'
 import rules from '../../../src/rules/fr-FR'
 
 describe('fr-FR rules', () => {
+  it('includes fraction rules', () => {
+    expect(rules.some((r) => {
+      return r.name.indexOf('fractions') >= 0
+    })).to.be(true)
+  })
+
+  it('includes unit rules', () => {
+    expect(rules.some((r) => {
+      return r.name.indexOf('units') >= 0
+    })).to.be(true)
+  })
+
   describe('spaces', () => {
     it('replaces consecutive spaces with a single space', () => {
       expect(fix(rules, 'Un    jour')).to.eql('Un jour')
