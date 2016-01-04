@@ -14,7 +14,8 @@ let ruleset
  * - {@link src/rules/fractions.js~fractions}
  * - {@link src/rules/symbols.js~symbols}
  * - {@link src/rules/units.js~units}
- *
+ * 
+ * @see http://typophile.com/files/typography_rules.pdf
  * @see http://j.poitou.free.fr/pro/html/typ/anglais.html
  * @type {Array<Object>}
  */
