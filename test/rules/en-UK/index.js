@@ -4,6 +4,24 @@ import {fix, check} from '../../../src/typography-fixer'
 import rules from '../../../src/rules/en-UK'
 
 describe('en-UK rules', () => {
+  it('includes fraction rules', () => {
+    expect(rules.some((r) => {
+      return r.name.indexOf('fractions') >= 0
+    })).to.be(true)
+  })
+
+  it('includes unit rules', () => {
+    expect(rules.some((r) => {
+      return r.name.indexOf('units') >= 0
+    })).to.be(true)
+  })
+
+  it('includes symbol rules', () => {
+    expect(rules.some((r) => {
+      return r.name.indexOf('symbols') >= 0
+    })).to.be(true)
+  })
+
   describe('spaces', () => {
     it('replaces consecutive spaces with a single space', () => {
       expect(fix(rules, 'One    day')).to.eql('One day')

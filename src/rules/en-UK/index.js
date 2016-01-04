@@ -1,9 +1,12 @@
 import {rule, group} from '../../typography-fixer'
 import {currenciesRegExp} from '../../constants'
+import fractions from '../fractions'
+import symbols from '../symbols'
+import units from '../units'
 
 let ruleset
 
-export default ruleset = createRuleset()
+export default ruleset = createRuleset().concat(fractions).concat(units).concat(symbols)
 
 function createRuleset () {
   return group('en-UK', [

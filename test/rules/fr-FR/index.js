@@ -16,6 +16,12 @@ describe('fr-FR rules', () => {
     })).to.be(true)
   })
 
+  it('includes symbol rules', () => {
+    expect(rules.some((r) => {
+      return r.name.indexOf('symbols') >= 0
+    })).to.be(true)
+  })
+
   describe('spaces', () => {
     it('replaces consecutive spaces with a single space', () => {
       expect(fix(rules, 'Un    jour')).to.eql('Un jour')
