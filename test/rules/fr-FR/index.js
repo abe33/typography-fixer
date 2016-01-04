@@ -361,23 +361,6 @@ describe('fr-FR rules', () => {
         expect(fix(rules, string)).to.eql(string.toLowerCase())
       })
     })
-
-    let hours = [
-      ['13h37', '13\u00a0h\u00a037'],
-      ['13 h 37', '13\u00a0h\u00a037'],
-      ['13h37min54sec', '13\u00a0h\u00a037\u00a0min\u00a054\u00a0sec'],
-      ['13h37m54s', '13\u00a0h\u00a037\u00a0m\u00a054\u00a0s'],
-      ['13 h 37 min 54 sec', '13\u00a0h\u00a037\u00a0min\u00a054\u00a0sec']
-    ]
-
-    hours.forEach(([source, expected]) => {
-      it(`replaces ${source} with ${expected} using non-breaking spaces`, () => {
-        expect(fix(rules, source)).to.eql(expected)
-
-        expect(check(rules, source)).to.have.length(1)
-        expect(check(rules, expected)).to.be(undefined)
-      })
-    })
   })
 
   describe('ligatures', () => {

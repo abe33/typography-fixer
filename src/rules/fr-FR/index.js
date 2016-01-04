@@ -102,14 +102,6 @@ function createRuleset () {
     group('datetime', [
       rule('daysAndMonths', /(Lundi|Mardi|Mercredi|Jeudi|Vendredi|Samedi|Dimanche|Janvier|Février|Mars|Avril|Mai|Juin|Juillet|Aout|Septembre|Octobre|Novembre|Décembre)/, (s) => {
         return s.toLowerCase()
-      }),
-      rule('time', /(\d+)\x20*(h)\x20*(\d+)(?:\x20*(m(?:in)?)(?:\x20*(\d+)\x20*(s(?:ec)?))?)?/, (m, ...args) => {
-        args.pop()
-        args.pop()
-
-        args = args.filter((v) => { return v })
-
-        return args.join('\u00a0')
       })
     ]),
     group('ligatures', [
