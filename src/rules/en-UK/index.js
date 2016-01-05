@@ -57,8 +57,7 @@ function createRuleset () {
       rule('nonBreakingSpaceAfterNumeroSign', /(\u2116)\s*(\d)/, '$1\u00a0$2')
     ]),
     group('abbr', [
-      rule('numeroSign', /(?:N|n)o\.\s*(\d)/, '\u2116\u00a0$1'),
-      rule('idEst', /\bi\.?\s*e\.?/, 'i.e.')
+      rule('numeroSign', /(?:N|n)o\.\s*(\d)/, '\u2116\u00a0$1')
     ])
   ])
 }

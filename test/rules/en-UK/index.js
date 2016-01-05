@@ -288,22 +288,5 @@ describe('en-UK ruleset', () => {
       expect(check(rules, '\u2116\u00a010')).to.be(undefined)
       expect(check(rules, 'no.')).to.be(undefined)
     })
-
-    let idEstAbbrTests = ['ie', 'ie.', 'i.e', 'i. e.']
-    idEstAbbrTests.forEach((abbr) => {
-      it(`replaces ${abbr} with i.e.`, () => {
-        expect(fix(rules, abbr)).to.eql('i.e.')
-
-        expect(check(rules, abbr)).not.to.be(undefined)
-      })
-    })
-
-    it('does not confuse ie in a word with id est', () => {
-      expect(fix(rules, 'pie')).to.eql('pie')
-      expect(fix(rules, 'tied')).to.eql('tied')
-
-      expect(check(rules, 'pie')).to.be(undefined)
-      expect(check(rules, 'tied')).to.be(undefined)
-    })
   })
 })
