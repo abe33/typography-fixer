@@ -14,7 +14,7 @@ let ruleset
  * - {@link src/rules/fractions.js~fractions}
  * - {@link src/rules/symbols.js~symbols}
  * - {@link src/rules/units.js~units}
- * 
+ *
  * @see http://typophile.com/files/typography_rules.pdf
  * @see http://j.poitou.free.fr/pro/html/typ/anglais.html
  * @type {Array<Object>}
@@ -23,9 +23,6 @@ export default ruleset = createRuleset().concat(fractions).concat(units).concat(
 
 function createRuleset () {
   return group('en-UK', [
-    group('abbr', [
-      rule('numeroSign', /(?:N|n)o\.(\s*\d)/, '\u2116\u00a0$1')
-    ]),
     group('punctuations', [
       rule('collapseMultiplePunctuation', /([!?])\1+/, '$1'),
       rule('shortEtCaetera', /([Ee]tc)(\.{3,}|\u2026)/, '$1.'),
@@ -58,6 +55,10 @@ function createRuleset () {
       rule('spaceBeforeParenthesis', /(\S)(\()/, '$1 $2'),
       rule('nonBreakingSpaceAfterHonorific', /(Mr|Mrs|Ms|Miss|Sir|Lady)\s([A-Z])/, '$1\u00a0$2'),
       rule('nonBreakingSpaceAfterNumeroSign', /(\u2116)\s*(\d)/, '$1\u00a0$2')
+    ]),
+    group('abbr', [
+      rule('numeroSign', /(?:N|n)o\.\s*(\d)/, '\u2116\u00a0$1'),
+      rule('idEst', /\bi\.?\s*e\.?/, 'i.e.')
     ])
   ])
 }
