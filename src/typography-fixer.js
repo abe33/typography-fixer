@@ -26,17 +26,13 @@ import R from 'ramda'
  * const results = check(rules, 'Some string "to check".')
  */
 export const check = R.curry(function check (ruleset, string) {
-  if (!ruleset || !string) {
-    throw new Error('The check arguments are mandatory')
-  }
-
   let {ignores, rules} = filterRules(ruleset)
 
   if (rules.length === 0) { return undefined }
 
   const getRanges = R.compose(R.unnest, R.map(rangesIn(string)))
   const anyIntersection = R.anyPass(R.map(rangesIntersects, getRanges(ignores)))
-  const noIntersection = R.compose(R.not, anyIntersection, dot('range'))
+  const noIntersection = R.compose(R.not, R.propSatisfies(anyIntersection, 'range'))
   const getResults = R.compose(R.flatten, R.map(checkString(string)))
   const results = R.filter(noIntersection, getResults(rules))
 
@@ -68,20 +64,11 @@ export const fix = R.curry(function fix (ruleset, string) {
 
   if (rules.length === 0) { return string }
 
-  const ranges = campactRanges(R.flatten(ignores.map((ignore) => {
-    return ignore.ranges(string)
-  })))
+  const getRanges = R.compose(compactRanges, R.unnest, R.map(rangesIn(string)))
+  const {included, excluded} = splitByRanges(string, getRanges(ignores))
+  const replace = R.map(R.reduce(fixString, R.__, rules))
 
-  const {included, excluded} = splitByRanges(string, ranges)
-
-  for (let i = 0, len = included.length; i < len; i++) {
-    for (let j = 0, len = rules.length; j < len; j++) {
-      const rule = rules[j]
-      included[i] = rule.fix(included[i])
-    }
-  }
-
-  return alternateJoin(included, excluded)
+  return alternateJoin(replace(included), excluded)
 })
 
 /**
@@ -159,10 +146,10 @@ export function group (name, rules) {
  * arguments.
  *
  * @param  {string} name the name of the rule
- * @param  {string|RegExp} expression the regular expression to match against
- *                                    a string
- * @param  {string|function} replacement the replacement string or function
- *                                       to use when a match is found
+ * @param  {string|RegExp} match the regular expression to match against
+ *                               a string
+ * @param  {string|function} replace the replacement string or function
+ *                                   to use when a match is found
  * @throws {Error} when one argument is missing
  * @return {Object} the rule object
  * @property {string} name the rule's name
@@ -178,71 +165,9 @@ export function group (name, rules) {
  * // by a number, as in 12.4 or 04:35, or followed by a space or `)`
  * const ruleObject = rule('spaceAfterPeriodOrColon', /(\D)(\.|:)([^\s\)])/, '$1$2 $3')
  */
-export function rule (name, expression, replacement) {
-  if (!name || !expression || !replacement) {
-    throw new Error('All arguments of the rule function are mandatory')
-  }
-
-  let source
-  let flags = []
-
-  if (expression instanceof RegExp) {
-    source = expression.source
-    if (expression.multiline) { flags.push('m') }
-    if (expression.ignoreCase) { flags.push('i') }
-  } else {
-    source = expression
-    flags.push('m')
-  }
-
-  const searchFlags = flags.concat('g').join('')
-  const matchFlags = flags.join('')
-
-  return {
-    name,
-    check (string) {
-      const searchRegExp = new RegExp(source, searchFlags)
-      const matchRegExp = new RegExp(source, matchFlags)
-      const matches = []
-      let match
-      do {
-        match = searchRegExp.exec(string)
-        if (match && match[0].replace(matchRegExp, replacement) !== match[0]) {
-          matches.push({
-            rule: this.name,
-            range: [match.index, searchRegExp.lastIndex]
-          })
-        }
-      } while (match)
-
-      return matches
-    },
-    fix (string) {
-      const searchRegExp = new RegExp(source, searchFlags)
-      return string.replace(searchRegExp, replacement)
-    }
-  }
+export function rule (name, match, replace) {
+  return {name, match, replace}
 }
-
-const checkString = R.curry(function (string, rule) {
-
-  const searchRegExp = checkRuleRegExp(rule)
-  const matchRegExp = fixRuleRegExp(rule)
-  const matches = []
-
-  let match
-  do {
-    match = searchRegExp.exec(string)
-    if (match && match[0].replace(matchRegExp, rule.replace) !== match[0]) {
-      matches.push({
-        rule: rule.name,
-        range: [match.index, searchRegExp.lastIndex]
-      })
-    }
-  } while (match)
-
-  return matches
-})
 
 /**
  * Creates a new ignore rule that excludes the specified `expression`.
@@ -267,8 +192,8 @@ const checkString = R.curry(function (string, rule) {
  * expression by passing `true` as the third argument of the `ignore` function.
  *
  * @param  {string} name the name of the rule
- * @param  {string|RegExp} expression the regular expression to match against
- *                                    a string
+ * @param  {string|RegExp} ignore the regular expression to match against
+ *                                a string
  * @param  {boolean} [invertRanges=false] if `true` the excluded ranges will
  *                                        cover every part of the string that
  *                                        is not matched by the expression
@@ -310,7 +235,28 @@ const ignoreRuleRegExp = ruleRegExp(true, 'ignore')
 const checkRuleRegExp = ruleRegExp(true, 'match')
 const fixRuleRegExp = ruleRegExp(false, 'match')
 
-const dot = R.curry((prop, obj) => { return obj[prop] })
+const checkString = R.curry(function check (string, rule) {
+  const searchRegExp = checkRuleRegExp(rule)
+  const matchRegExp = fixRuleRegExp(rule)
+  const matches = []
+
+  let match
+  do {
+    match = searchRegExp.exec(string)
+    if (match && match[0].replace(matchRegExp, rule.replace) !== match[0]) {
+      matches.push({
+        rule: rule.name,
+        range: [match.index, searchRegExp.lastIndex]
+      })
+    }
+  } while (match)
+
+  return matches
+})
+
+const fixString = R.curry(function fix (string, rule) {
+  return R.replace(checkRuleRegExp(rule), rule.replace, string)
+})
 
 const rangesIn = R.curry(function (string, rule) {
   if (rule.invertRanges) {
@@ -407,7 +353,7 @@ function alternateJoin (a, b) {
   return string
 }
 
-function campactRanges (ranges) {
+function compactRanges (ranges) {
   if (ranges.length === 0) { return [] }
 
   const newRanges = ranges.reduce((memo, rangeA) => {

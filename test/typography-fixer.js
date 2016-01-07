@@ -1,8 +1,8 @@
 import expect from 'expect.js'
 import {rule, ignore, group, check, fix} from '../src/typography-fixer'
 
-describe('typographyFixer', () => {
-  describe.only('check', () => {
+describe.only('typographyFixer', () => {
+  describe('check', () => {
     it('returns a curried function when called with a single argument', () => {
       expect(check([])).to.be.a(Function)
     })
@@ -77,23 +77,31 @@ describe('typographyFixer', () => {
   })
 
   describe('fix', () => {
-    it('throws when called without arguments', () => {
-      expect(() => { fix() }).to.throwError()
-      expect(() => { fix([]) }).to.throwError()
+    it('returns a curried function when called with a single argument', () => {
+      expect(fix([])).to.be.a(Function)
     })
+
 
     it('returns the string when called without any rules', () => {
       expect(fix([], 'string')).to.eql('string')
     })
 
     it('returns the string when there is no match', () => {
-      const ruleObject = rule('Foo', /foo/, 'bar')
+      const ruleObject = {
+        name: 'Foo',
+        match: /foo/,
+        replace: 'bar'
+      }
 
       expect(fix([ruleObject], 'string')).to.eql('string')
     })
 
     it('replaces instances of matches by the replacement string', () => {
-      const ruleObject = rule('Foo', /foo/, 'bar')
+      const ruleObject = {
+        name: 'Foo',
+        match: /foo/,
+        replace: 'bar'
+      }
 
       expect(fix([ruleObject], 'Da foo foo')).to.eql('Da bar bar')
     })
@@ -107,16 +115,31 @@ describe('typographyFixer', () => {
 
     describe('with ignore rules', () => {
       it('applies the rules unless in excluded ranges', () => {
-        const ruleObject = rule('Foo', /foo|"/, 'bar')
-        const ignoreObject = ignore('quotes', /"[^"]+"/)
+        const ruleObject = {
+          name: 'Foo',
+          match: /foo|"/,
+          replace: 'bar'
+        }
+        const ignoreObject = {
+          name: 'quotes',
+          ignore: /"[^"]+"/
+        }
 
         expect(fix([ruleObject, ignoreObject], 'foo "foo" foo "foo"')).to.eql('bar "foo" bar "foo"')
       })
 
       describe('that is inverted', () => {
         it('applies the rules unless in excluded ranges', () => {
-          const ruleObject = rule('Foo', /foo|"/, 'bar')
-          const ignoreObject = ignore('quotes', /"[^"]+"/, true)
+          const ruleObject = {
+            name: 'Foo',
+            match: /foo|"/,
+            replace: 'bar'
+          }
+          const ignoreObject = {
+            name: 'quotes',
+            ignore: /"[^"]+"/,
+            invertRanges: true
+          }
 
           expect(fix([ruleObject, ignoreObject], 'foo "foo" foo "foo"')).to.eql('foo barbarbar foo barbarbar')
         })
@@ -124,7 +147,7 @@ describe('typographyFixer', () => {
     })
   })
 
-  describe('rule', () => {
+  describe.skip('rule', () => {
     let ruleObject
 
     beforeEach(() => {
@@ -201,7 +224,7 @@ describe('typographyFixer', () => {
     })
   })
 
-  describe('ignore', () => {
+  describe.skip('ignore', () => {
     let ignoreObject
 
     beforeEach(() => {
@@ -263,7 +286,7 @@ describe('typographyFixer', () => {
     })
   })
 
-  describe('group', () => {
+  describe.skip('group', () => {
     let ruleObject, ignoreObject
 
     beforeEach(() => {
