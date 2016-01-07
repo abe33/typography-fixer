@@ -2,6 +2,128 @@ import expect from 'expect.js'
 import {rule, ignore, group, check, fix} from '../src/typography-fixer'
 
 describe('typographyFixer', () => {
+  describe.only('check', () => {
+    it('returns a curried function when called with a single argument', () => {
+      expect(check([])).to.be.a(Function)
+    })
+
+    it('returns undefined when called without any rules', () => {
+      expect(check([], 'string')).to.be(undefined)
+    })
+
+    it('returns undefined when there is no match in the string', () => {
+      const ruleObject = {
+        name: 'Foo',
+        match: /foo/,
+        replace: 'bar'
+      }
+      expect(check([ruleObject], 'string')).to.be(undefined)
+    })
+
+    it('returns a report object for each match', () => {
+      const ruleObject = {
+        name: 'Foo',
+        match: /foo/,
+        replace: 'bar'
+      }
+      const reports = check([ruleObject], 'Da foo foo')
+
+      expect(reports).to.eql([
+        {rule: 'Foo', range: [3, 6]},
+        {rule: 'Foo', range: [7, 10]}
+      ])
+    })
+
+    describe('with ignore rules', () => {
+      it('applies the rules unless in excluded ranges', () => {
+        const ruleObject = {
+          name: 'Foo',
+          match: /foo/,
+          replace: 'bar'
+        }
+        const ignoreObject = {
+          name: 'quotes',
+          ignore: /"[^"]+"/
+        }
+        const reports = check([ruleObject, ignoreObject], 'foo "foo" foo "foo"')
+
+        expect(reports).to.eql([
+          {rule: 'Foo', range: [0, 3]},
+          {rule: 'Foo', range: [10, 13]}
+        ])
+      })
+
+      describe('that is inverted', () => {
+        it('applies the rules unless in excluded ranges', () => {
+          const ruleObject = {
+            name: 'Foo',
+            match: /foo/,
+            replace: 'bar'
+          }
+          const ignoreObject = {
+            name: 'quotes',
+            ignore: /"[^"]+"/,
+            invertRanges: true
+          }
+          const reports = check([ruleObject, ignoreObject], 'foo "foo" foo "foo"')
+
+          expect(reports).to.eql([
+            {rule: 'Foo', range: [5, 8]},
+            {rule: 'Foo', range: [15, 18]}
+          ])
+        })
+      })
+    })
+  })
+
+  describe('fix', () => {
+    it('throws when called without arguments', () => {
+      expect(() => { fix() }).to.throwError()
+      expect(() => { fix([]) }).to.throwError()
+    })
+
+    it('returns the string when called without any rules', () => {
+      expect(fix([], 'string')).to.eql('string')
+    })
+
+    it('returns the string when there is no match', () => {
+      const ruleObject = rule('Foo', /foo/, 'bar')
+
+      expect(fix([ruleObject], 'string')).to.eql('string')
+    })
+
+    it('replaces instances of matches by the replacement string', () => {
+      const ruleObject = rule('Foo', /foo/, 'bar')
+
+      expect(fix([ruleObject], 'Da foo foo')).to.eql('Da bar bar')
+    })
+
+    it('applies the rules in order', () => {
+      const ruleObject1 = rule('Foo', /foo/, 'bar')
+      const ruleObject2 = rule('Foo', /foo/, 'baz')
+
+      expect(fix([ruleObject1, ruleObject2], 'Da foo foo')).to.eql('Da bar bar')
+    })
+
+    describe('with ignore rules', () => {
+      it('applies the rules unless in excluded ranges', () => {
+        const ruleObject = rule('Foo', /foo|"/, 'bar')
+        const ignoreObject = ignore('quotes', /"[^"]+"/)
+
+        expect(fix([ruleObject, ignoreObject], 'foo "foo" foo "foo"')).to.eql('bar "foo" bar "foo"')
+      })
+
+      describe('that is inverted', () => {
+        it('applies the rules unless in excluded ranges', () => {
+          const ruleObject = rule('Foo', /foo|"/, 'bar')
+          const ignoreObject = ignore('quotes', /"[^"]+"/, true)
+
+          expect(fix([ruleObject, ignoreObject], 'foo "foo" foo "foo"')).to.eql('foo barbarbar foo barbarbar')
+        })
+      })
+    })
+  })
+
   describe('rule', () => {
     let ruleObject
 
@@ -211,106 +333,6 @@ describe('typographyFixer', () => {
         const modifiedRule = group('bar', [ruleObject])[0]
 
         expect(modifiedRule.fix('Da foo foo')).to.eql('Da bar bar')
-      })
-    })
-  })
-
-  describe('check', () => {
-    it('throws when called without arguments', () => {
-      expect(() => { check() }).to.throwError()
-      expect(() => { check([]) }).to.throwError()
-    })
-
-    it('returns undefined when called without any rules', () => {
-      expect(check([], 'string')).to.be(undefined)
-    })
-
-    it('returns undefined when there is no match in the string', () => {
-      const ruleObject = rule('Foo', /foo/, 'bar')
-      expect(check([ruleObject], 'string')).to.be(undefined)
-    })
-
-    it('returns a report object for each match', () => {
-      const ruleObject = rule('Foo', /foo/, 'bar')
-      const reports = check([ruleObject], 'Da foo foo')
-
-      expect(reports).to.eql([
-        {rule: 'Foo', range: [3, 6]},
-        {rule: 'Foo', range: [7, 10]}
-      ])
-    })
-
-    describe('with ignore rules', () => {
-      it('applies the rules unless in excluded ranges', () => {
-        const ruleObject = rule('Foo', /foo/, 'bar')
-        const ignoreObject = ignore('quotes', /"[^"]+"/)
-        const reports = check([ruleObject, ignoreObject], 'foo "foo" foo "foo"')
-
-        expect(reports).to.eql([
-          {rule: 'Foo', range: [0, 3]},
-          {rule: 'Foo', range: [10, 13]}
-        ])
-      })
-
-      describe('that is inverted', () => {
-        it('applies the rules unless in excluded ranges', () => {
-          const ruleObject = rule('Foo', /foo/, 'bar')
-          const ignoreObject = ignore('quotes', /"[^"]+"/, true)
-          const reports = check([ruleObject, ignoreObject], 'foo "foo" foo "foo"')
-
-          expect(reports).to.eql([
-            {rule: 'Foo', range: [5, 8]},
-            {rule: 'Foo', range: [15, 18]}
-          ])
-        })
-      })
-    })
-  })
-
-  describe('fix', () => {
-    it('throws when called without arguments', () => {
-      expect(() => { fix() }).to.throwError()
-      expect(() => { fix([]) }).to.throwError()
-    })
-
-    it('returns the string when called without any rules', () => {
-      expect(fix([], 'string')).to.eql('string')
-    })
-
-    it('returns the string when there is no match', () => {
-      const ruleObject = rule('Foo', /foo/, 'bar')
-
-      expect(fix([ruleObject], 'string')).to.eql('string')
-    })
-
-    it('replaces instances of matches by the replacement string', () => {
-      const ruleObject = rule('Foo', /foo/, 'bar')
-
-      expect(fix([ruleObject], 'Da foo foo')).to.eql('Da bar bar')
-    })
-
-    it('applies the rules in order', () => {
-      const ruleObject1 = rule('Foo', /foo/, 'bar')
-      const ruleObject2 = rule('Foo', /foo/, 'baz')
-
-      expect(fix([ruleObject1, ruleObject2], 'Da foo foo')).to.eql('Da bar bar')
-    })
-
-    describe('with ignore rules', () => {
-      it('applies the rules unless in excluded ranges', () => {
-        const ruleObject = rule('Foo', /foo|"/, 'bar')
-        const ignoreObject = ignore('quotes', /"[^"]+"/)
-
-        expect(fix([ruleObject, ignoreObject], 'foo "foo" foo "foo"')).to.eql('bar "foo" bar "foo"')
-      })
-
-      describe('that is inverted', () => {
-        it('applies the rules unless in excluded ranges', () => {
-          const ruleObject = rule('Foo', /foo|"/, 'bar')
-          const ignoreObject = ignore('quotes', /"[^"]+"/, true)
-
-          expect(fix([ruleObject, ignoreObject], 'foo "foo" foo "foo"')).to.eql('foo barbarbar foo barbarbar')
-        })
       })
     })
   })

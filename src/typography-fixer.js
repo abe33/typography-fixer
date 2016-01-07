@@ -1,3 +1,5 @@
+import R from 'ramda'
+
 /**
  * Returns an array of rule violations in the passed-in string.
  *
@@ -23,7 +25,7 @@
  *
  * const results = check(rules, 'Some string "to check".')
  */
-export function check (ruleset, string) {
+export const check = R.curry(function check (ruleset, string) {
   if (!ruleset || !string) {
     throw new Error('The check arguments are mandatory')
   }
@@ -32,25 +34,14 @@ export function check (ruleset, string) {
 
   if (rules.length === 0) { return undefined }
 
-  const ranges = flatten(ignores.map((ignore) => {
-    return ignore.ranges(string)
-  }))
-
-  let results = []
-
-  for (let i = 0, len = rules.length; i < len; i++) {
-    const rule = rules[i]
-    results = results.concat(rule.check(string))
-  }
-
-  results = results.filter((result) => {
-    return !ranges.some((range) => {
-      return rangesIntersects(range, result.range)
-    })
-  })
+  const getRanges = R.compose(R.unnest, R.map(rangesIn(string)))
+  const anyIntersection = R.anyPass(R.map(rangesIntersects, getRanges(ignores)))
+  const noIntersection = R.compose(R.not, anyIntersection, dot('range'))
+  const getResults = R.compose(R.flatten, R.map(checkString(string)))
+  const results = R.filter(noIntersection, getResults(rules))
 
   return results.length > 0 ? results : undefined
-}
+})
 
 /**
  * Returns the passed-in string modified by the specified ruleset.
@@ -72,16 +63,12 @@ export function check (ruleset, string) {
  *
  * const string = fix(rules, 'Some string "to fix".')
  */
-export function fix (ruleset, string) {
-  if (!ruleset || !string) {
-    throw new Error('The fix arguments are mandatory')
-  }
-
+export const fix = R.curry(function fix (ruleset, string) {
   let {ignores, rules} = filterRules(ruleset)
 
   if (rules.length === 0) { return string }
 
-  const ranges = campactRanges(flatten(ignores.map((ignore) => {
+  const ranges = campactRanges(R.flatten(ignores.map((ignore) => {
     return ignore.ranges(string)
   })))
 
@@ -95,7 +82,7 @@ export function fix (ruleset, string) {
   }
 
   return alternateJoin(included, excluded)
-}
+})
 
 /**
  * Returns a flat array of rules with names prefixed by the passed-in `name`.
@@ -134,7 +121,7 @@ export function group (name, rules) {
     groupName = [name]
   }
 
-  return flatten(rules).map((rule) => {
+  return R.flatten(rules).map((rule) => {
     let newObject = {
       name: groupName.concat(rule.name).join('.')
     }
@@ -237,6 +224,26 @@ export function rule (name, expression, replacement) {
   }
 }
 
+const checkString = R.curry(function (string, rule) {
+
+  const searchRegExp = checkRuleRegExp(rule)
+  const matchRegExp = fixRuleRegExp(rule)
+  const matches = []
+
+  let match
+  do {
+    match = searchRegExp.exec(string)
+    if (match && match[0].replace(matchRegExp, rule.replace) !== match[0]) {
+      matches.push({
+        rule: rule.name,
+        range: [match.index, searchRegExp.lastIndex]
+      })
+    }
+  } while (match)
+
+  return matches
+})
+
 /**
  * Creates a new ignore rule that excludes the specified `expression`.
  *
@@ -278,13 +285,14 @@ export function rule (name, expression, replacement) {
  * // this rule ignores markdown code blocks defined using three consecutive backticks
  * const ignoreObject = ignore('codeBlock', /(```)(.|\n)*?\1/),
  */
-export function ignore (name, expression, invertRanges = false) {
-  if (!name || !expression) {
-    throw new Error('All arguments of the ignore function are mandatory')
-  }
+export function ignore (name, ignore, invertRanges = false) {
+  return {name, ignore, invertRanges}
+}
 
+const ruleRegExp = R.curry(function (global, prop, rule) {
   let source
-  let flags = ['g']
+  const flags = global ? ['g'] : []
+  const expression = rule[prop]
 
   if (expression instanceof RegExp) {
     source = expression.source
@@ -295,47 +303,54 @@ export function ignore (name, expression, invertRanges = false) {
     flags.push('m')
   }
 
-  const searchFlags = flags.join('')
-  if (invertRanges) {
-    return {
-      name,
-      ranges (string) {
-        const re = new RegExp(source, searchFlags)
-        const ranges = []
-        let start = 0
-        let match
+  return new RegExp(source, flags.join(''))
+})
 
-        do {
-          match = re.exec(string)
-          if (match) {
-            ranges.push([start, match.index - 1])
-            start = re.lastIndex
-          }
-        } while (match)
+const ignoreRuleRegExp = ruleRegExp(true, 'ignore')
+const checkRuleRegExp = ruleRegExp(true, 'match')
+const fixRuleRegExp = ruleRegExp(false, 'match')
 
-        ranges.push([start, string.length])
+const dot = R.curry((prop, obj) => { return obj[prop] })
 
-        return ranges
-      }
-    }
+const rangesIn = R.curry(function (string, rule) {
+  if (rule.invertRanges) {
+    return exclusiveRangesIn(string, rule)
   } else {
-    return {
-      name,
-      ranges (string) {
-        const re = new RegExp(source, searchFlags)
-        const ranges = []
-        let match
-
-        do {
-          match = re.exec(string)
-          if (match) { ranges.push([match.index, re.lastIndex]) }
-        } while (match)
-
-        return ranges
-      }
-    }
+    return inclusiveRangesIn(string, rule)
   }
-}
+})
+
+const inclusiveRangesIn = R.curry(function (string, rule) {
+  const re = ignoreRuleRegExp(rule)
+  const ranges = []
+  let match
+
+  do {
+    match = re.exec(string)
+    if (match) { ranges.push([match.index, re.lastIndex]) }
+  } while (match)
+
+  return ranges
+})
+
+const exclusiveRangesIn = R.curry(function (string, rule) {
+  const re = ignoreRuleRegExp(rule)
+  const ranges = []
+  let start = 0
+  let match
+
+  do {
+    match = re.exec(string)
+    if (match) {
+      ranges.push([start, match.index - 1])
+      start = re.lastIndex
+    }
+  } while (match)
+
+  ranges.push([start, string.length])
+
+  return ranges
+})
 
 function filterRules (ruleset) {
   const ignores = []
@@ -344,7 +359,7 @@ function filterRules (ruleset) {
   for (let i = 0, len = ruleset.length; i < len; i++) {
     let rule = ruleset[i]
 
-    if (rule.ranges) {
+    if (rule.ignore) {
       ignores.push(rule)
     } else {
       rules.push(rule)
@@ -354,7 +369,7 @@ function filterRules (ruleset) {
   return {ignores, rules}
 }
 
-function rangesIntersects (rangeA, rangeB) {
+const rangesIntersects = R.curry(function (rangeA, rangeB) {
   const [startA, endA] = rangeA
   const [startB, endB] = rangeB
 
@@ -362,11 +377,7 @@ function rangesIntersects (rangeA, rangeB) {
          (endB >= startA && endB <= endA) ||
          (startA >= startB && startA <= endB) ||
          (endA >= startB && endA <= endB)
-}
-
-function flatten (arr) {
-  return arr.reduce((memo, el) => { return memo.concat(el) }, [])
-}
+})
 
 function splitByRanges (string, ranges) {
   const included = []
