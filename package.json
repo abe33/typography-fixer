@@ -36,5 +36,8 @@
       "describe",
       "beforeEach"
     ]
+  },
+  "dependencies": {
+    "ramda": "^0.19.1"
   }
 }
