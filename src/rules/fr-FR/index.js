@@ -32,16 +32,16 @@ let ruleset
  * - Replacing possessive interrogative `a-t'il` with `a-t-il`
  * - Properly formatting `c.-à-d.` abbreviation
  * - Using a superscript `o` instead of `°` for `numéro` abbreviation
- * - Replacing hyphen between numbers such as in `1939-1945` by an en dash
+ * - Replacing hyphen between numbers such as in `1939-45` by an en-dash
  * - Replacing hyphen between words such as in `Pierre - tu le connais, hein ? -
- *   est professeur de yoga` by an en dash
+ *   est professeur de yoga` by an en-dash
  * - Replacing single quote in `L'arbre` with a typographic one (`’`)
  * - Replacing double quotes around a sentence with `«` and `»`
  * - Collapsing multiple spaces into a single one
  * - Removing spaces before `,`, `.`, `)`, `…` and `’`
  * - Removing spaces after `’` and `(`
- * - Removing spaces around an en dash placed between two numbers
- * - Adding spaces around an en dash placed between two words
+ * - Removing spaces around an en-dash placed between two numbers
+ * - Adding spaces around an en-dash placed between two words
  * - Adding a space before `(`
  * - Adding a non-breaking space between a number and a currency symbol
  * - Adding a non-breaking space after `«` and before `»`
