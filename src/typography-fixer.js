@@ -13,7 +13,7 @@ import R from 'ramda'
  *                         checking the passed-in string
  * @param  {string} string the string to check
  * @throws {Error} when one argument is missing
- * @return {Array|undefined} an array of rule violation results or `undefined`
+ * @type {Array|undefined} an array of rule violation results or `undefined`
  *                           when there is no violations.<br>Each result
  *                           object will have the following properties:
  * @property {string} name the name of the broken rule
