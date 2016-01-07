@@ -9,6 +9,35 @@ let ruleset
 /**
  * The ruleset for english typography in the United Kingdom.
  *
+ * It's hard to find a single, universally adopted, typographic styleguide
+ * for english, so this ruleset is simpler than the french one, for instance,
+ * and don't go to deep in its fixes.
+ *
+ * This ruleset includes:
+ *
+ * - Replacing consecutive `!` or `?` characters by a single one
+ * - Replacing ellipsis after `etc` by a period
+ * - Replacing three consecutive periods by an ellipsis character
+ * - Replacing hyphen between numbers such as in `1939-45` by an en-dash
+ * - Replacing hyphen between words with an em-dash
+ * - Removing a period placed after abbreviations such as `Mr` or `Dr`
+ * - Replacing quotes after a number by the corresponding prime
+ * - Replacing single quotes in words with typographic ones
+ * - Replacing double quotes around a sentence with typographic ones
+ * - Replacing `No.` and other variations before a number by `№`
+ * - Moving punctuations after a quotation mark into it
+ * - Collapsing multiple spaces into a single one
+ * - Removing spaces before `,`, `.`, `)`, `…`, `’`, `”`, `?`, `!`, `;`, `%`,
+ *   `‰`, `‱`, and `:`
+ * - Removing spaces after `“`, `(`, and `’` but only if it is not preceded by
+ *   a `s`
+ * - Removing spaces around an en-dash placed between two numbers
+ * - Removing spaces between a currency
+ * - Adding spaces around an en-dash placed between two words
+ * - Adding a space after `,`, `.`, `?`, `!`, `;`, `%`, `‰`, `‱`, `)`, and `:`
+ * - Adding a non-breaking space after a `№`
+ * - Adding a non-breaking space between an honorific and a name
+ *
  * Finally, the following rulesets are also included:
  *
  * - {@link src/rules/fractions.js~fractions}
