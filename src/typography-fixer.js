@@ -30,7 +30,7 @@ import R from 'ramda'
  * const results = checkSring('Some string "to check".')
  */
 export const check = R.curry(function check (ruleset, string) {
-  let {ignores, rules} = filterRules(ruleset)
+  const {ignores, rules} = filterRules(ruleset)
 
   if (rules.length === 0) { return undefined }
 
@@ -68,7 +68,7 @@ export const check = R.curry(function check (ruleset, string) {
  * const results = fixSring('Some string "to fix".')
  */
 export const fix = R.curry(function fix (ruleset, string) {
-  let {ignores, rules} = filterRules(ruleset)
+  const {ignores, rules} = filterRules(ruleset)
 
   if (rules.length === 0) { return string }
 
@@ -103,19 +103,19 @@ export const fix = R.curry(function fix (ruleset, string) {
  * ])
  */
 export function group (name, rules) {
-  const firstArgIsArray = R.compose(R.isArrayLike, R.head)
-  const nameThenArray = R.both(
+  const rulesAsFirstArgument = R.compose(R.isArrayLike, R.head)
+  const nameThenRules = R.both(
     R.compose(R.is(String), R.head),
     R.compose(R.isArrayLike, R.tail)
   )
 
-  const checkParams = R.cond([
-    [firstArgIsArray, ([rules]) => [[], rules]],
-    [nameThenArray, ([name, rules]) => [[name], rules]],
+  const normalizeArguments = R.cond([
+    [rulesAsFirstArgument, ([rules]) => [[], rules]],
+    [nameThenRules, ([name, rules]) => [[name], rules]],
     [R.T, () => [[], []]]
   ])
 
-  let [groupName, ruleset] = checkParams([name, rules])
+  const [groupName, ruleset] = normalizeArguments([name, rules])
 
   const prefixName = R.compose(R.join('.'), R.concat(groupName))
   const convert = R.over(R.lensProp('name'), prefixName)
