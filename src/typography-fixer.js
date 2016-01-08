@@ -105,7 +105,7 @@ export function group (name, rules) {
   const checkParams = R.cond([
     [firstArgIsArray, ([rules]) => [[], rules]],
     [nameThenArray, ([name, rules]) => [[name], rules]],
-    [R.T, () => [[], []]],
+    [R.T, () => [[], []]]
   ])
 
   let [groupName, ruleset] = checkParams([name, rules])
