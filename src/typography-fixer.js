@@ -66,9 +66,9 @@ export const fix = R.curry(function fix (ruleset, string) {
 
   const getRanges = R.compose(compactRanges, R.unnest, R.map(rangesIn(string)))
   const {included, excluded} = splitByRanges(string, getRanges(ignores))
-  const replace = R.map(R.reduce(fixString, R.__, rules))
+  const fixContent = R.map(R.reduce(fixString, R.__, rules))
 
-  return alternateJoin(replace(included), excluded)
+  return alternateJoin(fixContent(included), excluded)
 })
 
 /**
@@ -108,18 +108,10 @@ export function group (name, rules) {
     groupName = [name]
   }
 
-  return R.flatten(rules).map((rule) => {
-    let newObject = {
-      name: groupName.concat(rule.name).join('.')
-    }
+  const prefixName = R.compose(R.join('.'), R.concat(groupName))
+  const convert = R.over(R.lensProp('name'), prefixName)
 
-    for (const key in rule) {
-      if (key === 'name') { continue }
-      newObject[key] = rule[key]
-    }
-
-    return newObject
-  })
+  return R.map(convert, R.flatten(rules))
 }
 
 /**
