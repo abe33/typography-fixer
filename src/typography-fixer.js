@@ -226,11 +226,11 @@ const ruleRegExp = R.curry(function (global, prop, rule) {
 })
 
 const ignoreRuleRegExp = ruleRegExp(true, 'ignore')
-const checkRuleRegExp = ruleRegExp(true, 'match')
+const searchRuleRegExp = ruleRegExp(true, 'match')
 const fixRuleRegExp = ruleRegExp(false, 'match')
 
 const checkString = R.curry(function check (string, rule) {
-  const searchRegExp = checkRuleRegExp(rule)
+  const searchRegExp = searchRuleRegExp(rule)
   const matchRegExp = fixRuleRegExp(rule)
   const matches = []
 
@@ -249,7 +249,7 @@ const checkString = R.curry(function check (string, rule) {
 })
 
 const fixString = R.curry(function fix (string, rule) {
-  return R.replace(checkRuleRegExp(rule), rule.replace, string)
+  return R.replace(searchRuleRegExp(rule), rule.replace, string)
 })
 
 const rangesIn = R.curry(function (string, rule) {
