@@ -7,23 +7,27 @@ import R from 'ramda'
  * to ignore are computed. When the a check results intersect with or is
  * contained in a range it will be simply ignored.
  *
+ * A result is an object with the following properties:
+ *
+ * - `name`: the name of the broken rule
+ * - `range`: the range at which the violation can be found in the string
+ *
  * If there's no results, the function returns `undefined`.
  *
+ * @type {Array|undefined}
  * @param  {Array} ruleset the array with all the rules and ignores to use when
  *                         checking the passed-in string
  * @param  {string} string the string to check
- * @throws {Error} when one argument is missing
- * @type {Array|undefined} an array of rule violation results or `undefined`
- *                           when there is no violations.<br>Each result
- *                           object will have the following properties:
- * @property {string} name the name of the broken rule
- * @property {Array} range the range at which the violation can be found
- *                         in the string
  * @example
  * import {check} from 'typography-fixer'
  * import rules from 'typography-fixer/lib/rules/en-UK'
  *
  * const results = check(rules, 'Some string "to check".')
+ *
+ * // The check function support currying
+ * const checkString = check(rules)
+ *
+ * const results = checkSring('Some string "to check".')
  */
 export const check = R.curry(function check (ruleset, string) {
   let {ignores, rules} = filterRules(ruleset)
@@ -48,16 +52,20 @@ export const check = R.curry(function check (ruleset, string) {
  * parts. Once all the fixes were applied, the string from the two arrays are
  * joined together into a new string and returned.
  *
+ * @type {string}
  * @param  {Array} ruleset the array with all the rules and ignores to use to
  *                         transform the passed-in string
  * @param  {string} string the string to fix
- * @return {string} the fixed string
- * @throws {Error} when one argument is missing
  * @example
  * import {fix} from 'typography-fixer'
  * import rules from 'typography-fixer/lib/rules/en-UK'
  *
  * const string = fix(rules, 'Some string "to fix".')
+ *
+ * // The fix function support currying
+ * const fixString = fix(rules)
+ *
+ * const results = fixSring('Some string "to fix".')
  */
 export const fix = R.curry(function fix (ruleset, string) {
   let {ignores, rules} = filterRules(ruleset)
@@ -83,7 +91,6 @@ export const fix = R.curry(function fix (ruleset, string) {
  * @param  {string} [name] the name of the rules group
  * @param  {Array} rules the rules to be part of the group
  * @return {Array} an array of new rules prefixed with this group name
- * @throws {Error} when the rules argument is missing
  *
  * @example
  * import {group, rule} from 'typography-fixer'
@@ -117,25 +124,25 @@ export function group (name, rules) {
 }
 
 /**
- * Creates a new rule object that matches the specified `expression`.
+ * Creates a new rule object that matches the specified `match` expression.
  *
- * A rule is an object with a name and two methods `fix` and `check`.
+ * A rule is an object with a `name`, `match` and `replace` properties.
  *
  * A rule can be created with either a string or a regular expression as the
- * `expression` parameter.
+ * `match` parameter.
  *
  * - When given a regular expression the flags of the original expression
  *   are preserved except for the `global` which will be forcefully defined
- *   on the expression created when checking or fixing a string.
+ *   on the `match` created when checking or fixing a string.
  * - When given a string this string will be used a source for the regular
  *   expressions. These expressions will be created with the `multiline` flag
  *   enabled.
  *
- * The `replacement` parameter is used when a match is found and will be passed
+ * The `replace` parameter is used when a match is found and will be passed
  * as the second argument of the `String#replace` method. A regular expression
  * based on the one used to search the string will be passed as the first
  * argument. It means that every group will be available to use in the
- * replacement string. A function can also be passed in the `replacement`
+ * replacement string. A function can also be passed in the `replace`
  * parameter and will then receive the matched string and the various groups as
  * arguments.
  *
@@ -144,7 +151,6 @@ export function group (name, rules) {
  *                               a string
  * @param  {string|function} replace the replacement string or function
  *                                   to use when a match is found
- * @throws {Error} when one argument is missing
  * @return {Object} the rule object
  * @property {string} name the rule's name
  * @property {function(string:string):string} fix a function to apply the rule
@@ -164,12 +170,13 @@ export function rule (name, match, replace) {
 }
 
 /**
- * Creates a new ignore rule that excludes the specified `expression`.
+ * Creates a new ignore rule that excludes the specified `ignore` expression.
  *
- * An ignore rule is an object with a name and a `ranges` method.
+ * An ignore rule is an object with a `name`, `ignore` and an optional
+ * `invertRanges` properties.
  *
  * An ignore rule can be created with either a string or a regular expression
- * as the `expression` parameter.
+ * as the `ignore` parameter.
  *
  * - When given a regular expression the flags of the original expression
  *   are preserved except for the `global` which will be forcefully defined
@@ -178,12 +185,9 @@ export function rule (name, match, replace) {
  *   expressions. These expressions will be created with the `multiline` flag
  *   enabled.
  *
- * The `ranges` function, when called with a string, returns an array of ranges
- * of the ignored section of the string. A range is an array with two numbers
- * for the start and end index in the string.
- *
  * An ignore rule can also ignores everything that is not matched by the
- * expression by passing `true` as the third argument of the `ignore` function.
+ * expression by passing `true` as in the `invertRanges` argument of the
+ * `ignore` function.
  *
  * @param  {string} name the name of the rule
  * @param  {string|RegExp} ignore the regular expression to match against
@@ -191,13 +195,7 @@ export function rule (name, match, replace) {
  * @param  {boolean} [invertRanges=false] if `true` the excluded ranges will
  *                                        cover every part of the string that
  *                                        is not matched by the expression
- * @throws {Error} when one argument is missing
  * @return {Object} [description]
- * @property {string} name the name of the rule
- * @property {function(string:string):Array} ranges a function that returns
- *                                                  an array of the ranges to
- *                                                  ignore in the passed-in
- *                                                  string
  * @example
  * import {ignore} from 'typography-fixer'
  *
