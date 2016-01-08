@@ -96,22 +96,24 @@ export const fix = R.curry(function fix (ruleset, string) {
  * ])
  */
 export function group (name, rules) {
-  let groupName
+  const firstArgIsArray = R.compose(R.isArrayLike, R.head)
+  const nameThenArray = R.both(
+    R.compose(R.is(String), R.head),
+    R.compose(R.isArrayLike, R.tail)
+  )
 
-  if (Array.isArray(name)) {
-    rules = name
-    groupName = []
-  } else {
-    if (!name || !rules) {
-      throw new Error('The group rules argument is mandatory')
-    }
-    groupName = [name]
-  }
+  const checkParams = R.cond([
+    [firstArgIsArray, ([rules]) => [[], rules]],
+    [nameThenArray, ([name, rules]) => [[name], rules]],
+    [R.T, () => [[], []]],
+  ])
+
+  let [groupName, ruleset] = checkParams([name, rules])
 
   const prefixName = R.compose(R.join('.'), R.concat(groupName))
   const convert = R.over(R.lensProp('name'), prefixName)
 
-  return R.map(convert, R.flatten(rules))
+  return R.map(convert, R.flatten(ruleset))
 }
 
 /**
