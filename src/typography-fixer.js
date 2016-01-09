@@ -346,9 +346,9 @@ function compactRanges (ranges) {
       }
     }
 
-    return memo.length === 0 ?
-      R.append(rangeA, memo) :
-      R.append(rangeA, R.filter(filter, memo))
+    return memo.length === 0
+      ? R.append(rangeA, memo)
+      : R.append(rangeA, R.filter(filter, memo))
   }
 
   return R.sort(sort, R.reduce(reducer, [], ranges))
