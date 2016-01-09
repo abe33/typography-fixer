@@ -30,7 +30,7 @@ import R from 'ramda'
  * const results = checkSring('Some string "to check".')
  */
 export const check = R.curry(function check (ruleset, string) {
-  const {ignores, rules} = filterRules(ruleset)
+  const {ignores, rules} = splitRules(ruleset)
 
   if (rules.length === 0) { return undefined }
 
@@ -68,15 +68,15 @@ export const check = R.curry(function check (ruleset, string) {
  * const results = fixSring('Some string "to fix".')
  */
 export const fix = R.curry(function fix (ruleset, string) {
-  const {ignores, rules} = filterRules(ruleset)
+  const {ignores, rules} = splitRules(ruleset)
 
   if (rules.length === 0) { return string }
 
   const getRanges = R.compose(compactRanges, R.unnest, R.map(rangesIn(string)))
-  const {included, excluded} = splitByRanges(string, getRanges(ignores))
+  const {legit, ignored} = splitByRanges(string, getRanges(ignores))
   const fixContent = R.map(R.reduce(fixString, R.__, rules))
 
-  return alternateJoin(fixContent(included), excluded)
+  return alternateJoin(fixContent(legit), ignored)
 })
 
 /**
@@ -206,21 +206,28 @@ export function ignore (name, ignore, invertRanges = false) {
   return {name, ignore, invertRanges}
 }
 
+const baseFlags = (global) => global ? ['g'] : []
+
+const flag = R.curry((prop, re) => re[prop] ? prop[0] : '')
+
+const flagsForRegExp = R.curry(function (global, re) {
+  const appendFlags = R.compose(
+    R.append(flag('multiline', re)),
+    R.append(flag('ignoreCase', re))
+  )
+
+  return appendFlags(baseFlags(global))
+})
+
 const ruleRegExp = R.curry(function (global, prop, rule) {
-  let source
-  const flags = global ? ['g'] : []
-  const expression = rule[prop]
+  const isRegExp = R.is(RegExp)
+  const getSource = (e) => isRegExp(e) ? e.source : e
+  const getFlags = R.compose(
+    R.join(''),
+    (e) => isRegExp(e) ? flagsForRegExp(global, e) : baseFlags(global).concat('m')
+  )
 
-  if (expression instanceof RegExp) {
-    source = expression.source
-    if (expression.multiline) { flags.push('m') }
-    if (expression.ignoreCase) { flags.push('i') }
-  } else {
-    source = expression
-    flags.push('m')
-  }
-
-  return new RegExp(source, flags.join(''))
+  return new RegExp(getSource(rule[prop]), getFlags(rule[prop]))
 })
 
 const ignoreRuleRegExp = ruleRegExp(true, 'ignore')
@@ -251,11 +258,7 @@ const fixString = R.curry(function fix (string, rule) {
 })
 
 const rangesIn = R.curry(function (string, rule) {
-  if (rule.invertRanges) {
-    return exclusiveRangesIn(string, rule)
-  } else {
-    return inclusiveRangesIn(string, rule)
-  }
+  return (rule.invertRanges ? exclusiveRangesIn : inclusiveRangesIn)(string, rule)
 })
 
 const inclusiveRangesIn = R.curry(function (string, rule) {
@@ -290,21 +293,10 @@ const exclusiveRangesIn = R.curry(function (string, rule) {
   return ranges
 })
 
-function filterRules (ruleset) {
-  const ignores = []
-  const rules = []
+function splitRules (ruleset) {
+  const grouper = (rule) => rule.ignore ? 'ignores' : 'rules'
 
-  for (let i = 0, len = ruleset.length; i < len; i++) {
-    let rule = ruleset[i]
-
-    if (rule.ignore) {
-      ignores.push(rule)
-    } else {
-      rules.push(rule)
-    }
-  }
-
-  return {ignores, rules}
+  return R.merge({ignores: [], rules: []}, R.groupBy(grouper, ruleset))
 }
 
 const rangesIntersects = R.curry(function (rangeA, rangeB) {
@@ -318,54 +310,46 @@ const rangesIntersects = R.curry(function (rangeA, rangeB) {
 })
 
 function splitByRanges (string, ranges) {
-  const included = []
-  const excluded = []
+  const results = {legit: [], ignored: []}
 
   let start = 0
-  for (let i = 0, len = ranges.length; i < len; i++) {
-    const range = ranges[i]
-
-    included.push(string.slice(start, range[0]))
-    excluded.push(string.slice(range[0], range[1]))
+  const reducer = (memo, range) => {
+    memo.legit.push(string.slice(start, range[0]))
+    memo.ignored.push(string.slice(range[0], range[1]))
     start = range[1]
+    return results
   }
-  included.push(string.slice(start, string.length))
+  R.reduce(reducer, results, ranges)
 
-  return {included, excluded}
+  results.legit.push(string.slice(start, string.length))
+  results.ignored.push('')
+
+  return results
 }
 
-function alternateJoin (a, b) {
-  let string = ''
+const joinReducer = (memo, [a, b]) => memo + a + b
 
-  for (let i = 0, len = a.length; i < len; i++) {
-    string += a[i]
-    if (b[i]) { string += b[i] }
-  }
-
-  return string
-}
+const alternateJoin = (a, b) => R.reduce(joinReducer, '', R.transpose([a, b]))
 
 function compactRanges (ranges) {
   if (ranges.length === 0) { return [] }
 
-  const newRanges = ranges.reduce((memo, rangeA) => {
-    if (memo.length === 0) {
-      memo.push(rangeA)
-      return memo
-    } else {
-      const newMemo = memo.filter((rangeB) => {
-        if (rangesIntersects(rangeA, rangeB)) {
-          rangeA[0] = Math.min(rangeA[0], rangeB[0])
-          rangeA[1] = Math.max(rangeA[1], rangeB[1])
-          return false
-        } else {
-          return true
-        }
-      })
-
-      return newMemo.concat([rangeA])
+  const sort = (a, b) => a[0] - b[0]
+  const reducer = (memo, rangeA) => {
+    const filter = (rangeB) => {
+      if (rangesIntersects(rangeA, rangeB)) {
+        rangeA[0] = Math.min(rangeA[0], rangeB[0])
+        rangeA[1] = Math.max(rangeA[1], rangeB[1])
+        return false
+      } else {
+        return true
+      }
     }
-  }, [])
 
-  return newRanges.sort((a, b) => { return a[0] - b[0] })
+    return memo.length === 0 ?
+      R.append(rangeA, memo) :
+      R.append(rangeA, R.filter(filter, memo))
+  }
+
+  return R.sort(sort, R.reduce(reducer, [], ranges))
 }
