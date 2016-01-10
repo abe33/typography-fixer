@@ -96,6 +96,7 @@ export const scalableUnits = [
   's',
   'l',
   'L',
+  'b',
   'B',
   'K',
   'W',
@@ -174,8 +175,6 @@ export const otherUnits = [
   'cwt',
   'ton',
   'st',
-  // data
-  'b',
   // time
   'h',
   'min',
