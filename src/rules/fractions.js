@@ -3,6 +3,15 @@ import {vulgarFractions} from '../constants'
 
 let fractions
 
+/**
+ * A ruleset to replace vulgar fractions with their corresponding unicode
+ * character.
+ *
+ * The following fractions are supported: `½`, `↉`, `⅓`, `⅔`, `¼`, `¾`, `⅕`,
+ * `⅖`, `⅗`, `⅘`, `⅙`, `⅚`, `⅐`, `⅛`, `⅜`, `⅝`, `⅞`, `⅑` and `⅒`.
+ *
+ * @type {Array<Objects>}
+ */
 export default fractions = createRuleset()
 
 function createRuleset () {

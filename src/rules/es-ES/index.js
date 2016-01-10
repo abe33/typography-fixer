@@ -6,6 +6,31 @@ import units from '../units'
 
 let ruleset
 
+/**
+ * The ruleset for spanish typography.
+ *
+ * This ruleset includes:
+ *
+ * - Replacing single quotes in words with typographic ones
+ * - Replacing double quotes around a sentence with typographic ones
+ * - Removing spaces before `,`, `.`, `)`, `…`, `’`, `”`, `;`, `%`, `‰`, `‱`,
+ *   and `:`
+ * - Removing spaces after `“`, `(`, and `’`
+ * - Removing spaces around an en-dash placed between two numbers
+ * - Removing spaces between a currency
+ * - Adding spaces around an en-dash placed between two words
+ * - Adding a space after `,`, `.`, `;`, `%`, `‰`, `‱`, `)`, and `:`
+ *
+ * Finally, the following rulesets are also included:
+ *
+ * - {@link src/rules/fractions.js~fractions}
+ * - {@link src/rules/symbols.js~symbols}
+ * - {@link src/rules/units.js~units}
+ *
+ * @see http://typophile.com/files/typography_rules.pdf
+ * @see http://j.poitou.free.fr/pro/html/typ/anglais.html
+ * @type {Array<Object>}
+ */
 export default ruleset = createRuleset().concat(fractions).concat(units).concat(symbols)
 
 function createRuleset () {
@@ -31,5 +56,4 @@ function createRuleset () {
       rule('spaceBeforeCurrency', `(\\d)\x20?([${currenciesRegExp}])`, '$1\u00a0$2'),
     ])
   ])
-
 }

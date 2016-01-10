@@ -10,8 +10,7 @@ let ruleset
  * The ruleset for english typography in the United Kingdom.
  *
  * It's hard to find a single, universally adopted, typographic styleguide
- * for english, so this ruleset is simpler than the french one, for instance,
- * and don't go to deep in its fixes.
+ * for english, so this ruleset try to rely only on commonly used rules.
  *
  * This ruleset includes:
  *

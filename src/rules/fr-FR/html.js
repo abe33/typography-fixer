@@ -2,6 +2,20 @@ import {rule, group} from '../../typography-fixer'
 
 let ruleset
 
+/**
+ * The ruleset for HTML improvement on french typography
+ *
+ * It includes rules for:
+ *
+ * - Wrapping ends of common abbreviation in a `<sup>` tag so that `Mmes`
+ *   becomes `M<sup>mes</sup>`
+ * - Wrapping ordinal number suffix in a `<sup>` tag
+ * - Wrapping double quotes in quotation marks in a span with the `dquo` class
+ * - Wrapping ampersand in a span with the `amp` class
+ * - Wrapping many consecutive capitals in a span with the `caps` class
+ *
+ * @type {Array<Object>}
+ */
 export default ruleset = createRuleset()
 
 function createRuleset () {
