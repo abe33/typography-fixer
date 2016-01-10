@@ -37,7 +37,7 @@ export function check (ruleset = [], string) {
 
   if (rules.length === 0) { return string ? undefined : function () {} }
 
-  const getRanges = R.compose(R.unnest, R.ap(R.map(rangesFor, ignores)), R.of)
+  const getRanges = R.compose(R.unnest, R.ap(R.map(rangesFunctionFor, ignores)), R.of)
 
   const doCheck = (string) => {
     const anyIntersection = R.anyPass(R.map(rangesIntersects, getRanges(string)))
@@ -83,7 +83,7 @@ export function fix (ruleset = [], string) {
 
   if (rules.length === 0) { return string || function () {} }
 
-  const getRanges = R.compose(compactRanges, R.unnest, R.ap(R.map(rangesFor, ignores)), R.of)
+  const getRanges = R.compose(compactRanges, R.unnest, R.ap(R.map(rangesFunctionFor, ignores)), R.of)
 
   const doFix = (string) => {
     const {legit, ignored} = splitByRanges(string, getRanges(string))
@@ -273,11 +273,11 @@ const fixString = R.curry(function fix (string, rule) {
   return R.replace(searchRuleRegExp(rule), rule.replace, string)
 })
 
-const rangesFor = R.curry(function (rule, string) {
-  return (rule.invertRanges ? exclusiveRangesIn : inclusiveRangesIn)(string, rule)
-})
+function rangesFunctionFor (rule) {
+  return rule.invertRanges ? exclusiveRangesFor(rule) : inclusiveRangesFor(rule)
+}
 
-const inclusiveRangesIn = R.curry(function (string, rule) {
+const inclusiveRangesFor = R.curry((rule, string) => {
   const re = ignoreRuleRegExp(rule)
   const ranges = []
   let match
@@ -290,7 +290,7 @@ const inclusiveRangesIn = R.curry(function (string, rule) {
   return ranges
 })
 
-const exclusiveRangesIn = R.curry(function (string, rule) {
+const exclusiveRangesFor = R.curry((rule, string) => {
   const re = ignoreRuleRegExp(rule)
   const ranges = []
   let start = 0
