@@ -2,18 +2,20 @@ import expect from 'expect.js'
 import {fix} from '../../src/typography-fixer'
 import rules from '../../src/rules/symbols'
 
+const fixString = fix(rules)
+
 describe('symbols ruleset', () => {
   it('replaces (c) with ©', () => {
-    expect(fix(rules, '(c)')).to.eql('©')
-    expect(fix(rules, '(C)')).to.eql('©')
+    expect(fixString('(c)')).to.eql('©')
+    expect(fixString('(C)')).to.eql('©')
   })
 
   it('replaces (r) with ®', () => {
-    expect(fix(rules, '(r)')).to.eql('®')
-    expect(fix(rules, '(R)')).to.eql('®')
+    expect(fixString('(r)')).to.eql('®')
+    expect(fixString('(R)')).to.eql('®')
   })
 
   it('replaces TM with ™', () => {
-    expect(fix(rules, 'ATM TM')).to.eql('ATM ™')
+    expect(fixString('ATM TM')).to.eql('ATM ™')
   })
 })

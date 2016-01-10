@@ -75,7 +75,7 @@ export function check (ruleset = [], string) {
  * // The fix function support currying
  * const fixString = fix(rules)
  *
- * const results = fixSring('Some string "to fix".')
+ * const results = fixString('Some string "to fix".')
  */
 export function fix (ruleset = [], string) {
   const {ignores, rules} = splitRules(ruleset)
