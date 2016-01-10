@@ -80,7 +80,7 @@ export function check (ruleset = [], string) {
 export function fix (ruleset = [], string) {
   const {ignores, rules} = splitRules(ruleset)
 
-  if (rules.length === 0) { return string ? string : function () {} }
+  if (rules.length === 0) { return string || function () {} }
 
   const getRanges = R.compose(compactRanges, R.unnest, R.ap(R.map(rangesFor, ignores)), R.of)
 
