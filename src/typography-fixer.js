@@ -9,6 +9,9 @@ import R from 'ramda'
  *
  * If there's no results, the function returns `undefined`.
  *
+ * See the {@link rule} and {@link ignore} documentation for details about how
+ * rules and ignore rules are created.
+ *
  * @param  {Array} [ruleset=[]] the array with all the rules and ignores to use
  *                              when checking the passed-in string
  * @param  {string} [string] the string to check
@@ -56,6 +59,9 @@ export function check (ruleset = [], string) {
  * array all the parts that can be modified and in another array all the ignored
  * parts. Once all the fixes were applied, the string from the two arrays are
  * joined together into a new string and returned.
+ *
+ * See the {@link rule} and {@link ignore} documentation for details about how
+ * rules and ignore rules are created.
  *
  * @param  {Array} [ruleset=[]] the array with all the rules and ignores to use
  *                              to transform the passed-in string
