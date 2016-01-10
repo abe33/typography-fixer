@@ -1,3 +1,4 @@
+import R from 'ramda'
 
 export const currencies = {
   '¤': '¤',
@@ -203,10 +204,6 @@ export const otherUnits = [
   'ppm'
 ]
 
-function combine (a, b) {
-  return a
-  .map((u) => { return b.map((s) => { return `${s}${u}` }) })
-  .reduce((memo, el) => { return memo.concat(el) }, [])
-}
+const combine = R.compose(R.map(R.join('')), R.xprod)
 
-export const allUnits = otherUnits.concat(combine(scalableUnits, unitScales))
+export const allUnits = otherUnits.concat(combine(unitScales, scalableUnits))
