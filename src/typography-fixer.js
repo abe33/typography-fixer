@@ -7,11 +7,6 @@ import R from 'ramda'
  * to ignore are computed. When the a check results intersect with or is
  * contained in a range it will be simply ignored.
  *
- * A result is an object with the following properties:
- *
- * - `name`: the name of the broken rule
- * - `range`: the range at which the violation can be found in the string
- *
  * If there's no results, the function returns `undefined`.
  *
  * @param  {Array} [ruleset=[]] the array with all the rules and ignores to use
