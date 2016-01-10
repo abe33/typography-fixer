@@ -168,12 +168,6 @@ export function group (name, rules) {
  * @param  {string|function} replace the replacement string or function
  *                                   to use when a match is found
  * @return {Object} the rule object
- * @property {string} name the rule's name
- * @property {function(string:string):string} fix a function to apply the rule
- *                                                on the passed-in string
- * @property {function(string:string):Array} check a function to check
- *                                                 violations in the passed-in
- *                                                 string
  * @example
  * import {rule} from 'typography-fixer'
  *
