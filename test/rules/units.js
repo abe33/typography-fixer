@@ -42,5 +42,17 @@ describe('units ruleset', () => {
       expect(checkString(`10 ${unit}`)).to.have.length(1)
       expect(checkString(`10\u202f${unit}`)).to.be(undefined)
     })
+
+    it(`removes a period after ${unit} if not at the end of a sentence`, () => {
+      expect(fixString(`10\u202f${unit}.`)).to.eql(`10\u202f${unit}.`)
+      expect(fixString(`10\u202f${unit}. Foo`)).to.eql(`10\u202f${unit}. Foo`)
+      expect(fixString(`10\u202f${unit}. Émile`)).to.eql(`10\u202f${unit}. Émile`)
+      expect(fixString(`10\u202f${unit}. foo`)).to.eql(`10\u202f${unit} foo`)
+
+      expect(checkString(`10\u202f${unit}.`)).to.be(undefined)
+      expect(checkString(`10\u202f${unit}. Foo`)).to.be(undefined)
+      expect(checkString(`10\u202f${unit}. Émile`)).to.be(undefined)
+      expect(checkString(`10\u202f${unit}. foo`)).to.have.length(1)
+    })
   })
 })
