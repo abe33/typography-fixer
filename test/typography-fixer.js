@@ -4,7 +4,14 @@ import {rule, ignore, group, check, fix} from '../src/typography-fixer'
 describe('typographyFixer', () => {
   describe('check', () => {
     it('returns a curried function when called with a single argument', () => {
+      const ruleObject = {
+        name: 'Foo',
+        match: /foo/,
+        replace: 'bar'
+      }
+
       expect(check([])).to.be.a(Function)
+      expect(check([ruleObject])).to.be.a(Function)
     })
 
     it('returns undefined when called without any rules', () => {
@@ -78,7 +85,14 @@ describe('typographyFixer', () => {
 
   describe('fix', () => {
     it('returns a curried function when called with a single argument', () => {
+      const ruleObject = {
+        name: 'Foo',
+        match: /foo/,
+        replace: 'bar'
+      }
+
       expect(fix([])).to.be.a(Function)
+      expect(fix([ruleObject])).to.be.a(Function)
     })
 
     it('returns the string when called without any rules', () => {

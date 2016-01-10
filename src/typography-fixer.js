@@ -14,10 +14,15 @@ import R from 'ramda'
  *
  * If there's no results, the function returns `undefined`.
  *
- * @type {Array|undefined}
- * @param  {Array} ruleset the array with all the rules and ignores to use when
- *                         checking the passed-in string
- * @param  {string} string the string to check
+ * @param  {Array} [ruleset=[]] the array with all the rules and ignores to use
+ *                              when checking the passed-in string
+ * @param  {string} [string] the string to check
+ * @return {Array|undefined} an array of rule violation results or `undefined`
+ *                           when there is no violations.<br>Each result
+ *                           object will have the following properties:
+ * @property {string} name the name of the broken rule
+ * @property {Array} range the range at which the violation can be found
+ *                         in the string
  * @example
  * import {check} from 'typography-fixer'
  * import rules from 'typography-fixer/lib/rules/en-UK'
@@ -29,19 +34,24 @@ import R from 'ramda'
  *
  * const results = checkSring('Some string "to check".')
  */
-export const check = R.curry(function check (ruleset, string) {
+export function check (ruleset = [], string) {
   const {ignores, rules} = splitRules(ruleset)
 
-  if (rules.length === 0) { return undefined }
+  if (rules.length === 0) { return string ? undefined : function () {} }
 
-  const getRanges = R.compose(R.unnest, R.map(rangesIn(string)))
-  const anyIntersection = R.anyPass(R.map(rangesIntersects, getRanges(ignores)))
-  const noIntersection = R.compose(R.not, R.propSatisfies(anyIntersection, 'range'))
-  const getResults = R.compose(R.flatten, R.map(checkString(string)))
-  const results = R.filter(noIntersection, getResults(rules))
+  const getRanges = R.compose(R.unnest, R.ap(R.map(rangesFor, ignores)), R.of)
 
-  return results.length > 0 ? results : undefined
-})
+  const doCheck = (string) => {
+    const anyIntersection = R.anyPass(R.map(rangesIntersects, getRanges(string)))
+    const noIntersection = R.compose(R.not, R.propSatisfies(anyIntersection, 'range'))
+    const getResults = R.compose(R.flatten, R.map(checkString(string)))
+    const results = R.filter(noIntersection, getResults(rules))
+
+    return results.length > 0 ? results : undefined
+  }
+
+  return string ? doCheck(string) : doCheck
+}
 
 /**
  * Returns the passed-in string modified by the specified ruleset.
@@ -52,10 +62,10 @@ export const check = R.curry(function check (ruleset, string) {
  * parts. Once all the fixes were applied, the string from the two arrays are
  * joined together into a new string and returned.
  *
- * @type {string}
- * @param  {Array} ruleset the array with all the rules and ignores to use to
- *                         transform the passed-in string
- * @param  {string} string the string to fix
+ * @param  {Array} [ruleset=[]] the array with all the rules and ignores to use
+ *                              to transform the passed-in string
+ * @param  {string} [string] the string to fix
+ * @return {string} the fixed string
  * @example
  * import {fix} from 'typography-fixer'
  * import rules from 'typography-fixer/lib/rules/en-UK'
@@ -67,17 +77,22 @@ export const check = R.curry(function check (ruleset, string) {
  *
  * const results = fixSring('Some string "to fix".')
  */
-export const fix = R.curry(function fix (ruleset, string) {
+export function fix (ruleset = [], string) {
   const {ignores, rules} = splitRules(ruleset)
 
-  if (rules.length === 0) { return string }
+  if (rules.length === 0) { return string ? string : function () {} }
 
-  const getRanges = R.compose(compactRanges, R.unnest, R.map(rangesIn(string)))
-  const {legit, ignored} = splitByRanges(string, getRanges(ignores))
-  const fixContent = R.map(R.reduce(fixString, R.__, rules))
+  const getRanges = R.compose(compactRanges, R.unnest, R.ap(R.map(rangesFor, ignores)), R.of)
 
-  return alternateJoin(fixContent(legit), ignored)
-})
+  const doFix = (string) => {
+    const {legit, ignored} = splitByRanges(string, getRanges(string))
+    const fixContent = R.map(R.reduce(fixString, R.__, rules))
+
+    return alternateJoin(fixContent(legit), ignored)
+  }
+
+  return string ? doFix(string) : doFix
+}
 
 /**
  * Returns a flat array of rules with names prefixed by the passed-in `name`.
@@ -257,7 +272,7 @@ const fixString = R.curry(function fix (string, rule) {
   return R.replace(searchRuleRegExp(rule), rule.replace, string)
 })
 
-const rangesIn = R.curry(function (string, rule) {
+const rangesFor = R.curry(function (rule, string) {
   return (rule.invertRanges ? exclusiveRangesIn : inclusiveRangesIn)(string, rule)
 })
 
