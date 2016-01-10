@@ -8,7 +8,7 @@
     "babel": "babel src --out-dir lib",
     "standard": "standard src/*.js test/*.js",
     "esdoc": "esdoc -c esdoc.json",
-    "prepublish": "npm run standard && npm run test && npm run babel"
+    "prepublish": "npm run babel"
   },
   "keywords": [
     "typography"
