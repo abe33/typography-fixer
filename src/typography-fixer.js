@@ -226,7 +226,7 @@ const baseFlags = (global) => global ? ['g'] : []
 
 const flag = R.curry((prop, re) => re[prop] ? prop[0] : '')
 
-const flagsForRegExp = R.curry(function (global, re) {
+const flagsForRegExp = R.curry((global, re) => {
   const appendFlags = R.compose(
     R.append(flag('multiline', re)),
     R.append(flag('ignoreCase', re))
@@ -235,7 +235,7 @@ const flagsForRegExp = R.curry(function (global, re) {
   return appendFlags(baseFlags(global))
 })
 
-const ruleRegExp = R.curry(function (global, prop, rule) {
+const ruleRegExp = R.curry((global, prop, rule) => {
   const isRegExp = R.is(RegExp)
   const getSource = (e) => isRegExp(e) ? e.source : e
   const getFlags = R.compose(
@@ -248,11 +248,11 @@ const ruleRegExp = R.curry(function (global, prop, rule) {
 
 const ignoreRuleRegExp = ruleRegExp(true, 'ignore')
 const searchRuleRegExp = ruleRegExp(true, 'match')
-const fixRuleRegExp = ruleRegExp(false, 'match')
+const matchRuleRegExp = ruleRegExp(false, 'match')
 
-const checkString = R.curry(function check (string, rule) {
+const checkString = R.curry((string, rule) => {
   const searchRegExp = searchRuleRegExp(rule)
-  const matchRegExp = fixRuleRegExp(rule)
+  const matchRegExp = matchRuleRegExp(rule)
   const matches = []
 
   let match
@@ -269,7 +269,7 @@ const checkString = R.curry(function check (string, rule) {
   return matches
 })
 
-const fixString = R.curry(function fix (string, rule) {
+const fixString = R.curry((string, rule) => {
   return R.replace(searchRuleRegExp(rule), rule.replace, string)
 })
 
@@ -315,7 +315,7 @@ function splitRules (ruleset) {
   return R.merge({ignores: [], rules: []}, R.groupBy(grouper, ruleset))
 }
 
-const rangesIntersects = R.curry(function (rangeA, rangeB) {
+const rangesIntersects = R.curry((rangeA, rangeB) => {
   const [startA, endA] = rangeA
   const [startB, endB] = rangeB
 
