@@ -10,7 +10,7 @@ let fractions
  * The following fractions are supported: `½`, `↉`, `⅓`, `⅔`, `¼`, `¾`, `⅕`,
  * `⅖`, `⅗`, `⅘`, `⅙`, `⅚`, `⅐`, `⅛`, `⅜`, `⅝`, `⅞`, `⅑` and `⅒`.
  *
- * @type {Array<Objects>}
+ * @type {Array<Object>}
  */
 export default fractions = createRuleset()
 
