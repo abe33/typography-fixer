@@ -1,8 +1,20 @@
 import {ignore, group} from '../typography-fixer'
 
-let ignoreset
+let markdown
 
-export default ignoreset = createIgnoreset()
+/**
+ * A set of rules to ignore some markdown blocks.
+ *
+ * The following set includes rules to ignore:
+ *
+ * - Images and links url and title
+ * - Inline code blocks defined with a single backtick
+ * - Code blocks defined with three backticks
+ * - Preformatted block using a four spaces indent
+ *
+ * @type {Array<Object>}
+ */
+export default markdown = createIgnoreset()
 
 function createIgnoreset () {
   return group('markdown', [

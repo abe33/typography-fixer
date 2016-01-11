@@ -1,8 +1,18 @@
 import {ignore, group} from '../typography-fixer'
 
-let ignoreset
+let html
 
-export default ignoreset = createIgnoreset()
+/**
+ * A set of rules to ignore some html blocks.
+ *
+ * The following set includes rules to ignore:
+ *
+ * - All tags definition
+ * - Content of `pre`, `kbd`, `code`, `style`, `script` and `textarea` tags
+ *
+ * @type {Array<Object>}
+ */
+export default html = createIgnoreset()
 
 function createIgnoreset () {
   return group('html', [
