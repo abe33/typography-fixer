@@ -1,6 +1,6 @@
 import {rule, group} from '../typography-fixer'
 
-let htmlRuleset
+let html
 
 /**
  * A common ruleset for HTML typographic enhancement.
@@ -13,7 +13,7 @@ let htmlRuleset
  *
  * @type {Array<Object>}
  */
-export default htmlRuleset = createRuleset()
+export default html = createRuleset()
 
 function createRuleset () {
   return group('html', [

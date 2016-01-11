@@ -1,6 +1,6 @@
 import {ignore, group} from '../typography-fixer'
 
-let html
+let htmlIgnores
 
 /**
  * A set of rules to ignore some html blocks.
@@ -12,7 +12,7 @@ let html
  *
  * @type {Array<Object>}
  */
-export default html = createIgnoreset()
+export default htmlIgnores = createIgnoreset()
 
 function createIgnoreset () {
   return group('html', [

@@ -1,6 +1,6 @@
 import {ignore, group} from '../typography-fixer'
 
-let markdown
+let markdownIgnores
 
 /**
  * A set of rules to ignore some markdown blocks.
@@ -14,7 +14,7 @@ let markdown
  *
  * @type {Array<Object>}
  */
-export default markdown = createIgnoreset()
+export default markdownIgnores = createIgnoreset()
 
 function createIgnoreset () {
   return group('markdown', [
