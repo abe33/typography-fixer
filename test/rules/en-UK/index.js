@@ -226,7 +226,6 @@ describe('en-UK ruleset', () => {
       })
     })
 
-
     it('replaces two or more ! with a single !', () => {
       expect(fixString('Foo!!')).to.eql('Foo!')
       expect(fixString('Foo!!!')).to.eql('Foo!')
