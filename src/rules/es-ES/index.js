@@ -4,7 +4,7 @@ import fractions from '../fractions'
 import symbols from '../symbols'
 import units from '../units'
 
-let ruleset
+let esES
 
 /**
  * The ruleset for spanish typography.
@@ -31,7 +31,7 @@ let ruleset
  * @see http://j.poitou.free.fr/pro/html/typ/anglais.html
  * @type {Array<Object>}
  */
-export default ruleset = createRuleset().concat(fractions).concat(units).concat(symbols)
+export default esES = createRuleset().concat(fractions).concat(units).concat(symbols)
 
 function createRuleset () {
   return group('es-ES', [

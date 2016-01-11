@@ -1,6 +1,6 @@
 import {rule, group} from '../../typography-fixer'
 
-let ruleset
+let frFR_HTML
 
 /**
  * The ruleset for HTML improvement on french typography
@@ -16,7 +16,7 @@ let ruleset
  *
  * @type {Array<Object>}
  */
-export default ruleset = createRuleset()
+export default frFR_HTML = createRuleset()
 
 function createRuleset () {
   return group('fr-FR.html', [

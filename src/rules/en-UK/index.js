@@ -4,7 +4,7 @@ import fractions from '../fractions'
 import symbols from '../symbols'
 import units from '../units'
 
-let ruleset
+let enUK
 
 /**
  * The ruleset for english typography in the United Kingdom.
@@ -47,7 +47,7 @@ let ruleset
  * @see http://j.poitou.free.fr/pro/html/typ/anglais.html
  * @type {Array<Object>}
  */
-export default ruleset = createRuleset().concat(fractions).concat(units).concat(symbols)
+export default enUK = createRuleset().concat(fractions).concat(units).concat(symbols)
 
 function createRuleset () {
   return group('en-UK', [

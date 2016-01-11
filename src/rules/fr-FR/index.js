@@ -4,7 +4,7 @@ import fractions from '../fractions'
 import symbols from '../symbols'
 import units from '../units'
 
-let ruleset
+let frFR
 
 /**
  * The ruleset for french typography.
@@ -63,7 +63,7 @@ let ruleset
  * @see http://gargas.biomedicale.univ-paris5.fr/lt/typo.html
  * @type {Array<Object>}
  */
-export default ruleset = createRuleset().concat(fractions).concat(units).concat(symbols)
+export default frFR = createRuleset().concat(fractions).concat(units).concat(symbols)
 
 function createRuleset () {
   return group('fr-FR', [
