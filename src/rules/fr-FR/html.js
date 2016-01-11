@@ -14,7 +14,7 @@ let frFR_HTML
  *
  * Finally, the following rulesets are also included:
  *
- * - {@link src/rules/html.js~htmlRuleset}
+ * - {@link src/rules/html.js~html}
  *
  * @type {Array<Object>}
  */
