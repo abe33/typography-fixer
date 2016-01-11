@@ -162,4 +162,41 @@ describe('es-ES ruleset', () => {
       expect(fixString('Él me dijo, " Estoy muy feliz ".')).to.eql('Él me dijo, \u00ab\u202FEstoy muy feliz\u202F\u00bb.')
     })
   })
+
+  describe('punctuations', () => {
+    let etcTests = [
+      ['Etc...', 'Etc.'],
+      ['Etc\u2026', 'Etc.'],
+      ['etc...', 'etc.'],
+      ['etc\u2026', 'etc.']
+    ]
+    etcTests.forEach(([source, expected]) => {
+      it(`replaces ${source} by ${expected}`, () => {
+        expect(fixString(source)).to.eql(expected)
+
+        expect(checkString(source)).not.to.be(undefined)
+      })
+    })
+
+    it('replaces two or more ¡ or ! with a single instance', () => {
+      expect(fixString('¡¡\u202FFoo\u202F!!')).to.eql('¡\u202FFoo\u202F!')
+      expect(fixString('¡¡¡\u202FFoo\u202F!!!')).to.eql('¡\u202FFoo\u202F!')
+      expect(fixString('¡¡¡¡\u202FFoo\u202F!!!!')).to.eql('¡\u202FFoo\u202F!')
+    })
+
+    it('replaces two or more ¿ or ? with a single instance', () => {
+      expect(fixString('¿¿\u202FFoo\u202F??')).to.eql('¿\u202FFoo\u202F?')
+      expect(fixString('¿¿¿\u202FFoo\u202F???')).to.eql('¿\u202FFoo\u202F?')
+      expect(fixString('¿¿¿¿\u202FFoo\u202F????')).to.eql('¿\u202FFoo\u202F?')
+    })
+
+    it('checks multiple punctuation chars only if there is two or more chars', () => {
+      expect(checkString('¡\u202FFoo\u202F!')).to.be(undefined)
+      expect(checkString('¿\u202FFoo\u202F?')).to.be(undefined)
+    })
+
+    it('replaces triple dots with a proper ellipsis', () => {
+      expect(fixString('Foo...')).to.eql('Foo\u2026')
+    })
+  })
 })

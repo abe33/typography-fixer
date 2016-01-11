@@ -11,6 +11,9 @@ let esES
  *
  * This ruleset includes:
  *
+ * - Replacing consecutive `¡`, `!`, `¿` or `?` characters by a single one
+ * - Replacing ellipsis after `etc` by a period
+ * - Replacing three consecutive periods by an ellipsis character
  * - Replacing single quotes in words with typographic ones
  * - Replacing double quotes around a sentence with typographic ones
  * - Removing spaces before `,`, `.`, `)`, `…`, `’`, `”`, `;`, `%`, `‰`, `‱`,
@@ -20,6 +23,8 @@ let esES
  * - Removing spaces between a currency
  * - Adding spaces around an en-dash placed between two words
  * - Adding a space after `,`, `.`, `;`, `%`, `‰`, `‱`, `)`, and `:`
+ * - Adding a thin non-breaking space after a `¡` or a `¿`
+ * - Adding a thin non-breaking space before a `!` or a `?`
  *
  * Finally, the following rulesets are also included:
  *
@@ -33,6 +38,11 @@ export default esES = createRuleset().concat(fractions).concat(units).concat(sym
 
 function createRuleset () {
   return group('es-ES', [
+    group('punctuations', [
+      rule('collapseMultiplePunctuation', /([¡!¿?])\1+/, '$1'),
+      rule('shortEtCaetera', /([Ee]tc)(\.{3,}|\u2026)/, '$1.'),
+      rule('triplePeriods', /\.{3,}/, '\u2026')
+    ]),
     group('quotes', [
       rule('singleQuote', /(\w)'(\w)/, '$1\u2019$2'),
       rule('doubleQuote', /"([^"]+)"/, '\u00ab$1\u00bb')
