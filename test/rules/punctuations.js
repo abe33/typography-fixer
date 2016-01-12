@@ -43,4 +43,14 @@ describe('punctuations rules', () => {
   it('replaces triple dots with a proper ellipsis', () => {
     expect(fixString('Foo...')).to.eql('Foo\u2026')
   })
+
+  it('replaces a hyphen between two characters with a non-breaking hyphen', () => {
+    expect(fixString('foo-bar')).to.eql('foo\u2011bar')
+    expect(fixString('foo - bar')).to.eql('foo - bar')
+    expect(fixString('- bar')).to.eql('- bar')
+    expect(fixString('foo -')).to.eql('foo -')
+
+    expect(checkString('foo-bar')).to.have.length(1)
+    expect(checkString('foo\u2011bar')).to.be(undefined)
+  })
 })

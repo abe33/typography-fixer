@@ -72,11 +72,11 @@ function createRuleset () {
     punctuations,
     group('punctuations', [
       rule('maleHonorific', /Mr\.?/, 'M.'),
-      rule('possessiveInterrogative', /a-t'il/, 'a-t-il'),
-      rule('cad', /c\.?-?[aà]-?d\.?/, 'c.-à-d.'),
+      rule('possessiveInterrogative', /a(-|\u2011)t'il/, 'a\u2011t\u2011il'),
+      rule('cad', /c\.?(-|\u2011)?[aà](-|\u2011)?d\.?/, 'c.\u2011à\u2011d.'),
       rule('numberAbbr', /(n|N)°/, '$1\u00ba'),
       rule('enDashBetweenWords', /(\D\x20)-(\x20\D)/, '$1\u2013$2'),
-      rule('enDashBetweenNumbers', /(\d)\s*-\s*(\d)/, '$1\u2013$2')
+      rule('enDashBetweenNumbers', /(\d)\s*(?:-|\u2011)\s*(\d)/, '$1\u2013$2')
     ]),
     group('quotes', [
       rule('singleQuote', /(\w)'(\w)/, '$1\u2019$2'),
@@ -93,7 +93,7 @@ function createRuleset () {
       rule('nonBreakingSpaceBeforeColonBetweenTwoNumbers2', /(\d)\s(:)(\d)/, '$1\u202F$2$3'),
       rule('nonBreakingSpaceBeforeColonAfterNumber', /(\d)\s*(:)(\D)/, '$1\u202F$2$3'),
       rule('spaceAfterPunctuation', /(;|!|\?|%|\u2026|\u2030|\u2031)([^\s\)])/, '$1 $2'),
-      rule('spaceAfterPeriod', /(\.)([^\)\s-])/, '$1 $2'),
+      rule('spaceAfterPeriod', /(\.)([^\)\s-\u2011])/, '$1 $2'),
       rule('spaceAfterColon', /(\D\s?)(:)([^\s\)])/, '$1$2 $3'),
       rule('spaceAfterComma', /(\D)(,)([^\s\)])/, '$1$2 $3'),
       rule('spaceAfterParenthesis', /(\))(\w)/, '$1 $2'),

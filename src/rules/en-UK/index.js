@@ -56,7 +56,7 @@ function createRuleset () {
     punctuations,
     group('punctuations', [
       rule('enDashBetweenWords', /(\D\x20)-(\x20\D)/, '$1\u2013$2'),
-      rule('enDashBetweenNumbers', /(\d)\s*-\s*(\d)/, '$1\u2013$2'),
+      rule('enDashBetweenNumbers', /(\d)\s*(?:-|\u2011)\s*(\d)/, '$1\u2013$2'),
       rule('noPeriodAfterAbbr', /\b(Mr|Ms|Mrs|Prof|Dr)\./, '$1')
     ]),
     group('quotes', [

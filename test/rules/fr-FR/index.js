@@ -267,7 +267,7 @@ describe('fr-FR ruleset', () => {
     })
 
     it('replaces a-t\'il by a-t-il', () => {
-      expect(fixString('Y a-t\'il')).to.eql('Y a-t-il')
+      expect(fixString('Y a-t\'il')).to.eql('Y a\u2011t\u2011il')
     })
 
     let cadTests = [
@@ -283,23 +283,24 @@ describe('fr-FR ruleset', () => {
     ]
     cadTests.forEach((form) => {
       it(`replaces ${form} by c.-à-d.`, () => {
-        expect(fixString(form)).to.eql('c.-à-d.')
+        expect(fixString(form)).to.eql('c.\u2011à\u2011d.')
       })
     })
 
     it('checks c.-à-d. only when an invalid form is found', () => {
-      expect(checkString('c.-à-d.')).to.be(undefined)
+      expect(checkString('c.\u2011à\u2011d.')).to.be(undefined)
     })
 
     it('replaces hyphen in sentences with dashes', () => {
-      expect(fixString('- foo - bar - foo-bar')).to.eql('- foo\u00a0\u2013 bar\u00a0\u2013 foo-bar')
+      expect(fixString('- foo - bar - foo-bar')).to.eql('- foo\u00a0\u2013 bar\u00a0\u2013 foo\u2011bar')
 
-      expect(checkString('- foo - foo-bar')).to.have.length(1)
-      expect(checkString('- foo\u00a0\u2013 foo-bar')).to.be(undefined)
+      expect(checkString('- foo - foo-bar')).to.have.length(2)
+      expect(checkString('- foo\u00a0\u2013 foo\u2011bar')).to.be(undefined)
     })
 
     it('replaces hyphen between numbers with dashes', () => {
       expect(fixString('1000-1500')).to.eql('1000\u20131500')
+      expect(fixString('1000\u20111500')).to.eql('1000\u20131500')
     })
   })
 

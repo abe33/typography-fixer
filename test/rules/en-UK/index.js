@@ -214,11 +214,12 @@ describe('en-UK ruleset', () => {
     })
 
     it('replaces hyphen in sentences with dashes', () => {
-      expect(fixString('- foo - bar - foo-bar')).to.eql('- foo\u00a0\u2013 bar\u00a0\u2013 foo-bar')
+      expect(fixString('- foo - bar - foo-bar')).to.eql('- foo\u00a0\u2013 bar\u00a0\u2013 foo\u2011bar')
     })
 
     it('replaces hyphen between numbers with dashes', () => {
       expect(fixString('1000-1500')).to.eql('1000\u20131500')
+      expect(fixString('1000\u20111500')).to.eql('1000\u20131500')
     })
   })
 
