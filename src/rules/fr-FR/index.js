@@ -1,5 +1,6 @@
 import {rule, group} from '../../typography-fixer'
 import {currenciesRegExp} from '../../constants'
+import punctuations from '../punctuations'
 import fractions from '../fractions'
 import symbols from '../symbols'
 import units from '../units'
@@ -24,9 +25,6 @@ let frFR
  * However a lot of rules can be and are implemented in this ruleset.
  * It includes:
  *
- * - Replacing consecutive `!` or `?` characters by a single one
- * - Replacing ellipsis after `etc` by a period
- * - Replacing three consecutive periods by an ellipsis character
  * - Replacing `Mr` by `M.` (`Mr` is the english abbreviation for mister, french
  *   uses `M.`)
  * - Replacing possessive interrogative `a-t'il` with `a-t-il`
@@ -55,6 +53,7 @@ let frFR
  *
  * Finally, the following rulesets are also included:
  *
+ * - {@link src/rules/punctuations.js~punctuations}
  * - {@link src/rules/fractions.js~fractions}
  * - {@link src/rules/symbols.js~symbols}
  * - {@link src/rules/units.js~units}
@@ -63,14 +62,15 @@ let frFR
  * @see http://gargas.biomedicale.univ-paris5.fr/lt/typo.html
  * @type {Array<Object>}
  */
-export default frFR = createRuleset().concat(fractions).concat(units).concat(symbols)
+export default frFR = createRuleset()
 
 function createRuleset () {
   return group('fr-FR', [
+    units,
+    symbols,
+    fractions,
+    punctuations,
     group('punctuations', [
-      rule('collapseMultiplePunctuation', /([!?])\1+/, '$1'),
-      rule('shortEtCaetera', /([Ee]tc)(\.{3}|\u2026)/, '$1.'),
-      rule('triplePeriods', /\.{3,}/, '\u2026'),
       rule('maleHonorific', /Mr\.?/, 'M.'),
       rule('possessiveInterrogative', /a-t'il/, 'a-t-il'),
       rule('cad', /c\.?-?[aà]-?d\.?/, 'c.-à-d.'),

@@ -25,6 +25,12 @@ describe('fr-FR ruleset', () => {
     })).to.be(true)
   })
 
+  it('includes punctuations rules', () => {
+    expect(rules.some((r) => {
+      return r.name.indexOf('punctuations.common') >= 0
+    })).to.be(true)
+  })
+
   describe('spaces', () => {
     it('replaces consecutive spaces with a single space', () => {
       expect(fixString('Un    jour')).to.eql('Un jour')
@@ -238,42 +244,6 @@ describe('fr-FR ruleset', () => {
   })
 
   describe('punctuations', () => {
-    let etcTests = [
-      ['Etc...', 'Etc.'],
-      ['Etc\u2026', 'Etc.'],
-      ['etc...', 'etc.'],
-      ['etc\u2026', 'etc.']
-    ]
-    etcTests.forEach(([source, expected]) => {
-      it(`replaces ${source} by ${expected}`, () => {
-        expect(fixString(source)).to.eql(expected)
-      })
-    })
-
-    it('checks etc. only when followed by an ellipsis', () => {
-      expect(checkString('etc.')).to.be(undefined)
-      expect(checkString('Etc.')).to.be(undefined)
-    })
-
-    it('replaces two or more ! with a single !', () => {
-      expect(fixString('Foo !!')).to.eql('Foo\u202F!')
-      expect(fixString('Foo !!!')).to.eql('Foo\u202F!')
-      expect(fixString('Foo !!!!')).to.eql('Foo\u202F!')
-
-    })
-
-    it('replaces two or more ? with a single ?', () => {
-      expect(fixString('Foo ??')).to.eql('Foo\u202F?')
-      expect(fixString('Foo ???')).to.eql('Foo\u202F?')
-      expect(fixString('Foo ????')).to.eql('Foo\u202F?')
-
-    })
-
-    it('checks multiple punctuation chars only if there is two or more chars', () => {
-      expect(checkString('Foo\u202F!')).to.be(undefined)
-      expect(checkString('Foo\u202F?')).to.be(undefined)
-    })
-
     it('replace N° with N\u00ba', () => {
       expect(fixString('N°')).to.eql('N\u00ba')
 
@@ -286,10 +256,6 @@ describe('fr-FR ruleset', () => {
 
       expect(checkString('n°')).to.have.length(1)
       expect(checkString('n\u00ba')).to.be(undefined)
-    })
-
-    it('replaces triple dots with a proper ellipsis', () => {
-      expect(fixString('Foo...')).to.eql('Foo\u2026')
     })
 
     it('replaces Mr. by M.', () => {
