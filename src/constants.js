@@ -35,7 +35,9 @@ export const currencies = {
   '\u20bb': '\u20bb',
   '\u20bc': '\u20bc',
   '\u20bd': '\u20bd',
-  '\u20be': '\u20be'
+  '\u20be': '\u20be',
+  '\u0E3F': '\u0E3F',
+  '\u17DB': '\u17DB'
 }
 
 export const currenciesRegExp = Object.keys(currencies).map((c) => {
