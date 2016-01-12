@@ -1,0 +1,71 @@
+A list of all the unicode characters and their codes
+
+- `\u2026`: `…` - ellipsis
+- `\u2011`: `‑` - non-breaking hyphen
+- `\u2030`: `‰` - per-thousand
+- `\u2031`: `‱` - per-ten-thousand
+- `\u202F`: ` ` - thin non-breaking space
+- `\u00a0`: ` ` - non-breaking space
+- `\u2019`: `’` - left single quotation mark
+- `\u00ab`: `«` - left double angle quotation mark
+- `\u00bb`: `»` - right double angle quotation mark
+- `\u2013`: `–` - en-dash
+- `\u2014`: `—` - em-dash
+- `\u2116`: `№` - numero sign
+- `\u00ba`: `º` - ordinal indicator
+- `\u0153`: `œ` - oe ligature
+- `\u0152`: `Œ` - OE ligature
+- `\u00e6`: `æ` - ae ligature
+- `\u00c6`: `Æ` - AE ligature
+- `\u00bc`: `¼` - 1/4 fraction
+- `\u00bd`: `½` - 1/2 fraction
+- `\u00be`: `¾` - 3/4 fraction
+- `\u2150`: `⅐` - 1/7 fraction
+- `\u2151`: `⅑` - 1/9 fraction
+- `\u2152`: `⅒` - 1/10 fraction
+- `\u2153`: `⅓` - 1/3 fraction
+- `\u2154`: `⅔` - 2/3 fraction
+- `\u2155`: `⅕` - 1/5 fraction
+- `\u2156`: `⅖` - 2/5 fraction
+- `\u2157`: `⅗` - 3/5 fraction
+- `\u2158`: `⅘` - 4/5 fraction
+- `\u2159`: `⅙` - 1/6 fraction
+- `\u215a`: `⅚` - 5/6 fraction
+- `\u215b`: `⅛` - 1/8 fraction
+- `\u215c`: `⅜` - 3/8 fraction
+- `\u215d`: `⅝` - 5/8 fraction
+- `\u215e`: `⅞` - 7/8 fraction
+- `\u2189`: `↉` - 0/3 fraction
+- `\u20a0`: `₠` - euro currency symbol
+- `\u20a1`: `₡` - colon currency symbol
+- `\u20a2`: `₢` - cruzeiro currency symbol
+- `\u20a3`: `₣` - french franc currency symbol
+- `\u20a4`: `₤` - lira currency symbol
+- `\u20a5`: `₥` - mill currency symbol
+- `\u20a6`: `₦` - naira currency symbol
+- `\u20a7`: `₧` - peseta currency symbol
+- `\u20a8`: `₨` - rupee currency symbol
+- `\u20a9`: `₩` - won currency symbol
+- `\u20aa`: `₪` - new sheqel currency symbol
+- `\u20ab`: `₫` - dong currency symbol
+- `\u20ac`: `€` - euro currency symbol
+- `\u20ad`: `₭` - kip currency symbol
+- `\u20ae`: `₮` - tugrik currency symbol
+- `\u20af`: `₯` - drachma currency symbol
+- `\u20b0`: `₰` - german penny currency symbol
+- `\u20b1`: `₱` - peso currency symbol
+- `\u20b2`: `₲` - guarani currency symbol
+- `\u20b3`: `₳` - austral currency symbol
+- `\u20b4`: `₴` - hryvnia currency symbol
+- `\u20b5`: `₵` - cedi currency symbol
+- `\u20b6`: `₶` - livre tournois currency symbol
+- `\u20b7`: `₷` - spesmilo currency symbol
+- `\u20b8`: `₸` - tenge currency symbol
+- `\u20b9`: `₹` - indian rupee currency symbol
+- `\u20ba`: `₺` - turkish lira currency symbol
+- `\u20bb`: `₻` - nordic mark currency symbol
+- `\u20bc`: `₼` - manat currency symbol
+- `\u20bd`: `₽` - russian rouble currency symbol
+- `\u20be`: `₾` - lari currency symbol
+- `\u0e3f`: `฿` - thai currency symbol
+- `\u17DB`: `៛` - khmer currency symbol
