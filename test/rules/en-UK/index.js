@@ -25,6 +25,12 @@ describe('en-UK ruleset', () => {
     })).to.be(true)
   })
 
+  it('includes punctuations rules', () => {
+    expect(rules.some((r) => {
+      return r.name.indexOf('punctuations.common') >= 0
+    })).to.be(true)
+  })
+
   describe('spaces', () => {
     it('replaces consecutive spaces with a single space', () => {
       expect(fixString('One    day')).to.eql('One day')
@@ -197,25 +203,6 @@ describe('en-UK ruleset', () => {
   })
 
   describe('punctuations', () => {
-    let etcTests = [
-      ['Etc...', 'Etc.'],
-      ['Etc\u2026', 'Etc.'],
-      ['etc...', 'etc.'],
-      ['etc\u2026', 'etc.']
-    ]
-    etcTests.forEach(([source, expected]) => {
-      it(`replaces ${source} by ${expected}`, () => {
-        expect(fixString(source)).to.eql(expected)
-
-        expect(checkString(source)).not.to.be(undefined)
-      })
-    })
-
-    it('checks etc. only when followed by an ellipsis', () => {
-      expect(checkString('etc.')).to.be(undefined)
-      expect(checkString('Etc.')).to.be(undefined)
-    })
-
     let abbrWithoutFullStop = ['Mr', 'Ms', 'Mrs', 'Prof', 'Dr']
     abbrWithoutFullStop.forEach((abbr) => {
       it(`removes a period placed after ${abbr}`, () => {
@@ -224,27 +211,6 @@ describe('en-UK ruleset', () => {
         expect(checkString(`${abbr}.`)).to.have.length(1)
         expect(checkString(`${abbr}`)).to.be(undefined)
       })
-    })
-
-    it('replaces two or more ! with a single !', () => {
-      expect(fixString('Foo!!')).to.eql('Foo!')
-      expect(fixString('Foo!!!')).to.eql('Foo!')
-      expect(fixString('Foo!!!!')).to.eql('Foo!')
-    })
-
-    it('replaces two or more ? with a single ?', () => {
-      expect(fixString('Foo??')).to.eql('Foo?')
-      expect(fixString('Foo???')).to.eql('Foo?')
-      expect(fixString('Foo????')).to.eql('Foo?')
-    })
-
-    it('checks multiple punctuation chars only if there is two or more chars', () => {
-      expect(checkString('Foo!')).to.be(undefined)
-      expect(checkString('Foo?')).to.be(undefined)
-    })
-
-    it('replaces triple dots with a proper ellipsis', () => {
-      expect(fixString('Foo...')).to.eql('Foo\u2026')
     })
 
     it('replaces hyphen in sentences with dashes', () => {

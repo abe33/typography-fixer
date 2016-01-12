@@ -1,5 +1,6 @@
 import {rule, group} from '../../typography-fixer'
 import {currenciesRegExp} from '../../constants'
+import punctuations from '../punctuations'
 import fractions from '../fractions'
 import symbols from '../symbols'
 import units from '../units'
@@ -11,9 +12,7 @@ let esES
  *
  * This ruleset includes:
  *
- * - Replacing consecutive `¡`, `!`, `¿` or `?` characters by a single one
- * - Replacing ellipsis after `etc` by a period
- * - Replacing three consecutive periods by an ellipsis character
+ * - Replacing consecutive `¡` or `¿` characters by a single one
  * - Replacing single quotes in words with typographic ones
  * - Replacing double quotes around a sentence with typographic ones
  * - Removing spaces before `,`, `.`, `)`, `…`, `’`, `”`, `;`, `%`, `‰`, `‱`,
@@ -28,20 +27,23 @@ let esES
  *
  * Finally, the following rulesets are also included:
  *
+ * - {@link src/rules/punctuations.js~punctuations}
  * - {@link src/rules/fractions.js~fractions}
  * - {@link src/rules/symbols.js~symbols}
  * - {@link src/rules/units.js~units}
  *
  * @type {Array<Object>}
  */
-export default esES = createRuleset().concat(fractions).concat(units).concat(symbols)
+export default esES = createRuleset()
 
 function createRuleset () {
   return group('es-ES', [
+    units,
+    symbols,
+    fractions,
+    punctuations,
     group('punctuations', [
-      rule('collapseMultiplePunctuation', /([¡!¿?])\1+/, '$1'),
-      rule('shortEtCaetera', /([Ee]tc)(\.{3,}|\u2026)/, '$1.'),
-      rule('triplePeriods', /\.{3,}/, '\u2026')
+      rule('collapseMultiplePunctuation', /([¡¿])\1+/, '$1'),
     ]),
     group('quotes', [
       rule('singleQuote', /(\w)'(\w)/, '$1\u2019$2'),

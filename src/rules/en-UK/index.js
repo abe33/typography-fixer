@@ -1,5 +1,6 @@
 import {rule, group} from '../../typography-fixer'
 import {currenciesRegExp} from '../../constants'
+import punctuations from '../punctuations'
 import fractions from '../fractions'
 import symbols from '../symbols'
 import units from '../units'
@@ -14,9 +15,6 @@ let enUK
  *
  * This ruleset includes:
  *
- * - Replacing consecutive `!` or `?` characters by a single one
- * - Replacing ellipsis after `etc` by a period
- * - Replacing three consecutive periods by an ellipsis character
  * - Replacing hyphen between numbers such as in `1939-45` by an en-dash
  * - Replacing hyphen between words with an em-dash
  * - Removing a period placed after abbreviations such as `Mr` or `Dr`
@@ -39,6 +37,7 @@ let enUK
  *
  * Finally, the following rulesets are also included:
  *
+ * - {@link src/rules/punctuations.js~punctuations}
  * - {@link src/rules/fractions.js~fractions}
  * - {@link src/rules/symbols.js~symbols}
  * - {@link src/rules/units.js~units}
@@ -47,14 +46,15 @@ let enUK
  * @see http://j.poitou.free.fr/pro/html/typ/anglais.html
  * @type {Array<Object>}
  */
-export default enUK = createRuleset().concat(fractions).concat(units).concat(symbols)
+export default enUK = createRuleset()
 
 function createRuleset () {
   return group('en-UK', [
+    units,
+    symbols,
+    fractions,
+    punctuations,
     group('punctuations', [
-      rule('collapseMultiplePunctuation', /([!?])\1+/, '$1'),
-      rule('shortEtCaetera', /([Ee]tc)(\.{3,}|\u2026)/, '$1.'),
-      rule('triplePeriods', /\.{3,}/, '\u2026'),
       rule('enDashBetweenWords', /(\D\x20)-(\x20\D)/, '$1\u2013$2'),
       rule('enDashBetweenNumbers', /(\d)\s*-\s*(\d)/, '$1\u2013$2'),
       rule('noPeriodAfterAbbr', /\b(Mr|Ms|Mrs|Prof|Dr)\./, '$1')
