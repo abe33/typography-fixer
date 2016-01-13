@@ -110,6 +110,7 @@ export const scalableUnits = [
 
 export const surfaceUnits = [
   'mile',
+  'miles',
   'in',
   'yd',
   'ft',
@@ -136,6 +137,7 @@ export const otherUnits = [
   'ft',
   'yd',
   'nautical mile',
+  'nautical miles',
   // speed
   'kmph',
   'km/h',
@@ -144,19 +146,24 @@ export const otherUnits = [
   'mph',
   'mi/h',
   'knot',
+  'knots',
   'nautical mile/h',
+  'nautical miles/h',
   'ma',
   // surfaces
   'ha',
   'a',
   'ca',
   'mile²',
+  'miles²',
   'in²',
   'yd²',
   'ft²',
   'ro',
   'acre',
+  'acres',
   'nautical mile²',
+  'nautical miles²',
   // volumes
   'in³',
   'ft³',
