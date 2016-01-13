@@ -40,9 +40,7 @@ export const currencies = {
   '\u17DB': '\u17DB'
 }
 
-export const currenciesRegExp = Object.keys(currencies).map((c) => {
-  return currencies[c]
-}).join('')
+export const currenciesRegExp = R.join('', R.values(currencies))
 
 export const vulgarFractions = [
   [1, 4, '\u00bc'],
