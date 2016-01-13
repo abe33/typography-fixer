@@ -1,4 +1,4 @@
-A list of all the unicode characters and their codes
+A list of all the unicode characters used in this package with their code only: 
 
 - `\u00a0`: ` ` - non-breaking space
 - `\u00ab`: `«` - left double angle quotation mark
