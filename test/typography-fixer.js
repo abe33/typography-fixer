@@ -181,13 +181,23 @@ describe('typographyFixer', () => {
       expect(rules[1].ignore).to.eql(ignoreObject.ignore)
     })
 
-    it('returns a frozen array', () => {
-      const rules = group('bar', [ruleObject, ignoreObject])
+    if (parseFloat(process.version.slice(1)) >= 0.12) {
+      it('returns a frozen array', () => {
+        const rules = group('bar', [ruleObject, ignoreObject])
 
-      expect(() => {
+        expect(() => {
+          rules.push(rule('bar', /bar/, 'baz'))
+        }).to.throwError()
+      })
+    } else {
+      it('returns a frozen array', () => {
+        const rules = group('bar', [ruleObject, ignoreObject])
+
         rules.push(rule('bar', /bar/, 'baz'))
-      }).to.throwError()
-    })
+
+        expect(rules).to.have.length(2)
+      })
+    }
 
     it('flatten rules coming from nested groups', () => {
       const rules = group('bar', [
