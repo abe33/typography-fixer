@@ -216,7 +216,7 @@ describe('typographyFixer', () => {
     })
   })
 
-  describe('rule()', () => {
+  describe('rule()', () => {
     it('returns a frozen object representing a rule', () => {
       const ruleObject = rule('foo', /foo/, 'bar')
       expect(() => {
@@ -225,7 +225,7 @@ describe('typographyFixer', () => {
     })
   })
 
-  describe('ignore()', () => {
+  describe('ignore()', () => {
     it('returns a frozen object representing a ignore rule', () => {
       const ignoreObject = ignore('foo', /foo/)
       expect(() => {
