@@ -176,7 +176,7 @@ export function group (name, rules) {
  * const ruleObject = rule('spaceAfterPeriodOrColon', /(\D)(\.|:)([^\s\)])/, '$1$2 $3')
  */
 export function rule (name, match, replace) {
-  return {name, match, replace}
+  return Object.freeze({name, match, replace})
 }
 
 /**
@@ -213,7 +213,7 @@ export function rule (name, match, replace) {
  * const ignoreObject = ignore('codeBlock', /(```)(.|\n)*?\1/),
  */
 export function ignore (name, ignore, invertRanges = false) {
-  return {name, ignore, invertRanges}
+  return Object.freeze({name, ignore, invertRanges})
 }
 
 const baseFlags = (global) => global ? ['g'] : []

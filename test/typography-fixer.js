@@ -2,7 +2,7 @@ import expect from 'expect.js'
 import {rule, ignore, group, check, fix} from '../src/typography-fixer'
 
 describe('typographyFixer', () => {
-  describe('check', () => {
+  describe('check()', () => {
     it('returns a curried function when called with a single argument', () => {
       const ruleObject = {
         name: 'Foo',
@@ -83,7 +83,7 @@ describe('typographyFixer', () => {
     })
   })
 
-  describe('fix', () => {
+  describe('fix()', () => {
     it('returns a curried function when called with a single argument', () => {
       const ruleObject = {
         name: 'Foo',
@@ -160,7 +160,7 @@ describe('typographyFixer', () => {
     })
   })
 
-  describe('group', () => {
+  describe('group()', () => {
     let ruleObject, ignoreObject
 
     beforeEach(() => {
@@ -205,6 +205,24 @@ describe('typographyFixer', () => {
         expect(rules).to.have.length(1)
         expect(rules[0].name).to.eql('baz.bat.Foo')
       })
+    })
+  })
+
+  describe('rule()', () => {
+    it('returns a frozen object representing a rule', () => {
+      const ruleObject = rule('foo', /foo/, 'bar')
+      expect(() => {
+        ruleObject.name = 'baz'
+      }).to.throwError()
+    })
+  })
+
+  describe('ignore()', () => {
+    it('returns a frozen object representing a ignore rule', () => {
+      const ignoreObject = ignore('foo', /foo/)
+      expect(() => {
+        ignoreObject.name = 'baz'
+      }).to.throwError()
     })
   })
 })
