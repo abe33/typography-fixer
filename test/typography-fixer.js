@@ -181,6 +181,14 @@ describe('typographyFixer', () => {
       expect(rules[1].ignore).to.eql(ignoreObject.ignore)
     })
 
+    it('returns a frozen array', () => {
+      const rules = group('bar', [ruleObject, ignoreObject])
+
+      expect(() => {
+        rules.push(rule('bar', /bar/, 'baz'))
+      }).to.throwError()
+    })
+
     it('flatten rules coming from nested groups', () => {
       const rules = group('bar', [
         group('baz', [

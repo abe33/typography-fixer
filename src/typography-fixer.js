@@ -136,7 +136,7 @@ export function group (name, rules) {
   const prefixName = R.compose(R.join('.'), R.concat(groupName))
   const convert = R.over(R.lensProp('name'), prefixName)
 
-  return R.map(convert, R.flatten(ruleset))
+  return Object.freeze(R.map(convert, R.flatten(ruleset)))
 }
 
 /**
