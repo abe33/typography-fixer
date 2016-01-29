@@ -220,12 +220,60 @@ export function ignore (name, ignore, invertRanges = false) {
   return Object.freeze({name, ignore, invertRanges})
 }
 
+//  ########  ########  #### ##     ##    ###    ######## ########
+//  ##     ## ##     ##  ##  ##     ##   ## ##      ##    ##
+//  ##     ## ##     ##  ##  ##     ##  ##   ##     ##    ##
+//  ########  ########   ##  ##     ## ##     ##    ##    ######
+//  ##        ##   ##    ##   ##   ##  #########    ##    ##
+//  ##        ##    ##   ##    ## ##   ##     ##    ##    ##
+//  ##        ##     ## ####    ###    ##     ##    ##    ########
+
+/**
+ * Wraps the passed-in condition and function into an array to be used
+ * in a `cond` argument.
+ *
+ * @param  {function(value:*):boolean} predicate a function to use as predicate
+ * @param  {function(value:*):*} then a function to use when the predicate
+ *                                    is fulfilled
+ * @return {Array<Function>} an array with the two passed-in functions
+ */
 const when = (predicate, then) => [predicate, then]
 
+/**
+ * Returns the base flags array for a regular expression depending on whether
+ * the regexp should match globally or not.
+ *
+ * @param  {boolean} global whether the regexp should match globally or not
+ * @return {Array}
+ * @access private
+ */
 const baseFlags = (global) => global ? ['g'] : []
 
+/**
+ * Extract the flag letter corresponding to a given property from the specified
+ * regular expression. For instance, if asked the flag for the multiline
+ * property and the passed-in expression has `multiline` enabled the function
+ * will return `'m'` otherwise it will return an empty string.
+ *
+ * @param  {string} prop the property flag to extract
+ * @param  {RegExp} re the target regular expression
+ * @return {string} the flag string
+ * @access private
+ */
 const flag = curry((prop, re) => re[prop] ? prop[0] : '')
 
+/**
+ * Returns the flags array for the given regular expression but with the
+ * global flag defined using the specified parameter.
+ *
+ * This function is used to create clones of rules and ignores expression
+ * but configurated to be used in different context.
+ *
+ * @param  {boolean} global whether the regexp should match globally or not
+ * @param  {RegExp} re the target regular expression
+ * @return {Array} an array of regular expression flags
+ * @access private
+ */
 const flagsForRegExp = curry((global, re) => {
   const appendFlags = compose(
     append(flag('multiline', re)),
@@ -235,19 +283,56 @@ const flagsForRegExp = curry((global, re) => {
   return appendFlags(baseFlags(global))
 })
 
+/**
+ * Returns a cloned regular expression from the passed-in rule's property
+ * specified in the arguments.
+ *
+ * @param  {boolean} global whether the regexp should match globally or not
+ * @param  {string} prop the rule property to clone
+ * @param  {Object} rule the source rule object
+ * @return {RegExp} the cloned regular expression
+ * @access private
+ */
 const ruleRegExp = curry((global, prop, rule) => {
   const isRegExp = is(RegExp)
   const getSource = (e) => isRegExp(e) ? e.source : e
   const getFlags = compose(
     join(''),
-    (e) => isRegExp(e) ? flagsForRegExp(global, e) : baseFlags(global).concat('m')
+    (e) =>
+      isRegExp(e) ? flagsForRegExp(global, e) : baseFlags(global).concat('m')
   )
 
   return new RegExp(getSource(rule[prop]), getFlags(rule[prop]))
 })
 
+/**
+ * A parameterized function that returns a cloned regular expression for
+ * the passed-in ignore rule.
+ *
+ * @param  {Object} ignore the source ignore rule
+ * @return {RegExp} the cloned regular expression
+ * @access private
+ */
 const ignoreRuleRegExp = ruleRegExp(true, 'ignore')
+
+/**
+ * A parameterized function that returns a cloned regular expression for
+ * the passed-in rule to use when searching matches globally in a string.
+ *
+ * @param  {Object} ignore the source ignore rule
+ * @return {RegExp} the cloned regular expression
+ * @access private
+ */
 const searchRuleRegExp = ruleRegExp(true, 'match')
+
+/**
+ * A parameterized function that returns a clone regular expression for
+ * the passed-in ignore rule when performing a simple match against a string.
+ *
+ * @param  {Object} ignore the source ignore rule
+ * @return {RegExp} the cloned regular expression
+ * @access private
+ */
 const matchRuleRegExp = ruleRegExp(false, 'match')
 
 const checkString = curry((string, rule) => {
