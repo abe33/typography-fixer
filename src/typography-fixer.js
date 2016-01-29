@@ -1,5 +1,9 @@
 import R from 'ramda'
 
+const {
+  anyPass, append, both, compose, concat, cond, curry, filter, flatten, groupBy, head, is, isArrayLike, join, lensProp, map, merge, not, over, propSatisfies, reduce, replace, sort, tail, transpose, unnest
+} = R
+
 /**
  * Returns an array of rule violations in the passed-in string.
  *
@@ -37,13 +41,13 @@ export function check (ruleset = [], string) {
 
   if (rules.length === 0) { return string ? undefined : function () {} }
 
-  const getRanges = R.compose(R.unnest, R.ap(R.map(rangesFunctionFor, ignores)), R.of)
+  const getRanges = compose(unnest, R.ap(map(rangesFunctionFor, ignores)), R.of)
 
   const doCheck = (string) => {
-    const anyIntersection = R.anyPass(R.map(rangesIntersects, getRanges(string)))
-    const noIntersection = R.compose(R.not, R.propSatisfies(anyIntersection, 'range'))
-    const getResults = R.compose(R.flatten, R.map(checkString(string)))
-    const results = R.filter(noIntersection, getResults(rules))
+    const anyIntersection = anyPass(map(rangesIntersects, getRanges(string)))
+    const noIntersection = compose(not, propSatisfies(anyIntersection, 'range'))
+    const getResults = compose(flatten, map(checkString(string)))
+    const results = filter(noIntersection, getResults(rules))
 
     return results.length > 0 ? results : undefined
   }
@@ -83,11 +87,11 @@ export function fix (ruleset = [], string) {
 
   if (rules.length === 0) { return string || function () {} }
 
-  const getRanges = R.compose(compactRanges, R.unnest, R.ap(R.map(rangesFunctionFor, ignores)), R.of)
+  const getRanges = compose(compactRanges, unnest, R.ap(map(rangesFunctionFor, ignores)), R.of)
 
   const doFix = (string) => {
     const {legit, ignored} = splitByRanges(string, getRanges(string))
-    const fixContent = R.map(R.reduce(fixString, R.__, rules))
+    const fixContent = map(reduce(fixString, R.__, rules))
 
     return alternateJoin(fixContent(legit), ignored)
   }
@@ -119,13 +123,13 @@ export function fix (ruleset = [], string) {
  * ])
  */
 export function group (name, rules) {
-  const rulesAsFirstArgument = R.compose(R.isArrayLike, R.head)
-  const nameThenRules = R.both(
-    R.compose(R.is(String), R.head),
-    R.compose(R.isArrayLike, R.tail)
+  const rulesAsFirstArgument = compose(isArrayLike, head)
+  const nameThenRules = both(
+    compose(is(String), head),
+    compose(isArrayLike, tail)
   )
 
-  const normalizeArguments = R.cond([
+  const normalizeArguments = cond([
     [rulesAsFirstArgument, ([rules]) => [[], rules]],
     [nameThenRules, ([name, rules]) => [[name], rules]],
     [R.T, () => [[], []]]
@@ -133,10 +137,10 @@ export function group (name, rules) {
 
   const [groupName, ruleset] = normalizeArguments([name, rules])
 
-  const prefixName = R.compose(R.join('.'), R.concat(groupName))
-  const convert = R.over(R.lensProp('name'), prefixName)
+  const prefixer = compose(join('.'), concat(groupName))
+  const prefixName = over(lensProp('name'), prefixer)
 
-  return Object.freeze(R.map(convert, R.flatten(ruleset)))
+  return Object.freeze(map(prefixName, flatten(ruleset)))
 }
 
 /**
@@ -145,7 +149,7 @@ export function group (name, rules) {
  * A rule is an object with a `name`, `match` and `replace` properties.
  *
  * A rule can be created with either a string or a regular expression as the
- * `match` parameter.
+ * `match` paramete
  *
  * - When given a regular expression the flags of the original expression
  *   are preserved except for the `global` which will be forcefully defined
@@ -186,7 +190,7 @@ export function rule (name, match, replace) {
  * `invertRanges` properties.
  *
  * An ignore rule can be created with either a string or a regular expression
- * as the `ignore` parameter.
+ * as the `ignore` paramete
  *
  * - When given a regular expression the flags of the original expression
  *   are preserved except for the `global` which will be forcefully defined
@@ -218,22 +222,22 @@ export function ignore (name, ignore, invertRanges = false) {
 
 const baseFlags = (global) => global ? ['g'] : []
 
-const flag = R.curry((prop, re) => re[prop] ? prop[0] : '')
+const flag = curry((prop, re) => re[prop] ? prop[0] : '')
 
-const flagsForRegExp = R.curry((global, re) => {
-  const appendFlags = R.compose(
-    R.append(flag('multiline', re)),
-    R.append(flag('ignoreCase', re))
+const flagsForRegExp = curry((global, re) => {
+  const appendFlags = compose(
+    append(flag('multiline', re)),
+    append(flag('ignoreCase', re))
   )
 
   return appendFlags(baseFlags(global))
 })
 
-const ruleRegExp = R.curry((global, prop, rule) => {
-  const isRegExp = R.is(RegExp)
+const ruleRegExp = curry((global, prop, rule) => {
+  const isRegExp = is(RegExp)
   const getSource = (e) => isRegExp(e) ? e.source : e
-  const getFlags = R.compose(
-    R.join(''),
+  const getFlags = compose(
+    join(''),
     (e) => isRegExp(e) ? flagsForRegExp(global, e) : baseFlags(global).concat('m')
   )
 
@@ -244,7 +248,7 @@ const ignoreRuleRegExp = ruleRegExp(true, 'ignore')
 const searchRuleRegExp = ruleRegExp(true, 'match')
 const matchRuleRegExp = ruleRegExp(false, 'match')
 
-const checkString = R.curry((string, rule) => {
+const checkString = curry((string, rule) => {
   const searchRegExp = searchRuleRegExp(rule)
   const matchRegExp = matchRuleRegExp(rule)
   const matches = []
@@ -263,15 +267,15 @@ const checkString = R.curry((string, rule) => {
   return matches
 })
 
-const fixString = R.curry((string, rule) => {
-  return R.replace(searchRuleRegExp(rule), rule.replace, string)
+const fixString = curry((string, rule) => {
+  return replace(searchRuleRegExp(rule), rule.replace, string)
 })
 
 function rangesFunctionFor (rule) {
   return rule.invertRanges ? exclusiveRangesFor(rule) : inclusiveRangesFor(rule)
 }
 
-const inclusiveRangesFor = R.curry((rule, string) => {
+const inclusiveRangesFor = curry((rule, string) => {
   const re = ignoreRuleRegExp(rule)
   const ranges = []
   let match
@@ -284,7 +288,7 @@ const inclusiveRangesFor = R.curry((rule, string) => {
   return ranges
 })
 
-const exclusiveRangesFor = R.curry((rule, string) => {
+const exclusiveRangesFor = curry((rule, string) => {
   const re = ignoreRuleRegExp(rule)
   const ranges = []
   let start = 0
@@ -306,10 +310,10 @@ const exclusiveRangesFor = R.curry((rule, string) => {
 function splitRules (ruleset) {
   const grouper = (rule) => rule.ignore ? 'ignores' : 'rules'
 
-  return R.merge({ignores: [], rules: []}, R.groupBy(grouper, ruleset))
+  return merge({ignores: [], rules: []}, groupBy(grouper, ruleset))
 }
 
-const rangesIntersects = R.curry((rangeA, rangeB) => {
+const rangesIntersects = curry((rangeA, rangeB) => {
   const [startA, endA] = rangeA
   const [startB, endB] = rangeB
 
@@ -329,7 +333,7 @@ function splitByRanges (string, ranges) {
     start = range[1]
     return results
   }
-  R.reduce(reducer, results, ranges)
+  reduce(reducer, results, ranges)
 
   results.legit.push(string.slice(start, string.length))
   results.ignored.push('')
@@ -339,14 +343,14 @@ function splitByRanges (string, ranges) {
 
 const joinReducer = (memo, [a, b]) => memo + a + b
 
-const alternateJoin = (a, b) => R.reduce(joinReducer, '', R.transpose([a, b]))
+const alternateJoin = (a, b) => reduce(joinReducer, '', transpose([a, b]))
 
 function compactRanges (ranges) {
   if (ranges.length === 0) { return [] }
 
-  const sort = (a, b) => a[0] - b[0]
+  const sorter = (a, b) => a[0] - b[0]
   const reducer = (memo, rangeA) => {
-    const filter = (rangeB) => {
+    const filterer = (rangeB) => {
       if (rangesIntersects(rangeA, rangeB)) {
         rangeA[0] = Math.min(rangeA[0], rangeB[0])
         rangeA[1] = Math.max(rangeA[1], rangeB[1])
@@ -357,9 +361,9 @@ function compactRanges (ranges) {
     }
 
     return memo.length === 0
-      ? R.append(rangeA, memo)
-      : R.append(rangeA, R.filter(filter, memo))
+      ? append(rangeA, memo)
+      : append(rangeA, filter(filterer, memo))
   }
 
-  return R.sort(sort, R.reduce(reducer, [], ranges))
+  return sort(sorter, reduce(reducer, [], ranges))
 }
