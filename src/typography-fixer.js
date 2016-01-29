@@ -1,7 +1,7 @@
 import R from 'ramda'
 
 const {
-  anyPass, append, both, compose, concat, cond, curry, filter, flatten, groupBy, head, is, isArrayLike, join, lensProp, map, merge, not, over, propSatisfies, reduce, replace, sort, tail, transpose, unnest
+  anyPass, append, both, compose, concat, cond, converge, curry, filter, flatten, groupBy, head, is, isArrayLike, join, lensProp, map, merge, not, over, propSatisfies, reduce, replace, sort, tail, transpose, unapply, unnest
 } = R
 
 /**
@@ -41,13 +41,14 @@ export function check (ruleset = [], string) {
 
   if (rules.length === 0) { return string ? undefined : function () {} }
 
+  const defined = i => i != null
   const getRanges = compose(unnest, R.ap(map(rangesFunctionFor, ignores)), R.of)
+  const getCheckResults = converge(unapply(flatten), map(checkString, rules))
 
   const doCheck = (string) => {
     const anyIntersection = anyPass(map(rangesIntersects, getRanges(string)))
     const noIntersection = compose(not, propSatisfies(anyIntersection, 'range'))
-    const getResults = compose(flatten, map(checkString(string)))
-    const results = filter(noIntersection, getResults(rules))
+    const results = filter(noIntersection, getCheckResults(string))
 
     return results.length > 0 ? results : undefined
   }
@@ -335,7 +336,7 @@ const searchRuleRegExp = ruleRegExp(true, 'match')
  */
 const matchRuleRegExp = ruleRegExp(false, 'match')
 
-const checkString = curry((string, rule) => {
+const checkString = curry((rule, string) => {
   const searchRegExp = searchRuleRegExp(rule)
   const matchRegExp = matchRuleRegExp(rule)
   const matches = []
