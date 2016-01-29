@@ -46,7 +46,7 @@ export function check (ruleset = [], string) {
   const getCheckResults = converge(unapply(flatten), map(checkString, rules))
 
   const doCheck = (string) => {
-      const anyIntersection = anyPass(map(rangesIntersects, getRanges(string)))
+    const anyIntersection = anyPass(map(rangesIntersects, getRanges(string)))
     const noIntersection = compose(not, propSatisfies(anyIntersection, 'range'))
     const results = filter(noIntersection, getCheckResults(string))
 
