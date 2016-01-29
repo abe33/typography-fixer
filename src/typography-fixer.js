@@ -41,7 +41,6 @@ export function check (ruleset = [], string) {
 
   if (rules.length === 0) { return string ? undefined : function () {} }
 
-  const defined = i => i != null
   const getRanges = compose(unnest, R.ap(map(rangesFunctionFor, ignores)), R.of)
   const getCheckResults = converge(unapply(flatten), map(checkString, rules))
 
@@ -368,7 +367,7 @@ function fixString (rule, string) {
   const doFix = (string) => {
     searchRegExp.length = 0
 
-    return string.replace(searchRegExp, rule.replace, string)
+    return replace(searchRegExp, rule.replace, string)
   }
 
   return string ? doFix(string) : doFix
