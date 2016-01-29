@@ -1,7 +1,7 @@
 import R from 'ramda'
 
 const {
-  anyPass, append, both, compose, concat, cond, converge, curry, filter, flatten, groupBy, head, is, isArrayLike, join, lensProp, map, merge, not, over, propSatisfies, reduce, replace, sort, tail, transpose, unapply, unnest
+  anyPass, append, both, compose, concat, cond, converge, curry, filter, flatten, groupBy, head, is, isArrayLike, join, lensProp, map, merge, not, over, pipe, propSatisfies, reduce, replace, sort, tail, transpose, unapply, unnest
 } = R
 
 /**
@@ -46,7 +46,7 @@ export function check (ruleset = [], string) {
   const getCheckResults = converge(unapply(flatten), map(checkString, rules))
 
   const doCheck = (string) => {
-    const anyIntersection = anyPass(map(rangesIntersects, getRanges(string)))
+      const anyIntersection = anyPass(map(rangesIntersects, getRanges(string)))
     const noIntersection = compose(not, propSatisfies(anyIntersection, 'range'))
     const results = filter(noIntersection, getCheckResults(string))
 
@@ -89,10 +89,11 @@ export function fix (ruleset = [], string) {
   if (rules.length === 0) { return string || function () {} }
 
   const getRanges = compose(compactRanges, unnest, R.ap(map(rangesFunctionFor, ignores)), R.of)
+  const fixer = pipe(...map(fixString, rules))
 
   const doFix = (string) => {
     const {legit, ignored} = splitByRanges(string, getRanges(string))
-    const fixContent = map(reduce(fixString, R.__, rules))
+    const fixContent = map(fixer)
 
     return alternateJoin(fixContent(legit), ignored)
   }
@@ -336,28 +337,42 @@ const searchRuleRegExp = ruleRegExp(true, 'match')
  */
 const matchRuleRegExp = ruleRegExp(false, 'match')
 
-const checkString = curry((rule, string) => {
+function checkString (rule, string) {
   const searchRegExp = searchRuleRegExp(rule)
   const matchRegExp = matchRuleRegExp(rule)
-  const matches = []
 
-  let match
-  do {
-    match = searchRegExp.exec(string)
-    if (match && match[0].replace(matchRegExp, rule.replace) !== match[0]) {
-      matches.push({
-        rule: rule.name,
-        range: [match.index, searchRegExp.lastIndex]
-      })
-    }
-  } while (match)
+  const doCheck = (string) => {
+    const matches = []
+    searchRegExp.lastIndex = 0
 
-  return matches
-})
+    let match
+    do {
+      match = searchRegExp.exec(string)
+      if (match && match[0].replace(matchRegExp, rule.replace) !== match[0]) {
+        matches.push({
+          rule: rule.name,
+          range: [match.index, searchRegExp.lastIndex]
+        })
+      }
+    } while (match)
 
-const fixString = curry((string, rule) => {
-  return replace(searchRuleRegExp(rule), rule.replace, string)
-})
+    return matches
+  }
+
+  return string ? doCheck(string) : doCheck
+}
+
+function fixString (rule, string) {
+  const searchRegExp = searchRuleRegExp(rule)
+
+  const doFix = (string) => {
+    searchRegExp.length = 0
+
+    return string.replace(searchRegExp, rule.replace, string)
+  }
+
+  return string ? doFix(string) : doFix
+}
 
 function rangesFunctionFor (rule) {
   return rule.invertRanges ? exclusiveRangesFor(rule) : inclusiveRangesFor(rule)
