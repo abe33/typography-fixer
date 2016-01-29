@@ -130,9 +130,9 @@ export function group (name, rules) {
   )
 
   const normalizeArguments = cond([
-    [rulesAsFirstArgument, ([rules]) => [[], rules]],
-    [nameThenRules, ([name, rules]) => [[name], rules]],
-    [R.T, () => [[], []]]
+    when(rulesAsFirstArgument, ([rules]) => [[], rules]),
+    when(nameThenRules, ([name, rules]) => [[name], rules]),
+    when(R.T, () => [[], []])
   ])
 
   const [groupName, ruleset] = normalizeArguments([name, rules])
@@ -219,6 +219,8 @@ export function rule (name, match, replace) {
 export function ignore (name, ignore, invertRanges = false) {
   return Object.freeze({name, ignore, invertRanges})
 }
+
+const when = (predicate, then) => [predicate, then]
 
 const baseFlags = (global) => global ? ['g'] : []
 
