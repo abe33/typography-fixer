@@ -380,7 +380,7 @@ const ruleRegExp = curry((global, prop, rule) => {
   const getFlags = compose(
     join(''),
     (e) =>
-      isRegExp(e) ? flagsForRegExp(global, e) : baseFlags(global).concat('m')
+      isRegExp(e) ? flagsForRegExp(global, e) : concat(baseFlags(global), 'm')
   )
 
   return new RegExp(getSource(rule[prop]), getFlags(rule[prop]))

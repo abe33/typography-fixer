@@ -18,10 +18,11 @@ let frFR_HTML
  *
  * @type {Array<Object>}
  */
-export default frFR_HTML = createRuleset().concat(html)
+export default frFR_HTML = createRuleset()
 
 function createRuleset () {
   return group('fr-FR.html', [
+    html,
     rule('abbrWithSuperText', /Mmes|Mme|Mlles|Mlle|Me|Mgr|Dr|cie|Cie|Sté/, (m) => {
       return `${m[0]}<sup>${m.slice(1, m.length)}</sup>`
     }),

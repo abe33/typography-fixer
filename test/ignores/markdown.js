@@ -1,9 +1,10 @@
 import expect from 'expect.js'
+import {concat} from 'ramda'
 import {fix, rule} from '../../src/typography-fixer'
 import ignores from '../../src/ignores/markdown'
 
 const ruleObject = rule('Foo', /\[|\(|!|:|\)|\]|foo/, 'bar')
-const rules = [ruleObject].concat(ignores)
+const rules = concat([ruleObject], ignores)
 const fixString = fix(rules)
 
 describe('markdown ignores', () => {
