@@ -2,6 +2,12 @@ import R from 'ramda'
 
 const {compose, map, join} = R
 
+/**
+ * A map of all unicode currencies with the string to use in a RegExp to match
+ * them.
+ *
+ * @type {Object}
+ */
 export const currencies = {
   '¤': '¤',
   '¥': '¥',
@@ -42,8 +48,19 @@ export const currencies = {
   '\u17DB': '\u17DB'
 }
 
+/**
+ * A string containing a regular expression to matches a currency.
+ *
+ * @type {string}
+ */
 export const currenciesRegExp = R.join('', R.values(currencies))
 
+/**
+ * A list of all the vulgar fractions in unicode with the numerical value
+ * to match them.
+ *
+ * @type {Array}
+ */
 export const vulgarFractions = [
   [1, 4, '\u00bc'],
   [1, 2, '\u00bd'],
@@ -66,6 +83,12 @@ export const vulgarFractions = [
   [0, 3, '\u2189']
 ]
 
+/**
+ * A list of all the scale prefix of the international unit system used
+ * to generate all the variant for the units.
+ *
+ * @type {Array}
+ */
 export const unitScales = [
   'y',
   'z',
@@ -90,6 +113,12 @@ export const unitScales = [
   'Y'
 ]
 
+/**
+ * A list of all the units that accept a prefix from the international unit
+ * system.
+ *
+ * @type {Array}
+ */
 export const scalableUnits = [
   'm',
   'm²',
@@ -110,6 +139,11 @@ export const scalableUnits = [
   'cd'
 ]
 
+/**
+ * A list of all the supported surface units.
+ *
+ * @type {Array}
+ */
 export const surfaceUnits = [
   'mile',
   'miles',
@@ -119,6 +153,11 @@ export const surfaceUnits = [
   'm'
 ]
 
+/**
+ * A list of all the supported volume units.
+ *
+ * @type {Array}
+ */
 export const volumeUnits = [
   'in',
   'yd',
@@ -126,6 +165,12 @@ export const volumeUnits = [
   'm'
 ]
 
+/**
+ * A list of all the other supported units that are not created using the
+ * international system units factory.
+ *
+ * @type {Array}
+ */
 export const otherUnits = [
   // temperatures
   '°C',
@@ -212,6 +257,14 @@ export const otherUnits = [
   'ppm'
 ]
 
+/**
+ * A function to combine the units from international units system with their
+ * prefix.
+ *
+ * @param  {Array} scales the list of scales prefix to use
+ * @param  {Array} units the list of units to combine
+ * @return {Array} an array containing all the variants of the provided units
+ */
 const combine = compose(map(join('')), R.xprod)
 
 export const allUnits = otherUnits.concat(combine(unitScales, scalableUnits))
