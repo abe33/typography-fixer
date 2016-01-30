@@ -1,6 +1,6 @@
 import R from 'ramda'
 
-const {compose, map, join} = R
+const {compose, concat, map, join} = R
 
 /**
  * A map of all unicode currencies with the string to use in a RegExp to match
@@ -267,4 +267,4 @@ export const otherUnits = [
  */
 const combine = compose(map(join('')), R.xprod)
 
-export const allUnits = otherUnits.concat(combine(unitScales, scalableUnits))
+export const allUnits = concat(otherUnits, combine(unitScales, scalableUnits))
