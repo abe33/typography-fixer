@@ -132,7 +132,7 @@ export function fix (ruleset = [], string) {
 export function group (name, rules) {
   const rulesAsFirstArgument = compose(isArrayLike, head)
   const nameThenRules = both(
-    compose(is(String), head),
+    compose(isString, head),
     compose(isArrayLike, tail)
   )
 
@@ -246,6 +246,24 @@ export function ignore (name, ignore, invertRanges = false) {
 const isRegExp = is(RegExp)
 
 /**
+ * A predicate that returns true when the passed-in value is a string.
+ *
+ * @param  {*} value the value to test
+ * @return {boolean} whether the value is a string or not
+ * @access private
+ */
+const isString = is(String)
+
+/**
+ * A predicate that returns true when the passed-in value is a function.
+ *
+ * @param  {*} value the value to test
+ * @return {boolean} whether the value is a function or not
+ * @access private
+ */
+const isFunction = is(Function)
+
+/**
  * A predicate that returns true when the passed-in value is either a string
  * or a regular expression.
  *
@@ -254,7 +272,7 @@ const isRegExp = is(RegExp)
  *                        or a string
  * @access private
  */
-const isStringOrRegExp = either(is(String), is(RegExp))
+const isStringOrRegExp = either(isString, isRegExp)
 
 /**
  * A predicate that returns true when the passed-in value is either a string
@@ -264,7 +282,7 @@ const isStringOrRegExp = either(is(String), is(RegExp))
  * @return {boolean} true if the value is either a function or a string
  * @access private
  */
-const isStringOrFunction = either(is(String), is(Function))
+const isStringOrFunction = either(isString, isFunction)
 
 /**
  * A predicate that returns true when the passed-in object is a valid rule.
@@ -274,7 +292,7 @@ const isStringOrFunction = either(is(String), is(Function))
  * @access private
  */
 const isRule = where({
-  name: is(String),
+  name: isString,
   match: isStringOrRegExp,
   replace: isStringOrFunction
 })
@@ -288,7 +306,7 @@ const isRule = where({
  * @access private
  */
 const isIgnore = where({
-  name: is(String),
+  name: isString,
   ignore: isStringOrRegExp
 })
 
