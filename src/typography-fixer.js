@@ -87,7 +87,13 @@ export function fix (ruleset = [], string) {
 
   if (rules.length === 0) { return string || function () {} }
 
-  const getRanges = compose(compactRanges, unnest, R.ap(map(rangesFunctionFor, ignores)), R.of)
+  const getRanges = compose(
+    sortRanges,
+    compactRanges,
+    unnest,
+    R.ap(map(rangesFunctionFor, ignores)),
+    R.of
+  )
   const fixer = pipe(...map(fixString, rules))
 
   const doFix = (string) => {
@@ -230,6 +236,63 @@ export function ignore (name, ignore, invertRanges = false) {
 //  ##        ##     ## ####    ###    ##     ##    ##    ########
 
 /**
+ * A predicate that returns true when the passed-in value is a regular
+ * expression.
+ *
+ * @param  {*} value the value to test
+ * @return {boolean} whether the value is a regular expression or not
+ * @access private
+ */
+const isRegExp = is(RegExp)
+
+/**
+ * A predicate that returns true when the passed-in value is either a string
+ * or a regular expression.
+ *
+ * @param  {*} value the value to test
+ * @return {boolean} true if the value is either a regular expression
+ *                        or a string
+ * @access private
+ */
+const isStringOrRegExp = either(is(String), is(RegExp))
+
+/**
+ * A predicate that returns true when the passed-in value is either a string
+ * or a function.
+ *
+ * @param  {*} value the value to test
+ * @return {boolean} true if the value is either a function or a string
+ * @access private
+ */
+const isStringOrFunction = either(is(String), is(Function))
+
+/**
+ * A predicate that returns true when the passed-in object is a valid rule.
+ *
+ * @param  {*} value the object to test
+ * @return {boolean} true if the passed-in object is a valid rule
+ * @access private
+ */
+const isRule = where({
+  name: is(String),
+  match: isStringOrRegExp,
+  replace: isStringOrFunction
+})
+
+/**
+ * A predicate that returns true when the passed-in object is a valid
+ * ignore rule.
+ *
+ * @param  {*} value the object to test
+ * @return {boolean} true if the passed-in object is a valid ignore rule
+ * @access private
+ */
+const isIgnore = where({
+  name: is(String),
+  ignore: isStringOrRegExp
+})
+
+/**
  * Wraps the passed-in condition and function into an array to be used
  * in a `cond` argument.
  *
@@ -245,7 +308,7 @@ const when = (predicate, then) => [predicate, then]
  * the regexp should match globally or not.
  *
  * @param  {boolean} global whether the regexp should match globally or not
- * @return {Array}
+ * @return {Array} the base flags array
  * @access private
  */
 const baseFlags = (global) => global ? ['g'] : []
@@ -295,7 +358,6 @@ const flagsForRegExp = curry((global, re) => {
  * @access private
  */
 const ruleRegExp = curry((global, prop, rule) => {
-  const isRegExp = is(RegExp)
   const getSource = (e) => isRegExp(e) ? e.source : e
   const getFlags = compose(
     join(''),
@@ -336,6 +398,15 @@ const searchRuleRegExp = ruleRegExp(true, 'match')
  */
 const matchRuleRegExp = ruleRegExp(false, 'match')
 
+/**
+ * Returns the check results of the given rule against the passed-in string.
+ * If no matches are found the function returns an empty array.
+ *
+ * @param  {Object} rule the rule to check the string
+ * @param  {string} string the string to check
+ * @return {Array<Object>} an array of resuls
+ * @access private
+ */
 function checkString (rule, string) {
   const searchRegExp = searchRuleRegExp(rule)
   const matchRegExp = matchRuleRegExp(rule)
@@ -361,6 +432,14 @@ function checkString (rule, string) {
   return string ? doCheck(string) : doCheck
 }
 
+/**
+ * Returns the passed-in string fixed according to the specified rule.
+ *
+ * @param  {Object} rule the rule to apply to the string
+ * @param  {string} string the string to fix
+ * @return {string} the fixed string
+ * @access private
+ */
 function fixString (rule, string) {
   const searchRegExp = searchRuleRegExp(rule)
 
@@ -373,10 +452,29 @@ function fixString (rule, string) {
   return string ? doFix(string) : doFix
 }
 
+/**
+ * Returns a function to compute the ranges to ignore according to the
+ * passed-in rule.
+ *
+ * @param  {Object} rule the rule for which computing the range
+ * @return {function(string):Array} a function that returns the range for
+ *                                  for a given string
+ * @access private
+ */
 function rangesFunctionFor (rule) {
   return rule.invertRanges ? exclusiveRangesFor(rule) : inclusiveRangesFor(rule)
 }
 
+/**
+ * Returns the ignored ranges in the string for the passed-in rule. All the
+ * sections of the string that is matched by the rule regular expression will
+ * be ignored.
+ *
+ * @param  {Object} rule the ignore rule for which getting ranges
+ * @param  {string} the string into which find the ranges
+ * @return {Array<Array>} an array with the ignored ranges
+ * @access private
+ */
 function inclusiveRangesFor (rule, string) {
   const re = ignoreRuleRegExp(rule)
 
@@ -396,6 +494,16 @@ function inclusiveRangesFor (rule, string) {
   return string ? getRanges(string) : getRanges
 }
 
+/**
+ * Returns the ignored ranges in the string for the passed-in rule. All the
+ * sections of the string that is not matched by the rule regular expression
+ * will be ignored.
+ *
+ * @param  {Object} rule the ignore rule for which getting ranges
+ * @param  {string} the string into which find the ranges
+ * @return {Array<Array>} an array with the ignored ranges
+ * @access private
+ */
 function exclusiveRangesFor (rule, string) {
   const re = ignoreRuleRegExp(rule)
 
@@ -421,29 +529,60 @@ function exclusiveRangesFor (rule, string) {
   return string ? getRanges(string) : getRanges
 }
 
-const isStringOrRegExp = either(is(String), is(RegExp))
+/**
+ * A filter function that only keep objects in the list that are either valid
+ * rules or ignore rules.
+ *
+ * @param  {Array<Object>} ruleset the list of objects to filter
+ * @return {Array<Object>} the filtered list
+ * @access private
+ */
+const rulesFilter = filter(either(isRule, isIgnore))
 
-const isStringOrFunction = either(is(String), is(Function))
-
-const isRule = where({
-  name: is(String),
-  match: isStringOrRegExp,
-  replace: isStringOrFunction
-})
-
-const isIgnore = where({
-  name: is(String),
-  ignore: isStringOrRegExp
-})
-
-const rulesFilterer = filter(either(isRule, isIgnore))
-
+/**
+ * A grouping function that separates rules and ignore rules into two
+ * separate lists.
+ *
+ * @param  {Array<Object>} ruleset the list of rules to group
+ * @return {Object} an object with the rules and ignores from the original array
+ * @property {Array<Object>} rules the array of rules
+ * @property {Array<Object>} ignores the array of ignores
+ * @access private
+ */
 const rulesGrouper = groupBy(rule => rule.ignore ? 'ignores' : 'rules')
 
+/**
+ * Takes an object and returns a new object where the `rules` and `ignores`
+ * properties have been defined with a new array if they were not present.
+ *
+ * @param  {Object} object the initial object
+ * @return {Object} a new object that is guarantee to have `rules` and
+ *                  `ignores` properties
+ * @access private
+ */
 const setRulesDefault = merge({ignores: [], rules: []})
 
-const splitRules = compose(setRulesDefault, rulesGrouper, rulesFilterer)
+/**
+ * Returns an object with two lists containing the rules and ignores from
+ * the passed-in array. Every objects that doesn't match the criteria will
+ * be discarded.
+ *
+ * @param  {Array<Object>} ruleset the array of rules to split
+ * @return {Object} an object with the rules and ignores from the original array
+ * @property {Array<Object>} rules the array of rules
+ * @property {Array<Object>} ignores the array of ignores
+ * @access private
+ */
+const splitRules = compose(setRulesDefault, rulesGrouper, rulesFilter)
 
+/**
+ * Returns whether the two passed-in ranges intersect or not
+ *
+ * @param  {Array} rangeA the first range to test
+ * @param  {Array} rangeB the second range to test
+ * @return {boolean} whether the two ranges intersect
+ * @access private
+ */
 const rangesIntersects = curry((rangeA, rangeB) => {
   const [startA, endA] = rangeA
   const [startB, endB] = rangeB
@@ -454,6 +593,20 @@ const rangesIntersects = curry((rangeA, rangeB) => {
          (endA >= startB && endA <= endB)
 })
 
+/**
+ * Takes a string and a list of ranges and returns an object with two lists
+ * containing in `ignored` the string parts that are contained in the passed-in
+ * ranges and in `legit` the parts that are not contained by the ranges.
+ *
+ * @param  {string} string the string to split
+ * @param  {Array<Array>} ranges the ranges to use to split the string
+ * @return {Object} an object with the string split by ranges
+ * @property {Array<string>} legit the parts of the string not contained
+ *                                 in the passed-in ranges
+ * @property {Array<string>} ignored the parts of the string contained
+ *                                   in the passed-in ranges
+ * @access private
+ */
 function splitByRanges (string, ranges) {
   const results = {legit: [], ignored: []}
 
@@ -472,29 +625,71 @@ function splitByRanges (string, ranges) {
   return results
 }
 
+/**
+ * A reducer function that takes a string `memo` and a tuple of two strings `a`
+ * and `b` and which returns a string that is the result of `memo + a + b`.
+ *
+ * @param  {string} memo the reduce memo
+ * @param  {array} tuple the current pair of string from the two lists
+ * @return {string} the new memo
+ * @access private
+ */
 const joinReducer = (memo, [a, b]) => memo + a + b
 
+/**
+ * Takes two lists and joins them such as the final string is the result
+ * of `a[0] + b[0] + a[1] + b[1] + a[n] + b[n]`.
+ *
+ * @param  {Array<string>} a the first list to join
+ * @param  {Array<string>} b the second list to join
+ * @return {string} the string resulting of joining the two lists
+ * @access private
+ */
 const alternateJoin = (a, b) => reduce(joinReducer, '', transpose([a, b]))
 
+/**
+ * Takes a list of ranges and returns a new list where all the intersecting
+ * ranges have been merged.
+ *
+ * @param  {Array<Array>} ranges [description]
+ * @return {Array<Array>} [description]
+ * @access private
+ */
 function compactRanges (ranges) {
   if (ranges.length === 0) { return [] }
 
-  const sorter = (a, b) => a[0] - b[0]
-  const reducer = (memo, rangeA) => {
-    const filterer = (rangeB) => {
-      if (rangesIntersects(rangeA, rangeB)) {
-        rangeA[0] = Math.min(rangeA[0], rangeB[0])
-        rangeA[1] = Math.max(rangeA[1], rangeB[1])
-        return false
-      } else {
-        return true
-      }
-    }
+  return reduce(rangesReducer, [], ranges)
+}
 
-    return memo.length === 0
-      ? append(rangeA, memo)
-      : append(rangeA, filter(filterer, memo))
+/**
+ * The reducer function used to merge intersecting ranges.
+ *
+ * @param  {Array<Array>} memo the initial memo array
+ * @param  {Array} rangeA the current range to process
+ * @return {Array<Array>} the new memo array
+ * @access private
+ */
+function rangesReducer (memo, rangeA) {
+  const filterer = (rangeB) => {
+    if (rangesIntersects(rangeA, rangeB)) {
+      rangeA[0] = Math.min(rangeA[0], rangeB[0])
+      rangeA[1] = Math.max(rangeA[1], rangeB[1])
+      return false
+    } else {
+      return true
+    }
   }
 
-  return sort(sorter, reduce(reducer, [], ranges))
+  return memo.length === 0
+    ? append(rangeA, memo)
+    : append(rangeA, filter(filterer, memo))
 }
+
+/**
+ * Takes a list of ranges and sort them by their start position.
+ *
+ * @param  {Array<Array>} ranges the list of ranges to sort
+ * @return {Array<Array>} the sorted ranges list
+ * @access private
+ */
+const sortRanges = sort((a, b) => a[0] - b[0])
