@@ -14,6 +14,18 @@ describe('typographyFixer', () => {
       expect(check([ruleObject])).to.be.a(Function)
     })
 
+    it('ignores malformed rules', () => {
+      const rules = [
+        {name: 'string'},
+        {name: 'string', match: 'string'},
+        {name: 'string', replace: 'bar'},
+        {match: 'string', replace: 'bar'},
+        {ignore: 'string'},
+      ]
+
+      expect(check(rules, 'string')).to.be(undefined)
+    })
+
     it('returns undefined when called without any rules', () => {
       expect(check([], 'string')).to.be(undefined)
     })
@@ -93,6 +105,18 @@ describe('typographyFixer', () => {
 
       expect(fix([])).to.be.a(Function)
       expect(fix([ruleObject])).to.be.a(Function)
+    })
+
+    it('ignores malformed rules', () => {
+      const rules = [
+        {name: 'string'},
+        {name: 'string', match: 'string'},
+        {name: 'string', replace: 'bar'},
+        {match: 'string', replace: 'bar'},
+        {ignore: 'string'},
+      ]
+
+      expect(fix(rules, 'string')).to.eql('string')
     })
 
     it('returns the string when called without any rules', () => {

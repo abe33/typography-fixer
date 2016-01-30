@@ -1,7 +1,7 @@
 import R from 'ramda'
 
 const {
-  anyPass, append, both, compose, concat, cond, converge, curry, filter, flatten, groupBy, head, is, isArrayLike, join, lensProp, map, merge, not, over, pipe, propSatisfies, reduce, replace, sort, tail, transpose, unapply, unnest
+  anyPass, append, both, compose, concat, cond, converge, curry, either, filter, flatten, groupBy, head, is, isArrayLike, join, lensProp, map, merge, not, over, pipe, propSatisfies, reduce, replace, sort, tail, transpose, unapply, unnest, where
 } = R
 
 /**
@@ -409,11 +409,28 @@ const exclusiveRangesFor = curry((rule, string) => {
   return ranges
 })
 
-function splitRules (ruleset) {
-  const grouper = (rule) => rule.ignore ? 'ignores' : 'rules'
+const isStringOrRegExp = either(is(String), is(RegExp))
 
-  return merge({ignores: [], rules: []}, groupBy(grouper, ruleset))
-}
+const isStringOrFunction = either(is(String), is(Function))
+
+const isRule = where({
+  name: is(String),
+  match: isStringOrRegExp,
+  replace: isStringOrFunction
+})
+
+const isIgnore = where({
+  name: is(String),
+  ignore: isStringOrRegExp
+})
+
+const rulesFilterer = filter(either(isRule, isIgnore))
+
+const rulesGrouper = groupBy(rule => rule.ignore ? 'ignores' : 'rules')
+
+const setRulesDefault = merge({ignores: [], rules: []})
+
+const splitRules = compose(setRulesDefault, rulesGrouper, rulesFilterer)
 
 const rangesIntersects = curry((rangeA, rangeB) => {
   const [startA, endA] = rangeA
