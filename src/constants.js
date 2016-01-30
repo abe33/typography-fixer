@@ -7,6 +7,7 @@ const {compose, concat, map, join} = R
  * them.
  *
  * @type {Object}
+ * @access private
  */
 export const currencies = {
   '¤': '¤',
@@ -52,6 +53,7 @@ export const currencies = {
  * A string containing a regular expression to matches a currency.
  *
  * @type {string}
+ * @access private
  */
 export const currenciesRegExp = R.join('', R.values(currencies))
 
@@ -60,6 +62,7 @@ export const currenciesRegExp = R.join('', R.values(currencies))
  * to match them.
  *
  * @type {Array}
+ * @access private
  */
 export const vulgarFractions = [
   [1, 4, '\u00bc'],
@@ -88,6 +91,7 @@ export const vulgarFractions = [
  * to generate all the variant for the units.
  *
  * @type {Array}
+ * @access private
  */
 export const unitScales = [
   'y',
@@ -118,6 +122,7 @@ export const unitScales = [
  * system.
  *
  * @type {Array}
+ * @access private
  */
 export const scalableUnits = [
   'm',
@@ -143,6 +148,7 @@ export const scalableUnits = [
  * A list of all the supported surface units.
  *
  * @type {Array}
+ * @access private
  */
 export const surfaceUnits = [
   'mile',
@@ -157,6 +163,7 @@ export const surfaceUnits = [
  * A list of all the supported volume units.
  *
  * @type {Array}
+ * @access private
  */
 export const volumeUnits = [
   'in',
@@ -170,6 +177,7 @@ export const volumeUnits = [
  * international system units factory.
  *
  * @type {Array}
+ * @access private
  */
 export const otherUnits = [
   // temperatures
@@ -264,7 +272,14 @@ export const otherUnits = [
  * @param  {Array} scales the list of scales prefix to use
  * @param  {Array} units the list of units to combine
  * @return {Array} an array containing all the variants of the provided units
+ * @access private
  */
 const combine = compose(map(join('')), R.xprod)
 
+/**
+ * A list of all the supported units.
+ *
+ * @type {Array}
+ * @access private
+ */
 export const allUnits = concat(otherUnits, combine(unitScales, scalableUnits))
