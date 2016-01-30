@@ -377,37 +377,49 @@ function rangesFunctionFor (rule) {
   return rule.invertRanges ? exclusiveRangesFor(rule) : inclusiveRangesFor(rule)
 }
 
-const inclusiveRangesFor = curry((rule, string) => {
+function inclusiveRangesFor (rule, string) {
   const re = ignoreRuleRegExp(rule)
-  const ranges = []
-  let match
 
-  do {
-    match = re.exec(string)
-    if (match) { ranges.push([match.index, re.lastIndex]) }
-  } while (match)
+  const getRanges = (string) => {
+    re.lastIndex = 0
+    const ranges = []
+    let match
 
-  return ranges
-})
+    do {
+      match = re.exec(string)
+      if (match) { ranges.push([match.index, re.lastIndex]) }
+    } while (match)
 
-const exclusiveRangesFor = curry((rule, string) => {
+    return ranges
+  }
+
+  return string ? getRanges(string) : getRanges
+}
+
+function exclusiveRangesFor (rule, string) {
   const re = ignoreRuleRegExp(rule)
-  const ranges = []
-  let start = 0
-  let match
 
-  do {
-    match = re.exec(string)
-    if (match) {
-      ranges.push([start, match.index - 1])
-      start = re.lastIndex
-    }
-  } while (match)
+  const getRanges = (string) => {
+    re.lastIndex = 0
+    const ranges = []
+    let start = 0
+    let match
 
-  ranges.push([start, string.length])
+    do {
+      match = re.exec(string)
+      if (match) {
+        ranges.push([start, match.index - 1])
+        start = re.lastIndex
+      }
+    } while (match)
 
-  return ranges
-})
+    ranges.push([start, string.length])
+
+    return ranges
+  }
+
+  return string ? getRanges(string) : getRanges
+}
 
 const isStringOrRegExp = either(is(String), is(RegExp))
 
