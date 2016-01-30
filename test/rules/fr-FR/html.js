@@ -6,9 +6,9 @@ const fixString = fix(rules)
 const checkString = check(rules)
 
 describe('fr-FR html rules', () => {
-  it('includes fraction rules', () => {
+  it('includes common rules', () => {
     expect(rules.some((r) => {
-      return r.name.indexOf('html') >= 0
+      return r.name.indexOf('html.common') >= 0
     })).to.be(true)
   })
 
