@@ -7,7 +7,8 @@ const checkString = check(rules)
 
 describe('html rules', () => {
   it('wraps quotation marks into a span', () => {
-    expect(fixString('Le \u00ab\u202FChat Botté\u202F\u00bb.')).to.eql('Le <span class="dquo">\u00ab</span>\u202FChat Botté\u202F<span class="dquo">\u00bb</span>.')
+    expect(fixString('\u00abfoo\u00bb.')).to.eql('<span class="dquo">\u00ab</span>foo<span class="dquo">\u00bb</span>.')
+    expect(fixString('\u201cfoo\u201d.')).to.eql('<span class="dquo">\u201c</span>foo<span class="dquo">\u201d</span>.')
 
     expect(checkString('Le \u00ab\u202FChat Botté\u202F\u00bb.')).to.have.length(2)
   })

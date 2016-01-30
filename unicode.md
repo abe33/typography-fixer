@@ -1,4 +1,4 @@
-A list of all the unicode characters used in this package with their code only: 
+A list of all the unicode characters used in this package with their code only:
 
 - `\u00a0`: ` ` - non-breaking space
 - `\u00ab`: `«` - left double angle quotation mark
@@ -17,6 +17,8 @@ A list of all the unicode characters used in this package with their code only:
 - `\u2013`: `–` - en-dash
 - `\u2014`: `—` - em-dash
 - `\u2019`: `’` - left single quotation mark
+- `\u201c`: `“` - left double quotation mark
+- `\u201d`: `”` - right double quotation mark
 - `\u2026`: `…` - ellipsis
 - `\u202f`: ` ` - thin non-breaking space
 - `\u2030`: `‰` - per-thousand
