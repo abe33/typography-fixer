@@ -20,7 +20,7 @@ describe('typographyFixer', () => {
         {name: 'string', match: 'string'},
         {name: 'string', replace: 'bar'},
         {match: 'string', replace: 'bar'},
-        {ignore: 'string'},
+        {ignore: 'string'}
       ]
 
       expect(check(rules, 'string')).to.be(undefined)
@@ -113,7 +113,7 @@ describe('typographyFixer', () => {
         {name: 'string', match: 'string'},
         {name: 'string', replace: 'bar'},
         {match: 'string', replace: 'bar'},
-        {ignore: 'string'},
+        {ignore: 'string'}
       ]
 
       expect(fix(rules, 'string')).to.eql('string')
