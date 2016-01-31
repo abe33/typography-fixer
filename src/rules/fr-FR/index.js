@@ -30,6 +30,8 @@ let frFR
  * - Replacing possessive interrogative `a-t'il` with `a-t-il`
  * - Properly formatting `c.-à-d.` abbreviation
  * - Using a superscript `o` instead of `°` for `numéro` abbreviation
+ * - Removing hyphen after `anti` unless the following word starts with a `i`
+ *   or already contains an hyphen
  * - Replacing hyphen between numbers such as in `1939-45` by an en-dash
  * - Replacing hyphen between words such as in `Pierre - tu le connais, hein ? -
  *   est professeur de yoga` by an en-dash
@@ -76,7 +78,8 @@ function createRuleset () {
       rule('cad', /c\.?(-|\u2011)?[aà](-|\u2011)?d\.?/, 'c.\u2011à\u2011d.'),
       rule('numberAbbr', /(n|N)°/, '$1\u00ba'),
       rule('enDashBetweenWords', /(\D\x20)-(\x20\D)/, '$1\u2013$2'),
-      rule('enDashBetweenNumbers', /(\d)\s*(?:-|\u2011)\s*(\d)/, '$1\u2013$2')
+      rule('enDashBetweenNumbers', /(\d)\s*(?:-|\u2011)\s*(\d)/, '$1\u2013$2'),
+      rule('anti', /anti(?:-|\u2011)([^i]\w+)(?!-|\u2011)\b/, 'anti$1')
     ]),
     group('quotes', [
       rule('singleQuote', /(\w)'(\w)/, '$1\u2019$2'),

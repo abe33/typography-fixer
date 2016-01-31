@@ -301,6 +301,20 @@ describe('fr-FR ruleset', () => {
     it('replaces hyphen between numbers with dashes', () => {
       expect(fixString('1000-1500')).to.eql('1000\u20131500')
       expect(fixString('1000\u20111500')).to.eql('1000\u20131500')
+
+      expect(checkString('1000-1500')).to.have.length(2)
+      expect(checkString('1000\u20131500')).to.be(undefined)
+    })
+
+    it('removes hyphen between anti and a word unless if it starts by a i or contains an hyphen', () => {
+      expect(fixString('anti-conformiste')).to.eql('anticonformiste')
+      expect(fixString('anti-immigration')).to.eql('anti\u2011immigration')
+      expect(fixString('anti-sous-marin')).to.eql('anti\u2011sous\u2011marin')
+
+      expect(checkString('anti-conformiste')).to.have.length(2)
+      expect(checkString('anticonformiste')).to.be(undefined)
+      expect(checkString('anti-immigration')).to.have.length(1)
+      expect(checkString('anti-sous-marin')).to.have.length(2)
     })
   })
 
