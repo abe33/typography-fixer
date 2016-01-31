@@ -152,7 +152,7 @@
           "type": "VariableDeclarator",
           "id": {
             "type": "Identifier",
-            "name": "ruleset",
+            "name": "symbols",
             "range": [
               53,
               60
@@ -182,13 +182,33 @@
               "line": 3,
               "column": 11
             }
-          }
+          },
+          "trailingComments": [
+            {
+              "type": "Block",
+              "value": "*\n * A ruleset to replace common miswritten symbols.\n *\n * It includes rules for:\n *\n * - Replacing `(c)` or `(C)` with `©`\n * - Replacing `(r)` or `(R)` with `®`\n * - Replacing `TM` with `™`\n *\n * @type {Array<Object>}\n ",
+              "range": [
+                62,
+                287
+              ],
+              "loc": {
+                "start": {
+                  "line": 5,
+                  "column": 0
+                },
+                "end": {
+                  "line": 15,
+                  "column": 3
+                }
+              }
+            }
+          ]
         }
       ],
       "kind": "let",
       "range": [
         49,
-        62
+        288
       ],
       "loc": {
         "start": {
@@ -196,7 +216,7 @@
           "column": 0
         },
         "end": {
-          "line": 5,
+          "line": 16,
           "column": 0
         }
       }
@@ -208,18 +228,18 @@
         "operator": "=",
         "left": {
           "type": "Identifier",
-          "name": "ruleset",
+          "name": "symbols",
           "range": [
-            77,
-            84
+            303,
+            310
           ],
           "loc": {
             "start": {
-              "line": 5,
+              "line": 16,
               "column": 15
             },
             "end": {
-              "line": 5,
+              "line": 16,
               "column": 22
             }
           }
@@ -230,67 +250,106 @@
             "type": "Identifier",
             "name": "createRuleset",
             "range": [
-              87,
-              100
+              313,
+              326
             ],
             "loc": {
               "start": {
-                "line": 5,
+                "line": 16,
                 "column": 25
               },
               "end": {
-                "line": 5,
+                "line": 16,
                 "column": 38
               }
             }
           },
           "arguments": [],
           "range": [
-            87,
-            102
+            313,
+            328
           ],
           "loc": {
             "start": {
-              "line": 5,
+              "line": 16,
               "column": 25
             },
             "end": {
-              "line": 5,
+              "line": 16,
               "column": 40
             }
           }
         },
         "range": [
-          77,
-          102
+          303,
+          328
         ],
         "loc": {
           "start": {
-            "line": 5,
+            "line": 16,
             "column": 15
           },
           "end": {
-            "line": 5,
+            "line": 16,
             "column": 40
           }
         },
-        "leadingComments": [],
+        "leadingComments": [
+          {
+            "type": "Block",
+            "value": "*\n * A ruleset to replace common miswritten symbols.\n *\n * It includes rules for:\n *\n * - Replacing `(c)` or `(C)` with `©`\n * - Replacing `(r)` or `(R)` with `®`\n * - Replacing `TM` with `™`\n *\n * @type {Array<Object>}\n ",
+            "range": [
+              62,
+              287
+            ],
+            "loc": {
+              "start": {
+                "line": 5,
+                "column": 0
+              },
+              "end": {
+                "line": 15,
+                "column": 3
+              }
+            }
+          }
+        ],
         "trailingComments": []
       },
       "range": [
-        62,
-        104
+        288,
+        330
       ],
       "loc": {
         "start": {
-          "line": 5,
+          "line": 16,
           "column": 0
         },
         "end": {
-          "line": 7,
+          "line": 18,
           "column": 0
         }
-      }
+      },
+      "leadingComments": [
+        {
+          "type": "Block",
+          "value": "*\n * A ruleset to replace common miswritten symbols.\n *\n * It includes rules for:\n *\n * - Replacing `(c)` or `(C)` with `©`\n * - Replacing `(r)` or `(R)` with `®`\n * - Replacing `TM` with `™`\n *\n * @type {Array<Object>}\n ",
+          "range": [
+            62,
+            287
+          ],
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 0
+            },
+            "end": {
+              "line": 15,
+              "column": 3
+            }
+          }
+        }
+      ]
     },
     {
       "type": "FunctionDeclaration",
@@ -298,16 +357,16 @@
         "type": "Identifier",
         "name": "createRuleset",
         "range": [
-          113,
-          126
+          339,
+          352
         ],
         "loc": {
           "start": {
-            "line": 7,
+            "line": 18,
             "column": 9
           },
           "end": {
-            "line": 7,
+            "line": 18,
             "column": 22
           }
         }
@@ -324,16 +383,16 @@
                 "type": "Identifier",
                 "name": "group",
                 "range": [
-                  141,
-                  146
+                  367,
+                  372
                 ],
                 "loc": {
                   "start": {
-                    "line": 8,
+                    "line": 19,
                     "column": 9
                   },
                   "end": {
-                    "line": 8,
+                    "line": 19,
                     "column": 14
                   }
                 }
@@ -344,16 +403,16 @@
                   "value": "symbols",
                   "raw": "'symbols'",
                   "range": [
-                    147,
-                    156
+                    373,
+                    382
                   ],
                   "loc": {
                     "start": {
-                      "line": 8,
+                      "line": 19,
                       "column": 15
                     },
                     "end": {
-                      "line": 8,
+                      "line": 19,
                       "column": 24
                     }
                   }
@@ -367,16 +426,16 @@
                         "type": "Identifier",
                         "name": "rule",
                         "range": [
-                          164,
-                          168
+                          390,
+                          394
                         ],
                         "loc": {
                           "start": {
-                            "line": 9,
+                            "line": 20,
                             "column": 4
                           },
                           "end": {
-                            "line": 9,
+                            "line": 20,
                             "column": 8
                           }
                         }
@@ -387,16 +446,16 @@
                           "value": "copyright",
                           "raw": "'copyright'",
                           "range": [
-                            169,
-                            180
+                            395,
+                            406
                           ],
                           "loc": {
                             "start": {
-                              "line": 9,
+                              "line": 20,
                               "column": 9
                             },
                             "end": {
-                              "line": 9,
+                              "line": 20,
                               "column": 20
                             }
                           }
@@ -410,16 +469,16 @@
                             "flags": ""
                           },
                           "range": [
-                            182,
-                            192
+                            408,
+                            418
                           ],
                           "loc": {
                             "start": {
-                              "line": 9,
+                              "line": 20,
                               "column": 22
                             },
                             "end": {
-                              "line": 9,
+                              "line": 20,
                               "column": 32
                             }
                           }
@@ -429,32 +488,32 @@
                           "value": "©",
                           "raw": "'©'",
                           "range": [
-                            194,
-                            197
+                            420,
+                            423
                           ],
                           "loc": {
                             "start": {
-                              "line": 9,
+                              "line": 20,
                               "column": 34
                             },
                             "end": {
-                              "line": 9,
+                              "line": 20,
                               "column": 37
                             }
                           }
                         }
                       ],
                       "range": [
-                        164,
-                        198
+                        390,
+                        424
                       ],
                       "loc": {
                         "start": {
-                          "line": 9,
+                          "line": 20,
                           "column": 4
                         },
                         "end": {
-                          "line": 9,
+                          "line": 20,
                           "column": 38
                         }
                       }
@@ -465,16 +524,16 @@
                         "type": "Identifier",
                         "name": "rule",
                         "range": [
-                          204,
-                          208
+                          430,
+                          434
                         ],
                         "loc": {
                           "start": {
-                            "line": 10,
+                            "line": 21,
                             "column": 4
                           },
                           "end": {
-                            "line": 10,
+                            "line": 21,
                             "column": 8
                           }
                         }
@@ -485,16 +544,16 @@
                           "value": "trademark",
                           "raw": "'trademark'",
                           "range": [
-                            209,
-                            220
+                            435,
+                            446
                           ],
                           "loc": {
                             "start": {
-                              "line": 10,
+                              "line": 21,
                               "column": 9
                             },
                             "end": {
-                              "line": 10,
+                              "line": 21,
                               "column": 20
                             }
                           }
@@ -508,16 +567,16 @@
                             "flags": ""
                           },
                           "range": [
-                            222,
-                            230
+                            448,
+                            456
                           ],
                           "loc": {
                             "start": {
-                              "line": 10,
+                              "line": 21,
                               "column": 22
                             },
                             "end": {
-                              "line": 10,
+                              "line": 21,
                               "column": 30
                             }
                           }
@@ -527,32 +586,32 @@
                           "value": "™",
                           "raw": "'™'",
                           "range": [
-                            232,
-                            235
+                            458,
+                            461
                           ],
                           "loc": {
                             "start": {
-                              "line": 10,
+                              "line": 21,
                               "column": 32
                             },
                             "end": {
-                              "line": 10,
+                              "line": 21,
                               "column": 35
                             }
                           }
                         }
                       ],
                       "range": [
-                        204,
-                        236
+                        430,
+                        462
                       ],
                       "loc": {
                         "start": {
-                          "line": 10,
+                          "line": 21,
                           "column": 4
                         },
                         "end": {
-                          "line": 10,
+                          "line": 21,
                           "column": 36
                         }
                       }
@@ -563,16 +622,16 @@
                         "type": "Identifier",
                         "name": "rule",
                         "range": [
-                          242,
-                          246
+                          468,
+                          472
                         ],
                         "loc": {
                           "start": {
-                            "line": 11,
+                            "line": 22,
                             "column": 4
                           },
                           "end": {
-                            "line": 11,
+                            "line": 22,
                             "column": 8
                           }
                         }
@@ -583,16 +642,16 @@
                           "value": "registered",
                           "raw": "'registered'",
                           "range": [
-                            247,
-                            259
+                            473,
+                            485
                           ],
                           "loc": {
                             "start": {
-                              "line": 11,
+                              "line": 22,
                               "column": 9
                             },
                             "end": {
-                              "line": 11,
+                              "line": 22,
                               "column": 21
                             }
                           }
@@ -606,16 +665,16 @@
                             "flags": ""
                           },
                           "range": [
-                            261,
-                            271
+                            487,
+                            497
                           ],
                           "loc": {
                             "start": {
-                              "line": 11,
+                              "line": 22,
                               "column": 23
                             },
                             "end": {
-                              "line": 11,
+                              "line": 22,
                               "column": 33
                             }
                           }
@@ -625,95 +684,95 @@
                           "value": "®",
                           "raw": "'®'",
                           "range": [
-                            273,
-                            276
+                            499,
+                            502
                           ],
                           "loc": {
                             "start": {
-                              "line": 11,
+                              "line": 22,
                               "column": 35
                             },
                             "end": {
-                              "line": 11,
+                              "line": 22,
                               "column": 38
                             }
                           }
                         }
                       ],
                       "range": [
-                        242,
-                        277
+                        468,
+                        503
                       ],
                       "loc": {
                         "start": {
-                          "line": 11,
+                          "line": 22,
                           "column": 4
                         },
                         "end": {
-                          "line": 11,
+                          "line": 22,
                           "column": 39
                         }
                       }
                     }
                   ],
                   "range": [
-                    158,
-                    281
+                    384,
+                    507
                   ],
                   "loc": {
                     "start": {
-                      "line": 8,
+                      "line": 19,
                       "column": 26
                     },
                     "end": {
-                      "line": 12,
+                      "line": 23,
                       "column": 3
                     }
                   }
                 }
               ],
               "range": [
-                141,
-                282
+                367,
+                508
               ],
               "loc": {
                 "start": {
-                  "line": 8,
+                  "line": 19,
                   "column": 9
                 },
                 "end": {
-                  "line": 12,
+                  "line": 23,
                   "column": 4
                 }
               }
             },
             "range": [
-              134,
-              283
+              360,
+              509
             ],
             "loc": {
               "start": {
-                "line": 8,
+                "line": 19,
                 "column": 2
               },
               "end": {
-                "line": 13,
+                "line": 24,
                 "column": 0
               }
             }
           }
         ],
         "range": [
-          130,
-          284
+          356,
+          510
         ],
         "loc": {
           "start": {
-            "line": 7,
+            "line": 18,
             "column": 26
           },
           "end": {
-            "line": 13,
+            "line": 24,
             "column": 1
           }
         }
@@ -721,16 +780,16 @@
       "generator": false,
       "expression": false,
       "range": [
-        104,
-        284
+        330,
+        510
       ],
       "loc": {
         "start": {
-          "line": 7,
+          "line": 18,
           "column": 0
         },
         "end": {
-          "line": 13,
+          "line": 24,
           "column": 1
         }
       }
@@ -739,7 +798,7 @@
   "sourceType": "module",
   "range": [
     0,
-    284
+    510
   ],
   "loc": {
     "start": {
@@ -747,9 +806,28 @@
       "column": 0
     },
     "end": {
-      "line": 13,
+      "line": 24,
       "column": 1
     }
   },
-  "comments": []
+  "comments": [
+    {
+      "type": "Block",
+      "value": "*\n * A ruleset to replace common miswritten symbols.\n *\n * It includes rules for:\n *\n * - Replacing `(c)` or `(C)` with `©`\n * - Replacing `(r)` or `(R)` with `®`\n * - Replacing `TM` with `™`\n *\n * @type {Array<Object>}\n ",
+      "range": [
+        62,
+        287
+      ],
+      "loc": {
+        "start": {
+          "line": 5,
+          "column": 0
+        },
+        "end": {
+          "line": 15,
+          "column": 3
+        }
+      }
+    }
+  ]
 }

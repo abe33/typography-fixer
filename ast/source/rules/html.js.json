@@ -152,10 +152,10 @@
           "type": "VariableDeclarator",
           "id": {
             "type": "Identifier",
-            "name": "lineBreaks",
+            "name": "html",
             "range": [
               53,
-              63
+              57
             ],
             "loc": {
               "start": {
@@ -164,14 +164,14 @@
               },
               "end": {
                 "line": 3,
-                "column": 14
+                "column": 8
               }
             }
           },
           "init": null,
           "range": [
             53,
-            63
+            57
           ],
           "loc": {
             "start": {
@@ -180,16 +180,16 @@
             },
             "end": {
               "line": 3,
-              "column": 14
+              "column": 8
             }
           },
           "trailingComments": [
             {
               "type": "Block",
-              "value": "*\n * A generic ruleset to improve line breaks.\n *\n * It includes rules for:\n *\n * - Adding a non-breaking space between a number and the word that follow\n * - Adding a non-breaking space after short words of three characters or less\n * - Adding a non-breaking space between the two last words of a paragraph\n *\n * @type {Array<Object>}\n ",
+              "value": "*\n * A common ruleset for HTML typographic enhancement.\n *\n * It includes rules for:\n *\n * - Wrapping double quotes in quotation marks in a span with the `dquo` class\n * - Wrapping ampersand in a span with the `amp` class\n * - Wrapping many consecutive capitals in a span with the `caps` class\n *\n * @type {Array<Object>}\n ",
               "range": [
-                65,
-                406
+                59,
+                386
               ],
               "loc": {
                 "start": {
@@ -208,7 +208,7 @@
       "kind": "let",
       "range": [
         49,
-        407
+        387
       ],
       "loc": {
         "start": {
@@ -228,10 +228,10 @@
         "operator": "=",
         "left": {
           "type": "Identifier",
-          "name": "lineBreaks",
+          "name": "html",
           "range": [
-            422,
-            432
+            402,
+            406
           ],
           "loc": {
             "start": {
@@ -240,7 +240,7 @@
             },
             "end": {
               "line": 16,
-              "column": 25
+              "column": 19
             }
           }
         },
@@ -250,39 +250,39 @@
             "type": "Identifier",
             "name": "createRuleset",
             "range": [
-              435,
-              448
+              409,
+              422
             ],
             "loc": {
               "start": {
                 "line": 16,
-                "column": 28
+                "column": 22
               },
               "end": {
                 "line": 16,
-                "column": 41
+                "column": 35
               }
             }
           },
           "arguments": [],
           "range": [
-            435,
-            450
+            409,
+            424
           ],
           "loc": {
             "start": {
               "line": 16,
-              "column": 28
+              "column": 22
             },
             "end": {
               "line": 16,
-              "column": 43
+              "column": 37
             }
           }
         },
         "range": [
-          422,
-          450
+          402,
+          424
         ],
         "loc": {
           "start": {
@@ -291,16 +291,16 @@
           },
           "end": {
             "line": 16,
-            "column": 43
+            "column": 37
           }
         },
         "leadingComments": [
           {
             "type": "Block",
-            "value": "*\n * A generic ruleset to improve line breaks.\n *\n * It includes rules for:\n *\n * - Adding a non-breaking space between a number and the word that follow\n * - Adding a non-breaking space after short words of three characters or less\n * - Adding a non-breaking space between the two last words of a paragraph\n *\n * @type {Array<Object>}\n ",
+            "value": "*\n * A common ruleset for HTML typographic enhancement.\n *\n * It includes rules for:\n *\n * - Wrapping double quotes in quotation marks in a span with the `dquo` class\n * - Wrapping ampersand in a span with the `amp` class\n * - Wrapping many consecutive capitals in a span with the `caps` class\n *\n * @type {Array<Object>}\n ",
             "range": [
-              65,
-              406
+              59,
+              386
             ],
             "loc": {
               "start": {
@@ -317,8 +317,8 @@
         "trailingComments": []
       },
       "range": [
-        407,
-        452
+        387,
+        426
       ],
       "loc": {
         "start": {
@@ -333,10 +333,10 @@
       "leadingComments": [
         {
           "type": "Block",
-          "value": "*\n * A generic ruleset to improve line breaks.\n *\n * It includes rules for:\n *\n * - Adding a non-breaking space between a number and the word that follow\n * - Adding a non-breaking space after short words of three characters or less\n * - Adding a non-breaking space between the two last words of a paragraph\n *\n * @type {Array<Object>}\n ",
+          "value": "*\n * A common ruleset for HTML typographic enhancement.\n *\n * It includes rules for:\n *\n * - Wrapping double quotes in quotation marks in a span with the `dquo` class\n * - Wrapping ampersand in a span with the `amp` class\n * - Wrapping many consecutive capitals in a span with the `caps` class\n *\n * @type {Array<Object>}\n ",
           "range": [
-            65,
-            406
+            59,
+            386
           ],
           "loc": {
             "start": {
@@ -357,8 +357,8 @@
         "type": "Identifier",
         "name": "createRuleset",
         "range": [
-          461,
-          474
+          435,
+          448
         ],
         "loc": {
           "start": {
@@ -383,8 +383,8 @@
                 "type": "Identifier",
                 "name": "group",
                 "range": [
-                  489,
-                  494
+                  463,
+                  468
                 ],
                 "loc": {
                   "start": {
@@ -400,11 +400,11 @@
               "arguments": [
                 {
                   "type": "Literal",
-                  "value": "line-breaks",
-                  "raw": "'line-breaks'",
+                  "value": "common",
+                  "raw": "'common'",
                   "range": [
-                    495,
-                    508
+                    469,
+                    477
                   ],
                   "loc": {
                     "start": {
@@ -413,7 +413,7 @@
                     },
                     "end": {
                       "line": 19,
-                      "column": 28
+                      "column": 23
                     }
                   }
                 },
@@ -426,8 +426,8 @@
                         "type": "Identifier",
                         "name": "rule",
                         "range": [
-                          516,
-                          520
+                          485,
+                          489
                         ],
                         "loc": {
                           "start": {
@@ -443,11 +443,11 @@
                       "arguments": [
                         {
                           "type": "Literal",
-                          "value": "numberBeforeWord",
-                          "raw": "'numberBeforeWord'",
+                          "value": "quotes",
+                          "raw": "'quotes'",
                           "range": [
-                            521,
-                            539
+                            490,
+                            498
                           ],
                           "loc": {
                             "start": {
@@ -456,163 +456,65 @@
                             },
                             "end": {
                               "line": 20,
-                              "column": 27
+                              "column": 17
                             }
                           }
                         },
                         {
                           "type": "Literal",
                           "value": {},
-                          "raw": "/(\\d)\\x20(\\D)/",
+                          "raw": "/(\\u00ab|\\u00bb|\\u201c|\\u201d)/",
                           "regex": {
-                            "pattern": "(\\d)\\x20(\\D)",
+                            "pattern": "(\\u00ab|\\u00bb|\\u201c|\\u201d)",
                             "flags": ""
                           },
                           "range": [
-                            541,
-                            555
+                            500,
+                            531
                           ],
                           "loc": {
                             "start": {
                               "line": 20,
-                              "column": 29
+                              "column": 19
                             },
                             "end": {
                               "line": 20,
-                              "column": 43
+                              "column": 50
                             }
                           }
                         },
                         {
                           "type": "Literal",
-                          "value": "$1 $2",
-                          "raw": "'$1\\u00a0$2'",
+                          "value": "<span class=\"dquo\">$1</span>",
+                          "raw": "'<span class=\"dquo\">$1</span>'",
                           "range": [
-                            557,
-                            569
+                            533,
+                            563
                           ],
                           "loc": {
                             "start": {
                               "line": 20,
-                              "column": 45
-                            },
-                            "end": {
-                              "line": 20,
-                              "column": 57
-                            }
-                          }
-                        }
-                      ],
-                      "range": [
-                        516,
-                        570
-                      ],
-                      "loc": {
-                        "start": {
-                          "line": 20,
-                          "column": 4
-                        },
-                        "end": {
-                          "line": 20,
-                          "column": 58
-                        }
-                      }
-                    },
-                    {
-                      "type": "CallExpression",
-                      "callee": {
-                        "type": "Identifier",
-                        "name": "rule",
-                        "range": [
-                          576,
-                          580
-                        ],
-                        "loc": {
-                          "start": {
-                            "line": 21,
-                            "column": 4
-                          },
-                          "end": {
-                            "line": 21,
-                            "column": 8
-                          }
-                        }
-                      },
-                      "arguments": [
-                        {
-                          "type": "Literal",
-                          "value": "shortWords",
-                          "raw": "'shortWords'",
-                          "range": [
-                            581,
-                            593
-                          ],
-                          "loc": {
-                            "start": {
-                              "line": 21,
-                              "column": 9
-                            },
-                            "end": {
-                              "line": 21,
-                              "column": 21
-                            }
-                          }
-                        },
-                        {
-                          "type": "Literal",
-                          "value": {},
-                          "raw": "/\\b(\\w{1,3})\\x20/",
-                          "regex": {
-                            "pattern": "\\b(\\w{1,3})\\x20",
-                            "flags": ""
-                          },
-                          "range": [
-                            595,
-                            612
-                          ],
-                          "loc": {
-                            "start": {
-                              "line": 21,
-                              "column": 23
-                            },
-                            "end": {
-                              "line": 21,
-                              "column": 40
-                            }
-                          }
-                        },
-                        {
-                          "type": "Literal",
-                          "value": "$1 ",
-                          "raw": "'$1\\u00a0'",
-                          "range": [
-                            614,
-                            624
-                          ],
-                          "loc": {
-                            "start": {
-                              "line": 21,
-                              "column": 42
-                            },
-                            "end": {
-                              "line": 21,
                               "column": 52
+                            },
+                            "end": {
+                              "line": 20,
+                              "column": 82
                             }
                           }
                         }
                       ],
                       "range": [
-                        576,
-                        625
+                        485,
+                        564
                       ],
                       "loc": {
                         "start": {
-                          "line": 21,
+                          "line": 20,
                           "column": 4
                         },
                         "end": {
-                          "line": 21,
-                          "column": 53
+                          "line": 20,
+                          "column": 83
                         }
                       }
                     },
@@ -622,8 +524,106 @@
                         "type": "Identifier",
                         "name": "rule",
                         "range": [
-                          631,
-                          635
+                          570,
+                          574
+                        ],
+                        "loc": {
+                          "start": {
+                            "line": 21,
+                            "column": 4
+                          },
+                          "end": {
+                            "line": 21,
+                            "column": 8
+                          }
+                        }
+                      },
+                      "arguments": [
+                        {
+                          "type": "Literal",
+                          "value": "ampersand",
+                          "raw": "'ampersand'",
+                          "range": [
+                            575,
+                            586
+                          ],
+                          "loc": {
+                            "start": {
+                              "line": 21,
+                              "column": 9
+                            },
+                            "end": {
+                              "line": 21,
+                              "column": 20
+                            }
+                          }
+                        },
+                        {
+                          "type": "Literal",
+                          "value": {},
+                          "raw": "/(&amp;|&)($|\\s)/",
+                          "regex": {
+                            "pattern": "(&amp;|&)($|\\s)",
+                            "flags": ""
+                          },
+                          "range": [
+                            588,
+                            605
+                          ],
+                          "loc": {
+                            "start": {
+                              "line": 21,
+                              "column": 22
+                            },
+                            "end": {
+                              "line": 21,
+                              "column": 39
+                            }
+                          }
+                        },
+                        {
+                          "type": "Literal",
+                          "value": "<span class=\"amp\">$1</span>$2",
+                          "raw": "'<span class=\"amp\">$1</span>$2'",
+                          "range": [
+                            607,
+                            638
+                          ],
+                          "loc": {
+                            "start": {
+                              "line": 21,
+                              "column": 41
+                            },
+                            "end": {
+                              "line": 21,
+                              "column": 72
+                            }
+                          }
+                        }
+                      ],
+                      "range": [
+                        570,
+                        639
+                      ],
+                      "loc": {
+                        "start": {
+                          "line": 21,
+                          "column": 4
+                        },
+                        "end": {
+                          "line": 21,
+                          "column": 73
+                        }
+                      }
+                    },
+                    {
+                      "type": "CallExpression",
+                      "callee": {
+                        "type": "Identifier",
+                        "name": "rule",
+                        "range": [
+                          645,
+                          649
                         ],
                         "loc": {
                           "start": {
@@ -639,10 +639,10 @@
                       "arguments": [
                         {
                           "type": "Literal",
-                          "value": "lastParagraphWords",
-                          "raw": "'lastParagraphWords'",
+                          "value": "caps",
+                          "raw": "'caps'",
                           "range": [
-                            636,
+                            650,
                             656
                           ],
                           "loc": {
@@ -652,56 +652,56 @@
                             },
                             "end": {
                               "line": 22,
-                              "column": 29
+                              "column": 15
                             }
                           }
                         },
                         {
                           "type": "Literal",
                           "value": {},
-                          "raw": "/(\\w+)\\x20(\\w+\\.)$/m",
+                          "raw": "/(([A-Z]\\.?){2,})/",
                           "regex": {
-                            "pattern": "(\\w+)\\x20(\\w+\\.)$",
-                            "flags": "m"
+                            "pattern": "(([A-Z]\\.?){2,})",
+                            "flags": ""
                           },
                           "range": [
                             658,
-                            678
+                            676
                           ],
                           "loc": {
                             "start": {
                               "line": 22,
-                              "column": 31
+                              "column": 17
                             },
                             "end": {
                               "line": 22,
-                              "column": 51
+                              "column": 35
                             }
                           }
                         },
                         {
                           "type": "Literal",
-                          "value": "$1 $2",
-                          "raw": "'$1\\u00a0$2'",
+                          "value": "<span class=\"caps\">$1</span>",
+                          "raw": "'<span class=\"caps\">$1</span>'",
                           "range": [
-                            680,
-                            692
+                            678,
+                            708
                           ],
                           "loc": {
                             "start": {
                               "line": 22,
-                              "column": 53
+                              "column": 37
                             },
                             "end": {
                               "line": 22,
-                              "column": 65
+                              "column": 67
                             }
                           }
                         }
                       ],
                       "range": [
-                        631,
-                        693
+                        645,
+                        709
                       ],
                       "loc": {
                         "start": {
@@ -710,19 +710,19 @@
                         },
                         "end": {
                           "line": 22,
-                          "column": 66
+                          "column": 68
                         }
                       }
                     }
                   ],
                   "range": [
-                    510,
-                    697
+                    479,
+                    713
                   ],
                   "loc": {
                     "start": {
                       "line": 19,
-                      "column": 30
+                      "column": 25
                     },
                     "end": {
                       "line": 23,
@@ -732,8 +732,8 @@
                 }
               ],
               "range": [
-                489,
-                698
+                463,
+                714
               ],
               "loc": {
                 "start": {
@@ -747,8 +747,8 @@
               }
             },
             "range": [
-              482,
-              699
+              456,
+              715
             ],
             "loc": {
               "start": {
@@ -763,8 +763,8 @@
           }
         ],
         "range": [
-          478,
-          700
+          452,
+          716
         ],
         "loc": {
           "start": {
@@ -780,8 +780,8 @@
       "generator": false,
       "expression": false,
       "range": [
-        452,
-        700
+        426,
+        716
       ],
       "loc": {
         "start": {
@@ -798,7 +798,7 @@
   "sourceType": "module",
   "range": [
     0,
-    700
+    716
   ],
   "loc": {
     "start": {
@@ -813,10 +813,10 @@
   "comments": [
     {
       "type": "Block",
-      "value": "*\n * A generic ruleset to improve line breaks.\n *\n * It includes rules for:\n *\n * - Adding a non-breaking space between a number and the word that follow\n * - Adding a non-breaking space after short words of three characters or less\n * - Adding a non-breaking space between the two last words of a paragraph\n *\n * @type {Array<Object>}\n ",
+      "value": "*\n * A common ruleset for HTML typographic enhancement.\n *\n * It includes rules for:\n *\n * - Wrapping double quotes in quotation marks in a span with the `dquo` class\n * - Wrapping ampersand in a span with the `amp` class\n * - Wrapping many consecutive capitals in a span with the `caps` class\n *\n * @type {Array<Object>}\n ",
       "range": [
-        65,
-        406
+        59,
+        386
       ],
       "loc": {
         "start": {

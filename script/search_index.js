@@ -6,10 +6,46 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "typography-fixer/src/rules/en-uk/index.js~enuk",
+    "variable/index.html#static-variable-enUK",
+    "<span>enUK</span> <span class=\"search-result-import-path\">typography-fixer/src/rules/en-UK/index.js</span>",
+    "variable"
+  ],
+  [
+    "typography-fixer/src/rules/en-uk/html.js~enuk_html",
+    "variable/index.html#static-variable-enUK_HTML",
+    "<span>enUK_HTML</span> <span class=\"search-result-import-path\">typography-fixer/src/rules/en-UK/html.js</span>",
+    "variable"
+  ],
+  [
+    "typography-fixer/src/rules/es-es/index.js~eses",
+    "variable/index.html#static-variable-esES",
+    "<span>esES</span> <span class=\"search-result-import-path\">typography-fixer/src/rules/es-ES/index.js</span>",
+    "variable"
+  ],
+  [
     "typography-fixer/src/typography-fixer.js~fix",
     "function/index.html#static-function-fix",
     "<span>fix</span> <span class=\"search-result-import-path\">typography-fixer/src/typography-fixer.js</span>",
     "function"
+  ],
+  [
+    "typography-fixer/src/rules/fr-fr/index.js~frfr",
+    "variable/index.html#static-variable-frFR",
+    "<span>frFR</span> <span class=\"search-result-import-path\">typography-fixer/src/rules/fr-FR/index.js</span>",
+    "variable"
+  ],
+  [
+    "typography-fixer/src/rules/fr-fr/html.js~frfr_html",
+    "variable/index.html#static-variable-frFR_HTML",
+    "<span>frFR_HTML</span> <span class=\"search-result-import-path\">typography-fixer/src/rules/fr-FR/html.js</span>",
+    "variable"
+  ],
+  [
+    "typography-fixer/src/rules/fractions.js~fractions",
+    "variable/index.html#static-variable-fractions",
+    "<span>fractions</span> <span class=\"search-result-import-path\">typography-fixer/src/rules/fractions.js</span>",
+    "variable"
   ],
   [
     "typography-fixer/src/typography-fixer.js~group",
@@ -18,10 +54,40 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "typography-fixer/src/rules/html.js~html",
+    "variable/index.html#static-variable-html",
+    "<span>html</span> <span class=\"search-result-import-path\">typography-fixer/src/rules/html.js</span>",
+    "variable"
+  ],
+  [
+    "typography-fixer/src/ignores/html.js~htmlignores",
+    "variable/index.html#static-variable-htmlIgnores",
+    "<span>htmlIgnores</span> <span class=\"search-result-import-path\">typography-fixer/src/ignores/html.js</span>",
+    "variable"
+  ],
+  [
     "typography-fixer/src/typography-fixer.js~ignore",
     "function/index.html#static-function-ignore",
     "<span>ignore</span> <span class=\"search-result-import-path\">typography-fixer/src/typography-fixer.js</span>",
     "function"
+  ],
+  [
+    "typography-fixer/src/rules/line-breaks.js~linebreaks",
+    "variable/index.html#static-variable-lineBreaks",
+    "<span>lineBreaks</span> <span class=\"search-result-import-path\">typography-fixer/src/rules/line-breaks.js</span>",
+    "variable"
+  ],
+  [
+    "typography-fixer/src/ignores/markdown.js~markdownignores",
+    "variable/index.html#static-variable-markdownIgnores",
+    "<span>markdownIgnores</span> <span class=\"search-result-import-path\">typography-fixer/src/ignores/markdown.js</span>",
+    "variable"
+  ],
+  [
+    "typography-fixer/src/rules/punctuations.js~punctuations",
+    "variable/index.html#static-variable-punctuations",
+    "<span>punctuations</span> <span class=\"search-result-import-path\">typography-fixer/src/rules/punctuations.js</span>",
+    "variable"
   ],
   [
     "typography-fixer/src/typography-fixer.js~rule",
@@ -30,9 +96,15 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
-    "typography-fixer/src/rules/fr-fr/index.js~ruleset",
-    "variable/index.html#static-variable-ruleset",
-    "<span>ruleset</span> <span class=\"search-result-import-path\">typography-fixer/src/rules/fr-FR/index.js</span>",
+    "typography-fixer/src/rules/symbols.js~symbols",
+    "variable/index.html#static-variable-symbols",
+    "<span>symbols</span> <span class=\"search-result-import-path\">typography-fixer/src/rules/symbols.js</span>",
+    "variable"
+  ],
+  [
+    "typography-fixer/src/rules/units.js~units",
+    "variable/index.html#static-variable-units",
+    "<span>units</span> <span class=\"search-result-import-path\">typography-fixer/src/rules/units.js</span>",
     "variable"
   ],
   [
@@ -384,6 +456,18 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/lowercase.js",
+    "file/src/lowercase.js.html",
+    "src/lowercase.js",
+    "file"
+  ],
+  [
+    "src/rules/en-uk/html.js",
+    "file/src/rules/en-UK/html.js.html",
+    "src/rules/en-UK/html.js",
+    "file"
+  ],
+  [
     "src/rules/en-uk/index.js",
     "file/src/rules/en-UK/index.js.html",
     "src/rules/en-UK/index.js",
@@ -408,9 +492,15 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/rules/latin-ligatures.js",
-    "file/src/rules/latin-ligatures.js.html",
-    "src/rules/latin-ligatures.js",
+    "src/rules/fractions.js",
+    "file/src/rules/fractions.js.html",
+    "src/rules/fractions.js",
+    "file"
+  ],
+  [
+    "src/rules/html.js",
+    "file/src/rules/html.js.html",
+    "src/rules/html.js",
     "file"
   ],
   [
@@ -420,9 +510,9 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/rules/mathematics.js",
-    "file/src/rules/mathematics.js.html",
-    "src/rules/mathematics.js",
+    "src/rules/punctuations.js",
+    "file/src/rules/punctuations.js.html",
+    "src/rules/punctuations.js",
     "file"
   ],
   [
@@ -441,6 +531,12 @@ window.esdocSearchIndex = [
     "src/typography-fixer.js",
     "file/src/typography-fixer.js.html",
     "src/typography-fixer.js",
+    "file"
+  ],
+  [
+    "src/uppercase.js",
+    "file/src/uppercase.js.html",
+    "src/uppercase.js",
     "file"
   ]
 ]

@@ -152,10 +152,10 @@
           "type": "VariableDeclarator",
           "id": {
             "type": "Identifier",
-            "name": "lineBreaks",
+            "name": "punctuations",
             "range": [
               53,
-              63
+              65
             ],
             "loc": {
               "start": {
@@ -164,14 +164,14 @@
               },
               "end": {
                 "line": 3,
-                "column": 14
+                "column": 16
               }
             }
           },
           "init": null,
           "range": [
             53,
-            63
+            65
           ],
           "loc": {
             "start": {
@@ -180,16 +180,16 @@
             },
             "end": {
               "line": 3,
-              "column": 14
+              "column": 16
             }
           },
           "trailingComments": [
             {
               "type": "Block",
-              "value": "*\n * A generic ruleset to improve line breaks.\n *\n * It includes rules for:\n *\n * - Adding a non-breaking space between a number and the word that follow\n * - Adding a non-breaking space after short words of three characters or less\n * - Adding a non-breaking space between the two last words of a paragraph\n *\n * @type {Array<Object>}\n ",
+              "value": "*\n * A ruleset to replace common punctuations mistake.\n *\n * It includes rules for:\n *\n * - Replacing consecutive `!` or `?` characters by a single one\n * - Replacing ellipsis after `etc` by a period\n * - Replacing three consecutive periods by an ellipsis character\n * - Replacing hyphen in a composed word by a non-breaking hyphen\n *\n * @type {Array<Object>}\n ",
               "range": [
-                65,
-                406
+                67,
+                432
               ],
               "loc": {
                 "start": {
@@ -197,7 +197,7 @@
                   "column": 0
                 },
                 "end": {
-                  "line": 15,
+                  "line": 16,
                   "column": 3
                 }
               }
@@ -208,7 +208,7 @@
       "kind": "let",
       "range": [
         49,
-        407
+        433
       ],
       "loc": {
         "start": {
@@ -216,7 +216,7 @@
           "column": 0
         },
         "end": {
-          "line": 16,
+          "line": 17,
           "column": 0
         }
       }
@@ -228,19 +228,19 @@
         "operator": "=",
         "left": {
           "type": "Identifier",
-          "name": "lineBreaks",
+          "name": "punctuations",
           "range": [
-            422,
-            432
+            448,
+            460
           ],
           "loc": {
             "start": {
-              "line": 16,
+              "line": 17,
               "column": 15
             },
             "end": {
-              "line": 16,
-              "column": 25
+              "line": 17,
+              "column": 27
             }
           }
         },
@@ -250,57 +250,57 @@
             "type": "Identifier",
             "name": "createRuleset",
             "range": [
-              435,
-              448
+              463,
+              476
             ],
             "loc": {
               "start": {
-                "line": 16,
-                "column": 28
+                "line": 17,
+                "column": 30
               },
               "end": {
-                "line": 16,
-                "column": 41
+                "line": 17,
+                "column": 43
               }
             }
           },
           "arguments": [],
           "range": [
-            435,
-            450
+            463,
+            478
           ],
           "loc": {
             "start": {
-              "line": 16,
-              "column": 28
+              "line": 17,
+              "column": 30
             },
             "end": {
-              "line": 16,
-              "column": 43
+              "line": 17,
+              "column": 45
             }
           }
         },
         "range": [
-          422,
-          450
+          448,
+          478
         ],
         "loc": {
           "start": {
-            "line": 16,
+            "line": 17,
             "column": 15
           },
           "end": {
-            "line": 16,
-            "column": 43
+            "line": 17,
+            "column": 45
           }
         },
         "leadingComments": [
           {
             "type": "Block",
-            "value": "*\n * A generic ruleset to improve line breaks.\n *\n * It includes rules for:\n *\n * - Adding a non-breaking space between a number and the word that follow\n * - Adding a non-breaking space after short words of three characters or less\n * - Adding a non-breaking space between the two last words of a paragraph\n *\n * @type {Array<Object>}\n ",
+            "value": "*\n * A ruleset to replace common punctuations mistake.\n *\n * It includes rules for:\n *\n * - Replacing consecutive `!` or `?` characters by a single one\n * - Replacing ellipsis after `etc` by a period\n * - Replacing three consecutive periods by an ellipsis character\n * - Replacing hyphen in a composed word by a non-breaking hyphen\n *\n * @type {Array<Object>}\n ",
             "range": [
-              65,
-              406
+              67,
+              432
             ],
             "loc": {
               "start": {
@@ -308,7 +308,7 @@
                 "column": 0
               },
               "end": {
-                "line": 15,
+                "line": 16,
                 "column": 3
               }
             }
@@ -317,26 +317,26 @@
         "trailingComments": []
       },
       "range": [
-        407,
-        452
+        433,
+        480
       ],
       "loc": {
         "start": {
-          "line": 16,
+          "line": 17,
           "column": 0
         },
         "end": {
-          "line": 18,
+          "line": 19,
           "column": 0
         }
       },
       "leadingComments": [
         {
           "type": "Block",
-          "value": "*\n * A generic ruleset to improve line breaks.\n *\n * It includes rules for:\n *\n * - Adding a non-breaking space between a number and the word that follow\n * - Adding a non-breaking space after short words of three characters or less\n * - Adding a non-breaking space between the two last words of a paragraph\n *\n * @type {Array<Object>}\n ",
+          "value": "*\n * A ruleset to replace common punctuations mistake.\n *\n * It includes rules for:\n *\n * - Replacing consecutive `!` or `?` characters by a single one\n * - Replacing ellipsis after `etc` by a period\n * - Replacing three consecutive periods by an ellipsis character\n * - Replacing hyphen in a composed word by a non-breaking hyphen\n *\n * @type {Array<Object>}\n ",
           "range": [
-            65,
-            406
+            67,
+            432
           ],
           "loc": {
             "start": {
@@ -344,7 +344,7 @@
               "column": 0
             },
             "end": {
-              "line": 15,
+              "line": 16,
               "column": 3
             }
           }
@@ -357,16 +357,16 @@
         "type": "Identifier",
         "name": "createRuleset",
         "range": [
-          461,
-          474
+          489,
+          502
         ],
         "loc": {
           "start": {
-            "line": 18,
+            "line": 19,
             "column": 9
           },
           "end": {
-            "line": 18,
+            "line": 19,
             "column": 22
           }
         }
@@ -383,16 +383,16 @@
                 "type": "Identifier",
                 "name": "group",
                 "range": [
-                  489,
-                  494
+                  517,
+                  522
                 ],
                 "loc": {
                   "start": {
-                    "line": 19,
+                    "line": 20,
                     "column": 9
                   },
                   "end": {
-                    "line": 19,
+                    "line": 20,
                     "column": 14
                   }
                 }
@@ -400,20 +400,20 @@
               "arguments": [
                 {
                   "type": "Literal",
-                  "value": "line-breaks",
-                  "raw": "'line-breaks'",
+                  "value": "punctuations.common",
+                  "raw": "'punctuations.common'",
                   "range": [
-                    495,
-                    508
+                    523,
+                    544
                   ],
                   "loc": {
                     "start": {
-                      "line": 19,
+                      "line": 20,
                       "column": 15
                     },
                     "end": {
-                      "line": 19,
-                      "column": 28
+                      "line": 20,
+                      "column": 36
                     }
                   }
                 },
@@ -426,16 +426,16 @@
                         "type": "Identifier",
                         "name": "rule",
                         "range": [
-                          516,
-                          520
+                          552,
+                          556
                         ],
                         "loc": {
                           "start": {
-                            "line": 20,
+                            "line": 21,
                             "column": 4
                           },
                           "end": {
-                            "line": 20,
+                            "line": 21,
                             "column": 8
                           }
                         }
@@ -443,77 +443,77 @@
                       "arguments": [
                         {
                           "type": "Literal",
-                          "value": "numberBeforeWord",
-                          "raw": "'numberBeforeWord'",
+                          "value": "collapseMultiplePunctuation",
+                          "raw": "'collapseMultiplePunctuation'",
                           "range": [
-                            521,
-                            539
+                            557,
+                            586
                           ],
                           "loc": {
                             "start": {
-                              "line": 20,
+                              "line": 21,
                               "column": 9
                             },
                             "end": {
-                              "line": 20,
-                              "column": 27
+                              "line": 21,
+                              "column": 38
                             }
                           }
                         },
                         {
                           "type": "Literal",
                           "value": {},
-                          "raw": "/(\\d)\\x20(\\D)/",
+                          "raw": "/([!?])\\1+/",
                           "regex": {
-                            "pattern": "(\\d)\\x20(\\D)",
+                            "pattern": "([!?])\\1+",
                             "flags": ""
                           },
                           "range": [
-                            541,
-                            555
+                            588,
+                            599
                           ],
                           "loc": {
                             "start": {
-                              "line": 20,
-                              "column": 29
+                              "line": 21,
+                              "column": 40
                             },
                             "end": {
-                              "line": 20,
-                              "column": 43
+                              "line": 21,
+                              "column": 51
                             }
                           }
                         },
                         {
                           "type": "Literal",
-                          "value": "$1 $2",
-                          "raw": "'$1\\u00a0$2'",
+                          "value": "$1",
+                          "raw": "'$1'",
                           "range": [
-                            557,
-                            569
+                            601,
+                            605
                           ],
                           "loc": {
                             "start": {
-                              "line": 20,
-                              "column": 45
+                              "line": 21,
+                              "column": 53
                             },
                             "end": {
-                              "line": 20,
+                              "line": 21,
                               "column": 57
                             }
                           }
                         }
                       ],
                       "range": [
-                        516,
-                        570
+                        552,
+                        606
                       ],
                       "loc": {
                         "start": {
-                          "line": 20,
+                          "line": 21,
                           "column": 4
                         },
                         "end": {
-                          "line": 20,
+                          "line": 21,
                           "column": 58
                         }
                       }
@@ -524,16 +524,16 @@
                         "type": "Identifier",
                         "name": "rule",
                         "range": [
-                          576,
-                          580
+                          612,
+                          616
                         ],
                         "loc": {
                           "start": {
-                            "line": 21,
+                            "line": 22,
                             "column": 4
                           },
                           "end": {
-                            "line": 21,
+                            "line": 22,
                             "column": 8
                           }
                         }
@@ -541,137 +541,39 @@
                       "arguments": [
                         {
                           "type": "Literal",
-                          "value": "shortWords",
-                          "raw": "'shortWords'",
+                          "value": "shortEtCaetera",
+                          "raw": "'shortEtCaetera'",
                           "range": [
-                            581,
-                            593
+                            617,
+                            633
                           ],
                           "loc": {
                             "start": {
-                              "line": 21,
+                              "line": 22,
                               "column": 9
                             },
                             "end": {
-                              "line": 21,
-                              "column": 21
+                              "line": 22,
+                              "column": 25
                             }
                           }
                         },
                         {
                           "type": "Literal",
                           "value": {},
-                          "raw": "/\\b(\\w{1,3})\\x20/",
+                          "raw": "/([Ee]tc)(\\.{3}|\\u2026)/",
                           "regex": {
-                            "pattern": "\\b(\\w{1,3})\\x20",
+                            "pattern": "([Ee]tc)(\\.{3}|\\u2026)",
                             "flags": ""
                           },
                           "range": [
-                            595,
-                            612
-                          ],
-                          "loc": {
-                            "start": {
-                              "line": 21,
-                              "column": 23
-                            },
-                            "end": {
-                              "line": 21,
-                              "column": 40
-                            }
-                          }
-                        },
-                        {
-                          "type": "Literal",
-                          "value": "$1 ",
-                          "raw": "'$1\\u00a0'",
-                          "range": [
-                            614,
-                            624
-                          ],
-                          "loc": {
-                            "start": {
-                              "line": 21,
-                              "column": 42
-                            },
-                            "end": {
-                              "line": 21,
-                              "column": 52
-                            }
-                          }
-                        }
-                      ],
-                      "range": [
-                        576,
-                        625
-                      ],
-                      "loc": {
-                        "start": {
-                          "line": 21,
-                          "column": 4
-                        },
-                        "end": {
-                          "line": 21,
-                          "column": 53
-                        }
-                      }
-                    },
-                    {
-                      "type": "CallExpression",
-                      "callee": {
-                        "type": "Identifier",
-                        "name": "rule",
-                        "range": [
-                          631,
-                          635
-                        ],
-                        "loc": {
-                          "start": {
-                            "line": 22,
-                            "column": 4
-                          },
-                          "end": {
-                            "line": 22,
-                            "column": 8
-                          }
-                        }
-                      },
-                      "arguments": [
-                        {
-                          "type": "Literal",
-                          "value": "lastParagraphWords",
-                          "raw": "'lastParagraphWords'",
-                          "range": [
-                            636,
-                            656
+                            635,
+                            659
                           ],
                           "loc": {
                             "start": {
                               "line": 22,
-                              "column": 9
-                            },
-                            "end": {
-                              "line": 22,
-                              "column": 29
-                            }
-                          }
-                        },
-                        {
-                          "type": "Literal",
-                          "value": {},
-                          "raw": "/(\\w+)\\x20(\\w+\\.)$/m",
-                          "regex": {
-                            "pattern": "(\\w+)\\x20(\\w+\\.)$",
-                            "flags": "m"
-                          },
-                          "range": [
-                            658,
-                            678
-                          ],
-                          "loc": {
-                            "start": {
-                              "line": 22,
-                              "column": 31
+                              "column": 27
                             },
                             "end": {
                               "line": 22,
@@ -681,11 +583,11 @@
                         },
                         {
                           "type": "Literal",
-                          "value": "$1 $2",
-                          "raw": "'$1\\u00a0$2'",
+                          "value": "$1.",
+                          "raw": "'$1.'",
                           "range": [
-                            680,
-                            692
+                            661,
+                            666
                           ],
                           "loc": {
                             "start": {
@@ -694,14 +596,14 @@
                             },
                             "end": {
                               "line": 22,
-                              "column": 65
+                              "column": 58
                             }
                           }
                         }
                       ],
                       "range": [
-                        631,
-                        693
+                        612,
+                        667
                       ],
                       "loc": {
                         "start": {
@@ -710,69 +612,265 @@
                         },
                         "end": {
                           "line": 22,
-                          "column": 66
+                          "column": 59
+                        }
+                      }
+                    },
+                    {
+                      "type": "CallExpression",
+                      "callee": {
+                        "type": "Identifier",
+                        "name": "rule",
+                        "range": [
+                          673,
+                          677
+                        ],
+                        "loc": {
+                          "start": {
+                            "line": 23,
+                            "column": 4
+                          },
+                          "end": {
+                            "line": 23,
+                            "column": 8
+                          }
+                        }
+                      },
+                      "arguments": [
+                        {
+                          "type": "Literal",
+                          "value": "triplePeriods",
+                          "raw": "'triplePeriods'",
+                          "range": [
+                            678,
+                            693
+                          ],
+                          "loc": {
+                            "start": {
+                              "line": 23,
+                              "column": 9
+                            },
+                            "end": {
+                              "line": 23,
+                              "column": 24
+                            }
+                          }
+                        },
+                        {
+                          "type": "Literal",
+                          "value": {},
+                          "raw": "/\\.{3,}/",
+                          "regex": {
+                            "pattern": "\\.{3,}",
+                            "flags": ""
+                          },
+                          "range": [
+                            695,
+                            703
+                          ],
+                          "loc": {
+                            "start": {
+                              "line": 23,
+                              "column": 26
+                            },
+                            "end": {
+                              "line": 23,
+                              "column": 34
+                            }
+                          }
+                        },
+                        {
+                          "type": "Literal",
+                          "value": "…",
+                          "raw": "'\\u2026'",
+                          "range": [
+                            705,
+                            713
+                          ],
+                          "loc": {
+                            "start": {
+                              "line": 23,
+                              "column": 36
+                            },
+                            "end": {
+                              "line": 23,
+                              "column": 44
+                            }
+                          }
+                        }
+                      ],
+                      "range": [
+                        673,
+                        714
+                      ],
+                      "loc": {
+                        "start": {
+                          "line": 23,
+                          "column": 4
+                        },
+                        "end": {
+                          "line": 23,
+                          "column": 45
+                        }
+                      }
+                    },
+                    {
+                      "type": "CallExpression",
+                      "callee": {
+                        "type": "Identifier",
+                        "name": "rule",
+                        "range": [
+                          720,
+                          724
+                        ],
+                        "loc": {
+                          "start": {
+                            "line": 24,
+                            "column": 4
+                          },
+                          "end": {
+                            "line": 24,
+                            "column": 8
+                          }
+                        }
+                      },
+                      "arguments": [
+                        {
+                          "type": "Literal",
+                          "value": "nonBreakingHyphen",
+                          "raw": "'nonBreakingHyphen'",
+                          "range": [
+                            725,
+                            744
+                          ],
+                          "loc": {
+                            "start": {
+                              "line": 24,
+                              "column": 9
+                            },
+                            "end": {
+                              "line": 24,
+                              "column": 28
+                            }
+                          }
+                        },
+                        {
+                          "type": "Literal",
+                          "value": {},
+                          "raw": "/(\\w)-(\\w)/",
+                          "regex": {
+                            "pattern": "(\\w)-(\\w)",
+                            "flags": ""
+                          },
+                          "range": [
+                            746,
+                            757
+                          ],
+                          "loc": {
+                            "start": {
+                              "line": 24,
+                              "column": 30
+                            },
+                            "end": {
+                              "line": 24,
+                              "column": 41
+                            }
+                          }
+                        },
+                        {
+                          "type": "Literal",
+                          "value": "$1‑$2",
+                          "raw": "'$1\\u2011$2'",
+                          "range": [
+                            759,
+                            771
+                          ],
+                          "loc": {
+                            "start": {
+                              "line": 24,
+                              "column": 43
+                            },
+                            "end": {
+                              "line": 24,
+                              "column": 55
+                            }
+                          }
+                        }
+                      ],
+                      "range": [
+                        720,
+                        772
+                      ],
+                      "loc": {
+                        "start": {
+                          "line": 24,
+                          "column": 4
+                        },
+                        "end": {
+                          "line": 24,
+                          "column": 56
                         }
                       }
                     }
                   ],
                   "range": [
-                    510,
-                    697
+                    546,
+                    776
                   ],
                   "loc": {
                     "start": {
-                      "line": 19,
-                      "column": 30
+                      "line": 20,
+                      "column": 38
                     },
                     "end": {
-                      "line": 23,
+                      "line": 25,
                       "column": 3
                     }
                   }
                 }
               ],
               "range": [
-                489,
-                698
+                517,
+                777
               ],
               "loc": {
                 "start": {
-                  "line": 19,
+                  "line": 20,
                   "column": 9
                 },
                 "end": {
-                  "line": 23,
+                  "line": 25,
                   "column": 4
                 }
               }
             },
             "range": [
-              482,
-              699
+              510,
+              778
             ],
             "loc": {
               "start": {
-                "line": 19,
+                "line": 20,
                 "column": 2
               },
               "end": {
-                "line": 24,
+                "line": 26,
                 "column": 0
               }
             }
           }
         ],
         "range": [
-          478,
-          700
+          506,
+          779
         ],
         "loc": {
           "start": {
-            "line": 18,
+            "line": 19,
             "column": 26
           },
           "end": {
-            "line": 24,
+            "line": 26,
             "column": 1
           }
         }
@@ -780,16 +878,16 @@
       "generator": false,
       "expression": false,
       "range": [
-        452,
-        700
+        480,
+        779
       ],
       "loc": {
         "start": {
-          "line": 18,
+          "line": 19,
           "column": 0
         },
         "end": {
-          "line": 24,
+          "line": 26,
           "column": 1
         }
       }
@@ -798,7 +896,7 @@
   "sourceType": "module",
   "range": [
     0,
-    700
+    779
   ],
   "loc": {
     "start": {
@@ -806,17 +904,17 @@
       "column": 0
     },
     "end": {
-      "line": 24,
+      "line": 26,
       "column": 1
     }
   },
   "comments": [
     {
       "type": "Block",
-      "value": "*\n * A generic ruleset to improve line breaks.\n *\n * It includes rules for:\n *\n * - Adding a non-breaking space between a number and the word that follow\n * - Adding a non-breaking space after short words of three characters or less\n * - Adding a non-breaking space between the two last words of a paragraph\n *\n * @type {Array<Object>}\n ",
+      "value": "*\n * A ruleset to replace common punctuations mistake.\n *\n * It includes rules for:\n *\n * - Replacing consecutive `!` or `?` characters by a single one\n * - Replacing ellipsis after `etc` by a period\n * - Replacing three consecutive periods by an ellipsis character\n * - Replacing hyphen in a composed word by a non-breaking hyphen\n *\n * @type {Array<Object>}\n ",
       "range": [
-        65,
-        406
+        67,
+        432
       ],
       "loc": {
         "start": {
@@ -824,7 +922,7 @@
           "column": 0
         },
         "end": {
-          "line": 15,
+          "line": 16,
           "column": 3
         }
       }

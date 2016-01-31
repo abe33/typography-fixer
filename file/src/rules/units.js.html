@@ -38,18 +38,69 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-group">group</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-ignore">ignore</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-rule">rule</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules/fr-FR</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ruleset">ruleset</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">ignores</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-htmlIgnores">htmlIgnores</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-markdownIgnores">markdownIgnores</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-fractions">fractions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-html">html</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-lineBreaks">lineBreaks</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-punctuations">punctuations</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-symbols">symbols</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-units">units</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules/en-UK</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-enUK_HTML">enUK_HTML</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-enUK">enUK</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules/es-ES</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-esES">esES</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules/fr-FR</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-frFR_HTML">frFR_HTML</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-frFR">frFR</a></span></span></li>
 </ul>
 </div>
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/rules/units.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {rule, group} from &apos;../typography-fixer&apos;
-import {units, surfaceUnits, volumeUnits} from &apos;../constants&apos;
+import {allUnits, surfaceUnits, volumeUnits} from &apos;../constants&apos;
+import lowercase from &apos;../lowercase&apos;
 
-let ruleset
+let units
 
-export default ruleset = createRuleset()
+/**
+ * The ruleset for measurement units formatting.
+ *
+ * The following units from the international units system are supported: `m`,
+ * `m&#xB2;`, `m&#xB3;`, `g`, `s`, `l`, `L`, `K`, `W`, `V`, `Hz`, `&#x3A9;`, `A`, `mol`
+ * and `cd`.
+ *
+ * All these units have derivations using the following prefixes: `y`, `z`, `a`,
+ * `f`, `p`, `n`, `&#xB5;`, `m`, `c`, `d`, `da`, `h`, `k`, `M`, `G`, `T`, `P`, `E`,
+ * `Z` and `Y`.
+ *
+ * Additionally, the following units are supported:
+ *
+ * - temperature: `&#xB0;C`, `&#xB0;F`, `&#xB0;R&#xE9;`, `&#xB0;N`, `&#xB0;Ra`
+ * - distance: `mi`, `in`, `ft`, `yd`, `nautical mile`
+ * - speed: `kmph`, `km/h`, `mps`, `m/s`, `mph`, `mi/h`, `knot`,
+ *   `nautical mile/h`, `ma`
+ * - surface: `ha`, `a`, `ca`, `mile&#xB2;`, `in&#xB2;`, `yd&#xB2;`, `ft&#xB2;`, `ro`, `acre`,
+ *   `nautical mile&#xB2;`
+ * - volume: `in&#xB3;`, `ft&#xB3;`, `yd&#xB3;`, `gal`, `bbl`, `pt`, `fluid pt`, `dry pt`
+ * - weight: `t`, `carat`, `grain`, `oz`, `lb`, `cwt`, `ton`, `st`
+ * - data: `b`, `B`, and all the derivations using the international system
+ *   prefixes
+ * - time: `h`, `min`
+ * - electric: `dBm`, `dBW`, `var`, `VA`, `F`, `H`, `S`, `C`, `Ah`, `J`, `kWh`,
+ *   `eV`, `&#x3A9;&#x2219;m`, `S/m`, `V/m`, `N/C`, `V&#xB7;m`, `T`, `G`, `Wb`, `dB`, `ppm`
+ *
+ * This ruleset includes rules for:
+ *
+ * - Replacing a `2` after a surface unit with `&#xB2;`
+ * - Replacing a `3` after a volumic unit with `&#xB3;`
+ * - Adding a non-breaking space between a number and the following unit
+ * - Removing a period placed after the unit when it&apos;s not the end of a sentence
+ *
+ * @type {Array&lt;Object&gt;}
+ * @see https://en.wikipedia.org/wiki/International_System_of_Units
+ * @see http://physics.nist.gov/cuu/Units/checklist.html
+ */
+export default units = createRuleset()
 
 function createRuleset () {
   return group(&apos;units&apos;, [
@@ -57,7 +108,8 @@ function createRuleset () {
       rule(&apos;surface&apos;, `(${surfaceUnits.join(&apos;|&apos;)})2`, &apos;$1&#xB2;&apos;),
       rule(&apos;volume&apos;, `(${volumeUnits.join(&apos;|&apos;)})3`, &apos;$1&#xB3;&apos;)
     ]),
-    rule(&apos;unitSpace&apos;, `(\\d)\\s*(${units.join(&apos;|&apos;)})`, &apos;$1\u202f$2&apos;)
+    rule(&apos;unitSpace&apos;, `(\\d)\\s*(${allUnits.join(&apos;|&apos;)})(?=[\\.,\\)\\s]|$)`, &apos;$1\u202f$2&apos;),
+    rule(&apos;noPeriodAfterUnit&apos;, `(${allUnits.join(&apos;|&apos;)})\\.(\\s[${lowercase.join(&apos;&apos;)}])`, &apos;$1$2&apos;)
   ])
 }
 </code></pre>

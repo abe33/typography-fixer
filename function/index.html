@@ -38,7 +38,19 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-group">group</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-ignore">ignore</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-rule">rule</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules/fr-FR</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ruleset">ruleset</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">ignores</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-htmlIgnores">htmlIgnores</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-markdownIgnores">markdownIgnores</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-fractions">fractions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-html">html</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-lineBreaks">lineBreaks</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-punctuations">punctuations</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-symbols">symbols</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-units">units</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules/en-UK</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-enUK_HTML">enUK_HTML</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-enUK">enUK</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules/es-ES</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-esES">esES</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules/fr-FR</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-frFR_HTML">frFR_HTML</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-frFR">frFR</a></span></span></li>
 </ul>
 </div>
 </nav>
@@ -137,13 +149,13 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="function/index.html#static-function-ignore">ignore</a></span></span><span data-ice="signature">(name: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, expression: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp">RegExp</a></span>, invertRanges: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
+           <span data-ice="name"><span><a href="function/index.html#static-function-ignore">ignore</a></span></span><span data-ice="signature">(name: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, ignore: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp">RegExp</a></span>, invertRanges: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>Creates a new ignore rule that excludes the specified <code>expression</code>.</p>
+        <div data-ice="description"><p>Creates a new ignore rule that excludes the specified <code>ignore</code> expression.</p>
 </div>
       </div>
     </td>
@@ -163,13 +175,13 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="function/index.html#static-function-rule">rule</a></span></span><span data-ice="signature">(name: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, expression: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp">RegExp</a></span>, replacement: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">function</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
+           <span data-ice="name"><span><a href="function/index.html#static-function-rule">rule</a></span></span><span data-ice="signature">(name: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, match: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp">RegExp</a></span>, replace: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">function</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>Creates a new rule object that matches the specified <code>expression</code>.</p>
+        <div data-ice="description"><p>Creates a new rule object that matches the specified <code>match</code> expression.</p>
 </div>
       </div>
     </td>
@@ -194,11 +206,11 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/typography-fixer.js.html#lineNumber26">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/typography-fixer.js.html#lineNumber39">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {check} from &apos;<span><a href="file/src/typography-fixer.js.html#lineNumber26">typography-fixer/src/typography-fixer.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {check} from &apos;<span><a href="file/src/typography-fixer.js.html#lineNumber39">typography-fixer/src/typography-fixer.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Returns an array of rule violations in the passed-in string.</p>
@@ -206,6 +218,8 @@
 to ignore are computed. When the a check results intersect with or is
 contained in a range it will be simply ignored.</p>
 <p>If there&apos;s no results, the function returns <code>undefined</code>.</p>
+<p>See the <span><a href="function/index.html#static-function-rule">rule</a></span> and <span><a href="function/index.html#static-function-ignore">ignore</a></span> documentation for details about how
+rules and ignore rules are created.</p>
 </div>
 
   
@@ -221,15 +235,16 @@ contained in a range it will be simply ignored.</p>
     <tr data-ice="property" data-depth="0">
       <td data-ice="name" data-depth="0">ruleset</td>
       <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>the array with all the rules and ignores to use when
-                        checking the passed-in string</p>
+      <td data-ice="appendix"><ul><li>optional</li>
+<li>default: []</li></ul></td>
+      <td data-ice="description"><p>the array with all the rules and ignores to use
+                             when checking the passed-in string</p>
 </td>
     </tr>
 <tr data-ice="property" data-depth="0">
       <td data-ice="name" data-depth="0">string</td>
       <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
-      <td data-ice="appendix"></td>
+      <td data-ice="appendix"><ul><li>optional</li></ul></td>
       <td data-ice="description"><p>the string to check</p>
 </td>
     </tr>
@@ -282,19 +297,7 @@ contained in a range it will be simply ignored.</p>
 
   
 
-  <div data-ice="throwWrap">
-    <h4>Throw:</h4>
-    <table>
-      <tbody>
-      
-      <tr class="throw" data-ice="throw">
-        <td><p data-ice="throwName"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a></span></p></td>
-        <td data-ice="throwDesc"><p>when one argument is missing</p>
-</td>
-      </tr>
-</tbody>
-    </table>
-  </div>
+  
 
   <div data-ice="example">
     <h4>Example:</h4>
@@ -304,7 +307,12 @@ contained in a range it will be simply ignored.</p>
       <pre class="prettyprint source-code"><code data-ice="exampleCode">import {check} from &apos;typography-fixer&apos;
 import rules from &apos;typography-fixer/lib/rules/en-UK&apos;
 
-const results = check(rules, &apos;Some string &quot;to check&quot;.&apos;)</code></pre>
+const results = check(rules, &apos;Some string &quot;to check&quot;.&apos;)
+
+// The check function support currying
+const checkString = check(rules)
+
+const results = checkSring(&apos;Some string &quot;to check&quot;.&apos;)</code></pre>
     </div>
 </div>
 
@@ -324,11 +332,11 @@ const results = check(rules, &apos;Some string &quot;to check&quot;.&apos;)</cod
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/typography-fixer.js.html#lineNumber75">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/typography-fixer.js.html#lineNumber85">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {fix} from &apos;<span><a href="file/src/typography-fixer.js.html#lineNumber75">typography-fixer/src/typography-fixer.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {fix} from &apos;<span><a href="file/src/typography-fixer.js.html#lineNumber85">typography-fixer/src/typography-fixer.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Returns the passed-in string modified by the specified ruleset.</p>
@@ -337,6 +345,8 @@ to ignore are computed. The string is split using the ranges to have in one
 array all the parts that can be modified and in another array all the ignored
 parts. Once all the fixes were applied, the string from the two arrays are
 joined together into a new string and returned.</p>
+<p>See the <span><a href="function/index.html#static-function-rule">rule</a></span> and <span><a href="function/index.html#static-function-ignore">ignore</a></span> documentation for details about how
+rules and ignore rules are created.</p>
 </div>
 
   
@@ -352,15 +362,16 @@ joined together into a new string and returned.</p>
     <tr data-ice="property" data-depth="0">
       <td data-ice="name" data-depth="0">ruleset</td>
       <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>the array with all the rules and ignores to use to
-                        transform the passed-in string</p>
+      <td data-ice="appendix"><ul><li>optional</li>
+<li>default: []</li></ul></td>
+      <td data-ice="description"><p>the array with all the rules and ignores to use
+                             to transform the passed-in string</p>
 </td>
     </tr>
 <tr data-ice="property" data-depth="0">
       <td data-ice="name" data-depth="0">string</td>
       <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
-      <td data-ice="appendix"></td>
+      <td data-ice="appendix"><ul><li>optional</li></ul></td>
       <td data-ice="description"><p>the string to fix</p>
 </td>
     </tr>
@@ -386,19 +397,7 @@ joined together into a new string and returned.</p>
 
   
 
-  <div data-ice="throwWrap">
-    <h4>Throw:</h4>
-    <table>
-      <tbody>
-      
-      <tr class="throw" data-ice="throw">
-        <td><p data-ice="throwName"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a></span></p></td>
-        <td data-ice="throwDesc"><p>when one argument is missing</p>
-</td>
-      </tr>
-</tbody>
-    </table>
-  </div>
+  
 
   <div data-ice="example">
     <h4>Example:</h4>
@@ -408,7 +407,12 @@ joined together into a new string and returned.</p>
       <pre class="prettyprint source-code"><code data-ice="exampleCode">import {fix} from &apos;typography-fixer&apos;
 import rules from &apos;typography-fixer/lib/rules/en-UK&apos;
 
-const string = fix(rules, &apos;Some string &quot;to fix&quot;.&apos;)</code></pre>
+const string = fix(rules, &apos;Some string &quot;to fix&quot;.&apos;)
+
+// The fix function support currying
+const fixString = fix(rules)
+
+const results = fixString(&apos;Some string &quot;to fix&quot;.&apos;)</code></pre>
     </div>
 </div>
 
@@ -428,11 +432,11 @@ const string = fix(rules, &apos;Some string &quot;to fix&quot;.&apos;)</code></p
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/typography-fixer.js.html#lineNumber124">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/typography-fixer.js.html#lineNumber132">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {group} from &apos;<span><a href="file/src/typography-fixer.js.html#lineNumber124">typography-fixer/src/typography-fixer.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {group} from &apos;<span><a href="file/src/typography-fixer.js.html#lineNumber132">typography-fixer/src/typography-fixer.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Returns a flat array of rules with names prefixed by the passed-in <code>name</code>.</p>
@@ -488,19 +492,7 @@ a file so that nested groups get flatten into the exported array.</p>
 
   
 
-  <div data-ice="throwWrap">
-    <h4>Throw:</h4>
-    <table>
-      <tbody>
-      
-      <tr class="throw" data-ice="throw">
-        <td><p data-ice="throwName"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a></span></p></td>
-        <td data-ice="throwDesc"><p>when the rules argument is missing</p>
-</td>
-      </tr>
-</tbody>
-    </table>
-  </div>
+  
 
   <div data-ice="example">
     <h4>Example:</h4>
@@ -530,21 +522,22 @@ export default group([
     
     
     
-    <span data-ice="name">ignore</span><span data-ice="signature">(name: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, expression: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp">RegExp</a></span>, invertRanges: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
+    <span data-ice="name">ignore</span><span data-ice="signature">(name: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, ignore: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp">RegExp</a></span>, invertRanges: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/typography-fixer.js.html#lineNumber281">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/typography-fixer.js.html#lineNumber226">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {ignore} from &apos;<span><a href="file/src/typography-fixer.js.html#lineNumber281">typography-fixer/src/typography-fixer.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {ignore} from &apos;<span><a href="file/src/typography-fixer.js.html#lineNumber226">typography-fixer/src/typography-fixer.js</a></span>&apos;</code></pre></div>
   
   
-  <div data-ice="description"><p>Creates a new ignore rule that excludes the specified <code>expression</code>.</p>
-<p>An ignore rule is an object with a name and a <code>ranges</code> method.</p>
+  <div data-ice="description"><p>Creates a new ignore rule that excludes the specified <code>ignore</code> expression.</p>
+<p>An ignore rule is an object with a <code>name</code>, <code>ignore</code> and an optional
+<code>invertRanges</code> properties.</p>
 <p>An ignore rule can be created with either a string or a regular expression
-as the <code>expression</code> parameter.</p>
+as the <code>ignore</code> paramete</p>
 <ul>
 <li>When given a regular expression the flags of the original expression
 are preserved except for the <code>global</code> which will be forcefully defined
@@ -553,11 +546,9 @@ on the expression created when checking or fixing a string.</li>
 expressions. These expressions will be created with the <code>multiline</code> flag
 enabled.</li>
 </ul>
-<p>The <code>ranges</code> function, when called with a string, returns an array of ranges
-of the ignored section of the string. A range is an array with two numbers
-for the start and end index in the string.</p>
 <p>An ignore rule can also ignores everything that is not matched by the
-expression by passing <code>true</code> as the third argument of the <code>ignore</code> function.</p>
+expression by passing <code>true</code> as in the <code>invertRanges</code> argument of the
+<code>ignore</code> function.</p>
 </div>
 
   
@@ -578,11 +569,11 @@ expression by passing <code>true</code> as the third argument of the <code>ignor
 </td>
     </tr>
 <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">expression</td>
+      <td data-ice="name" data-depth="0">ignore</td>
       <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp">RegExp</a></span></td>
       <td data-ice="appendix"></td>
       <td data-ice="description"><p>the regular expression to match against
-                                   a string</p>
+                               a string</p>
 </td>
     </tr>
 <tr data-ice="property" data-depth="0">
@@ -609,34 +600,7 @@ expression by passing <code>true</code> as the third argument of the <code>ignor
 </td>
       </tr>
     </table>
-    <div data-ice="returnProperties"><div data-ice="properties">
-  <h4 data-ice="title">Return Properties:</h4>
-  <table class="params">
-    <thead>
-    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-    
-    <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">name</td>
-      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>the name of the rule</p>
-</td>
-    </tr>
-<tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">ranges</td>
-      <td data-ice="type"><span><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">function</a></span><span>(string: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>)</span>: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>a function that returns
-                                                 an array of the ranges to
-                                                 ignore in the passed-in
-                                                 string</p>
-</td>
-    </tr>
-</tbody>
-  </table>
-</div>
+    <div data-ice="returnProperties">
 </div>
   </div>
 
@@ -644,19 +608,7 @@ expression by passing <code>true</code> as the third argument of the <code>ignor
 
   
 
-  <div data-ice="throwWrap">
-    <h4>Throw:</h4>
-    <table>
-      <tbody>
-      
-      <tr class="throw" data-ice="throw">
-        <td><p data-ice="throwName"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a></span></p></td>
-        <td data-ice="throwDesc"><p>when one argument is missing</p>
-</td>
-      </tr>
-</tbody>
-    </table>
-  </div>
+  
 
   <div data-ice="example">
     <h4>Example:</h4>
@@ -682,34 +634,34 @@ const ignoreObject = ignore(&apos;codeBlock&apos;, /(```)(.|\n)*?\1/),</code></p
     
     
     
-    <span data-ice="name">rule</span><span data-ice="signature">(name: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, expression: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp">RegExp</a></span>, replacement: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">function</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
+    <span data-ice="name">rule</span><span data-ice="signature">(name: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, match: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp">RegExp</a></span>, replace: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">function</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/typography-fixer.js.html#lineNumber194">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/typography-fixer.js.html#lineNumber189">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {rule} from &apos;<span><a href="file/src/typography-fixer.js.html#lineNumber194">typography-fixer/src/typography-fixer.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {rule} from &apos;<span><a href="file/src/typography-fixer.js.html#lineNumber189">typography-fixer/src/typography-fixer.js</a></span>&apos;</code></pre></div>
   
   
-  <div data-ice="description"><p>Creates a new rule object that matches the specified <code>expression</code>.</p>
-<p>A rule is an object with a name and two methods <code>fix</code> and <code>check</code>.</p>
+  <div data-ice="description"><p>Creates a new rule object that matches the specified <code>match</code> expression.</p>
+<p>A rule is an object with a <code>name</code>, <code>match</code> and <code>replace</code> properties.</p>
 <p>A rule can be created with either a string or a regular expression as the
-<code>expression</code> parameter.</p>
+<code>match</code> paramete</p>
 <ul>
 <li>When given a regular expression the flags of the original expression
 are preserved except for the <code>global</code> which will be forcefully defined
-on the expression created when checking or fixing a string.</li>
+on the <code>match</code> created when checking or fixing a string.</li>
 <li>When given a string this string will be used a source for the regular
 expressions. These expressions will be created with the <code>multiline</code> flag
 enabled.</li>
 </ul>
-<p>The <code>replacement</code> parameter is used when a match is found and will be passed
+<p>The <code>replace</code> parameter is used when a match is found and will be passed
 as the second argument of the <code>String#replace</code> method. A regular expression
 based on the one used to search the string will be passed as the first
 argument. It means that every group will be available to use in the
-replacement string. A function can also be passed in the <code>replacement</code>
+replacement string. A function can also be passed in the <code>replace</code>
 parameter and will then receive the matched string and the various groups as
 arguments.</p>
 </div>
@@ -732,19 +684,19 @@ arguments.</p>
 </td>
     </tr>
 <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">expression</td>
+      <td data-ice="name" data-depth="0">match</td>
       <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp">RegExp</a></span></td>
       <td data-ice="appendix"></td>
       <td data-ice="description"><p>the regular expression to match against
-                                   a string</p>
+                              a string</p>
 </td>
     </tr>
 <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">replacement</td>
+      <td data-ice="name" data-depth="0">replace</td>
       <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">function</a></span></td>
       <td data-ice="appendix"></td>
       <td data-ice="description"><p>the replacement string or function
-                                      to use when a match is found</p>
+                                  to use when a match is found</p>
 </td>
     </tr>
 </tbody>
@@ -761,41 +713,7 @@ arguments.</p>
 </td>
       </tr>
     </table>
-    <div data-ice="returnProperties"><div data-ice="properties">
-  <h4 data-ice="title">Return Properties:</h4>
-  <table class="params">
-    <thead>
-    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-    
-    <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">name</td>
-      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>the rule&apos;s name</p>
-</td>
-    </tr>
-<tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">fix</td>
-      <td data-ice="type"><span><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">function</a></span><span>(string: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>)</span>: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>a function to apply the rule
-                                               on the passed-in string</p>
-</td>
-    </tr>
-<tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">check</td>
-      <td data-ice="type"><span><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">function</a></span><span>(string: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>)</span>: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>a function to check
-                                                violations in the passed-in
-                                                string</p>
-</td>
-    </tr>
-</tbody>
-  </table>
-</div>
+    <div data-ice="returnProperties">
 </div>
   </div>
 
@@ -803,19 +721,7 @@ arguments.</p>
 
   
 
-  <div data-ice="throwWrap">
-    <h4>Throw:</h4>
-    <table>
-      <tbody>
-      
-      <tr class="throw" data-ice="throw">
-        <td><p data-ice="throwName"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a></span></p></td>
-        <td data-ice="throwDesc"><p>when one argument is missing</p>
-</td>
-      </tr>
-</tbody>
-    </table>
-  </div>
+  
 
   <div data-ice="example">
     <h4>Example:</h4>

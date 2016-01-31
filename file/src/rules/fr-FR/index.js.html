@@ -38,7 +38,19 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-group">group</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-ignore">ignore</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-rule">rule</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules/fr-FR</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ruleset">ruleset</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">ignores</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-htmlIgnores">htmlIgnores</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-markdownIgnores">markdownIgnores</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-fractions">fractions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-html">html</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-lineBreaks">lineBreaks</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-punctuations">punctuations</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-symbols">symbols</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-units">units</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules/en-UK</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-enUK_HTML">enUK_HTML</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-enUK">enUK</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules/es-ES</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-esES">esES</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules/fr-FR</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-frFR_HTML">frFR_HTML</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-frFR">frFR</a></span></span></li>
 </ul>
 </div>
 </nav>
@@ -46,8 +58,12 @@
 <div class="content" data-ice="content"><h1 data-ice="title">src/rules/fr-FR/index.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {rule, group} from &apos;../../typography-fixer&apos;
 import {currenciesRegExp} from &apos;../../constants&apos;
+import punctuations from &apos;../punctuations&apos;
+import fractions from &apos;../fractions&apos;
+import symbols from &apos;../symbols&apos;
+import units from &apos;../units&apos;
 
-let ruleset
+let frFR
 
 /**
  * The ruleset for french typography.
@@ -67,24 +83,23 @@ let ruleset
  * However a lot of rules can be and are implemented in this ruleset.
  * It includes:
  *
- * - Replacing consecutive `!` or `?` characters by a single one
- * - Replacing ellipsis after `etc` by a period
- * - Replacing three consecutive periods by an ellipsis character
  * - Replacing `Mr` by `M.` (`Mr` is the english abbreviation for mister, french
  *   uses `M.`)
  * - Replacing possessive interrogative `a-t&apos;il` with `a-t-il`
  * - Properly formatting `c.-&#xE0;-d.` abbreviation
  * - Using a superscript `o` instead of `&#xB0;` for `num&#xE9;ro` abbreviation
- * - Replacing hyphen between numbers such as in `1939-1945` by an en dash
- * - Replacing hyphen between words such as in `Pierre &#x2013; tu le connais, hein ? &#x2013;
- *   est professeur de yoga` by an en dash
+ * - Removing hyphen after `anti` unless the following word starts with a `i`
+ *   or already contains an hyphen
+ * - Replacing hyphen between numbers such as in `1939-45` by an en-dash
+ * - Replacing hyphen between words such as in `Pierre - tu le connais, hein ? -
+ *   est professeur de yoga` by an en-dash
  * - Replacing single quote in `L&apos;arbre` with a typographic one (`&#x2019;`)
  * - Replacing double quotes around a sentence with `&#xAB;` and `&#xBB;`
  * - Collapsing multiple spaces into a single one
  * - Removing spaces before `,`, `.`, `)`, `&#x2026;` and `&#x2019;`
  * - Removing spaces after `&#x2019;` and `(`
- * - Removing spaces around an en dash placed between two numbers
- * - Adding spaces around an en dash placed between two words
+ * - Removing spaces around an en-dash placed between two numbers
+ * - Adding spaces around an en-dash placed between two words
  * - Adding a space before `(`
  * - Adding a non-breaking space between a number and a currency symbol
  * - Adding a non-breaking space after `&#xAB;` and before `&#xBB;`
@@ -92,25 +107,37 @@ let ruleset
  * - Adding a thin non-breaking space before `?`, `!`, `;`, `%`, `&#x2030;`, `&#x2031;`, and
  *   `:`
  * - Adding a space after `,`, `.`, `?`, `!`, `;`, `%`, `&#x2030;`, `&#x2031;`, `)`, and `:`
+ * - Replacing invalid ordinal numbers such `1&#xE8;re` by their proper form
+ * - Enforcing lowercase for months and days names
+ * - Enforcing use of ligatures for `ae` and `oe`
+ *
+ * Finally, the following rulesets are also included:
+ *
+ * - {@link src/rules/punctuations.js~punctuations}
+ * - {@link src/rules/fractions.js~fractions}
+ * - {@link src/rules/symbols.js~symbols}
+ * - {@link src/rules/units.js~units}
  *
  * @see http://j.poitou.free.fr/pro/html/typ/typ-intro.html
  * @see http://gargas.biomedicale.univ-paris5.fr/lt/typo.html
- * @type {Array}
+ * @type {Array&lt;Object&gt;}
  */
-export default ruleset = createRuleset()
+export default frFR = createRuleset()
 
 function createRuleset () {
   return group(&apos;fr-FR&apos;, [
+    units,
+    symbols,
+    fractions,
+    punctuations,
     group(&apos;punctuations&apos;, [
-      rule(&apos;collapseMultiplePunctuation&apos;, /([!?])\1+/, &apos;$1&apos;),
-      rule(&apos;shortEtCaetera&apos;, /([Ee]tc)(\.{3}|\u2026)/, &apos;$1.&apos;),
-      rule(&apos;triplePeriods&apos;, /\.{3,}/, &apos;\u2026&apos;),
       rule(&apos;maleHonorific&apos;, /Mr\.?/, &apos;M.&apos;),
-      rule(&apos;possessiveInterrogative&apos;, /a-t&apos;il/, &apos;a-t-il&apos;),
-      rule(&apos;cad&apos;, /c\.?-?[a&#xE0;]-?d\.?/, &apos;c.-&#xE0;-d.&apos;),
+      rule(&apos;possessiveInterrogative&apos;, /a(-|\u2011)t&apos;il/, &apos;a\u2011t\u2011il&apos;),
+      rule(&apos;cad&apos;, /c\.?(-|\u2011)?[a&#xE0;](-|\u2011)?d\.?/, &apos;c.\u2011&#xE0;\u2011d.&apos;),
       rule(&apos;numberAbbr&apos;, /(n|N)&#xB0;/, &apos;$1\u00ba&apos;),
       rule(&apos;enDashBetweenWords&apos;, /(\D\x20)-(\x20\D)/, &apos;$1\u2013$2&apos;),
-      rule(&apos;enDashBetweenNumbers&apos;, /(\d)\s*-\s*(\d)/, &apos;$1\u2013$2&apos;)
+      rule(&apos;enDashBetweenNumbers&apos;, /(\d)\s*(?:-|\u2011)\s*(\d)/, &apos;$1\u2013$2&apos;),
+      rule(&apos;anti&apos;, /anti(?:-|\u2011)([^i]\w+)(?!-|\u2011)\b/, &apos;anti$1&apos;)
     ]),
     group(&apos;quotes&apos;, [
       rule(&apos;singleQuote&apos;, /(\w)&apos;(\w)/, &apos;$1\u2019$2&apos;),
@@ -127,7 +154,7 @@ function createRuleset () {
       rule(&apos;nonBreakingSpaceBeforeColonBetweenTwoNumbers2&apos;, /(\d)\s(:)(\d)/, &apos;$1\u202F$2$3&apos;),
       rule(&apos;nonBreakingSpaceBeforeColonAfterNumber&apos;, /(\d)\s*(:)(\D)/, &apos;$1\u202F$2$3&apos;),
       rule(&apos;spaceAfterPunctuation&apos;, /(;|!|\?|%|\u2026|\u2030|\u2031)([^\s\)])/, &apos;$1 $2&apos;),
-      rule(&apos;spaceAfterPeriod&apos;, /(\.)([^\)\s-])/, &apos;$1 $2&apos;),
+      rule(&apos;spaceAfterPeriod&apos;, /(\.)([^\)\s-\u2011])/, &apos;$1 $2&apos;),
       rule(&apos;spaceAfterColon&apos;, /(\D\s?)(:)([^\s\)])/, &apos;$1$2 $3&apos;),
       rule(&apos;spaceAfterComma&apos;, /(\D)(,)([^\s\)])/, &apos;$1$2 $3&apos;),
       rule(&apos;spaceAfterParenthesis&apos;, /(\))(\w)/, &apos;$1 $2&apos;),
@@ -148,14 +175,6 @@ function createRuleset () {
     group(&apos;datetime&apos;, [
       rule(&apos;daysAndMonths&apos;, /(Lundi|Mardi|Mercredi|Jeudi|Vendredi|Samedi|Dimanche|Janvier|F&#xE9;vrier|Mars|Avril|Mai|Juin|Juillet|Aout|Septembre|Octobre|Novembre|D&#xE9;cembre)/, (s) =&gt; {
         return s.toLowerCase()
-      }),
-      rule(&apos;time&apos;, /(\d+)\x20*(h)\x20*(\d+)(?:\x20*(m(?:in)?)(?:\x20*(\d+)\x20*(s(?:ec)?))?)?/, (m, ...args) =&gt; {
-        args.pop()
-        args.pop()
-
-        args = args.filter((v) =&gt; { return v })
-
-        return args.join(&apos;\u00a0&apos;)
       })
     ]),
     group(&apos;ligatures&apos;, [

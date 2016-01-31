@@ -38,13 +38,31 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-group">group</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-ignore">ignore</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-rule">rule</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules/fr-FR</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ruleset">ruleset</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">ignores</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-htmlIgnores">htmlIgnores</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-markdownIgnores">markdownIgnores</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-fractions">fractions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-html">html</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-lineBreaks">lineBreaks</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-punctuations">punctuations</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-symbols">symbols</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-units">units</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules/en-UK</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-enUK_HTML">enUK_HTML</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-enUK">enUK</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules/es-ES</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-esES">esES</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules/fr-FR</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-frFR_HTML">frFR_HTML</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-frFR">frFR</a></span></span></li>
 </ul>
 </div>
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/typography-fixer.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/**
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import R from &apos;ramda&apos;
+
+const {
+  anyPass, append, both, compose, concat, cond, converge, curry, either, filter, flatten, groupBy, head, is, isArrayLike, join, lensProp, map, merge, not, over, pipe, propSatisfies, reduce, replace, sort, tail, transpose, unapply, unnest, where
+} = R
+
+/**
  * Returns an array of rule violations in the passed-in string.
  *
  * Ignores and rules are separated at the beginning of the call, then the ranges
@@ -53,10 +71,12 @@
  *
  * If there&apos;s no results, the function returns `undefined`.
  *
- * @param  {Array} ruleset the array with all the rules and ignores to use when
- *                         checking the passed-in string
- * @param  {string} string the string to check
- * @throws {Error} when one argument is missing
+ * See the {@link rule} and {@link ignore} documentation for details about how
+ * rules and ignore rules are created.
+ *
+ * @param  {Array} [ruleset=[]] the array with all the rules and ignores to use
+ *                              when checking the passed-in string
+ * @param  {string} [string] the string to check
  * @return {Array|undefined} an array of rule violation results or `undefined`
  *                           when there is no violations.&lt;br&gt;Each result
  *                           object will have the following properties:
@@ -68,34 +88,29 @@
  * import rules from &apos;typography-fixer/lib/rules/en-UK&apos;
  *
  * const results = check(rules, &apos;Some string &quot;to check&quot;.&apos;)
+ *
+ * // The check function support currying
+ * const checkString = check(rules)
+ *
+ * const results = checkSring(&apos;Some string &quot;to check&quot;.&apos;)
  */
-export function check (ruleset, string) {
-  if (!ruleset || !string) {
-    throw new Error(&apos;The check arguments are mandatory&apos;)
+export function check (ruleset = [], string) {
+  const {ignores, rules} = splitRules(ruleset)
+
+  if (rules.length === 0) { return string ? undefined : function () {} }
+
+  const getRanges = compose(unnest, R.ap(map(rangesFunctionFor, ignores)), R.of)
+  const getCheckResults = converge(unapply(flatten), map(checkString, rules))
+
+  const doCheck = (string) =&gt; {
+    const anyIntersection = anyPass(map(rangesIntersects, getRanges(string)))
+    const noIntersection = compose(not, propSatisfies(anyIntersection, &apos;range&apos;))
+    const results = filter(noIntersection, getCheckResults(string))
+
+    return results.length &gt; 0 ? results : undefined
   }
 
-  let {ignores, rules} = filterRules(ruleset)
-
-  if (rules.length === 0) { return undefined }
-
-  const ranges = flatten(ignores.map((ignore) =&gt; {
-    return ignore.ranges(string)
-  }))
-
-  let results = []
-
-  for (let i = 0, len = rules.length; i &lt; len; i++) {
-    const rule = rules[i]
-    results = results.concat(rule.check(string))
-  }
-
-  results = results.filter((result) =&gt; {
-    return !ranges.some((range) =&gt; {
-      return rangesIntersects(range, result.range)
-    })
-  })
-
-  return results.length &gt; 0 ? results : undefined
+  return string ? doCheck(string) : doCheck
 }
 
 /**
@@ -107,40 +122,46 @@ export function check (ruleset, string) {
  * parts. Once all the fixes were applied, the string from the two arrays are
  * joined together into a new string and returned.
  *
- * @param  {Array} ruleset the array with all the rules and ignores to use to
- *                         transform the passed-in string
- * @param  {string} string the string to fix
+ * See the {@link rule} and {@link ignore} documentation for details about how
+ * rules and ignore rules are created.
+ *
+ * @param  {Array} [ruleset=[]] the array with all the rules and ignores to use
+ *                              to transform the passed-in string
+ * @param  {string} [string] the string to fix
  * @return {string} the fixed string
- * @throws {Error} when one argument is missing
  * @example
  * import {fix} from &apos;typography-fixer&apos;
  * import rules from &apos;typography-fixer/lib/rules/en-UK&apos;
  *
  * const string = fix(rules, &apos;Some string &quot;to fix&quot;.&apos;)
+ *
+ * // The fix function support currying
+ * const fixString = fix(rules)
+ *
+ * const results = fixString(&apos;Some string &quot;to fix&quot;.&apos;)
  */
-export function fix (ruleset, string) {
-  if (!ruleset || !string) {
-    throw new Error(&apos;The fix arguments are mandatory&apos;)
+export function fix (ruleset = [], string) {
+  const {ignores, rules} = splitRules(ruleset)
+
+  if (rules.length === 0) { return string || function () {} }
+
+  const getRanges = compose(
+    sortRanges,
+    compactRanges,
+    unnest,
+    R.ap(map(rangesFunctionFor, ignores)),
+    R.of
+  )
+  const fixer = pipe(...map(fixString, rules))
+
+  const doFix = (string) =&gt; {
+    const {legit, ignored} = splitByRanges(string, getRanges(string))
+    const fixContent = map(fixer)
+
+    return alternateJoin(fixContent(legit), ignored)
   }
 
-  let {ignores, rules} = filterRules(ruleset)
-
-  if (rules.length === 0) { return string }
-
-  const ranges = campactRanges(flatten(ignores.map((ignore) =&gt; {
-    return ignore.ranges(string)
-  })))
-
-  const {included, excluded} = splitByRanges(string, ranges)
-
-  for (let i = 0, len = included.length; i &lt; len; i++) {
-    for (let j = 0, len = rules.length; j &lt; len; j++) {
-      const rule = rules[j]
-      included[i] = rule.fix(included[i])
-    }
-  }
-
-  return alternateJoin(included, excluded)
+  return string ? doFix(string) : doFix
 }
 
 /**
@@ -155,7 +176,6 @@ export function fix (ruleset, string) {
  * @param  {string} [name] the name of the rules group
  * @param  {Array} rules the rules to be part of the group
  * @return {Array} an array of new rules prefixed with this group name
- * @throws {Error} when the rules argument is missing
  *
  * @example
  * import {group, rule} from &apos;typography-fixer&apos;
@@ -168,68 +188,55 @@ export function fix (ruleset, string) {
  * ])
  */
 export function group (name, rules) {
-  let groupName
+  const rulesAsFirstArgument = compose(isArrayLike, head)
+  const nameThenRules = both(
+    compose(isString, head),
+    compose(isArrayLike, tail)
+  )
 
-  if (Array.isArray(name)) {
-    rules = name
-    groupName = []
-  } else {
-    if (!name || !rules) {
-      throw new Error(&apos;The group rules argument is mandatory&apos;)
-    }
-    groupName = [name]
-  }
+  const normalizeArguments = cond([
+    when(rulesAsFirstArgument, ([rules]) =&gt; [[], rules]),
+    when(nameThenRules, ([name, rules]) =&gt; [[name], rules]),
+    when(R.T, () =&gt; [[], []])
+  ])
 
-  return flatten(rules).map((rule) =&gt; {
-    let newObject = {
-      name: groupName.concat(rule.name).join(&apos;.&apos;)
-    }
+  const [groupName, ruleset] = normalizeArguments([name, rules])
 
-    for (const key in rule) {
-      if (key === &apos;name&apos;) { continue }
-      newObject[key] = rule[key]
-    }
+  const prefixer = compose(join(&apos;.&apos;), concat(groupName))
+  const prefixName = over(lensProp(&apos;name&apos;), prefixer)
 
-    return newObject
-  })
+  return Object.freeze(map(prefixName, flatten(ruleset)))
 }
 
 /**
- * Creates a new rule object that matches the specified `expression`.
+ * Creates a new rule object that matches the specified `match` expression.
  *
- * A rule is an object with a name and two methods `fix` and `check`.
+ * A rule is an object with a `name`, `match` and `replace` properties.
  *
  * A rule can be created with either a string or a regular expression as the
- * `expression` parameter.
+ * `match` paramete
  *
  * - When given a regular expression the flags of the original expression
  *   are preserved except for the `global` which will be forcefully defined
- *   on the expression created when checking or fixing a string.
+ *   on the `match` created when checking or fixing a string.
  * - When given a string this string will be used a source for the regular
  *   expressions. These expressions will be created with the `multiline` flag
  *   enabled.
  *
- * The `replacement` parameter is used when a match is found and will be passed
+ * The `replace` parameter is used when a match is found and will be passed
  * as the second argument of the `String#replace` method. A regular expression
  * based on the one used to search the string will be passed as the first
  * argument. It means that every group will be available to use in the
- * replacement string. A function can also be passed in the `replacement`
+ * replacement string. A function can also be passed in the `replace`
  * parameter and will then receive the matched string and the various groups as
  * arguments.
  *
  * @param  {string} name the name of the rule
- * @param  {string|RegExp} expression the regular expression to match against
- *                                    a string
- * @param  {string|function} replacement the replacement string or function
- *                                       to use when a match is found
- * @throws {Error} when one argument is missing
+ * @param  {string|RegExp} match the regular expression to match against
+ *                               a string
+ * @param  {string|function} replace the replacement string or function
+ *                                   to use when a match is found
  * @return {Object} the rule object
- * @property {string} name the rule&apos;s name
- * @property {function(string:string):string} fix a function to apply the rule
- *                                                on the passed-in string
- * @property {function(string:string):Array} check a function to check
- *                                                 violations in the passed-in
- *                                                 string
  * @example
  * import {rule} from &apos;typography-fixer&apos;
  *
@@ -237,59 +244,18 @@ export function group (name, rules) {
  * // by a number, as in 12.4 or 04:35, or followed by a space or `)`
  * const ruleObject = rule(&apos;spaceAfterPeriodOrColon&apos;, /(\D)(\.|:)([^\s\)])/, &apos;$1$2 $3&apos;)
  */
-export function rule (name, expression, replacement) {
-  if (!name || !expression || !replacement) {
-    throw new Error(&apos;All arguments of the rule function are mandatory&apos;)
-  }
-
-  let source
-  let flags = []
-
-  if (expression instanceof RegExp) {
-    source = expression.source
-    if (expression.multiline) { flags.push(&apos;m&apos;) }
-    if (expression.ignoreCase) { flags.push(&apos;i&apos;) }
-  } else {
-    source = expression
-    flags.push(&apos;m&apos;)
-  }
-
-  const searchFlags = flags.concat(&apos;g&apos;).join(&apos;&apos;)
-  const matchFlags = flags.join(&apos;&apos;)
-
-  return {
-    name,
-    check (string) {
-      const searchRegExp = new RegExp(source, searchFlags)
-      const matchRegExp = new RegExp(source, matchFlags)
-      const matches = []
-      let match
-      do {
-        match = searchRegExp.exec(string)
-        if (match &amp;&amp; match[0].replace(matchRegExp, replacement) !== match[0]) {
-          matches.push({
-            rule: this.name,
-            range: [match.index, searchRegExp.lastIndex]
-          })
-        }
-      } while (match)
-
-      return matches
-    },
-    fix (string) {
-      const searchRegExp = new RegExp(source, searchFlags)
-      return string.replace(searchRegExp, replacement)
-    }
-  }
+export function rule (name, match, replace) {
+  return Object.freeze({name, match, replace})
 }
 
 /**
- * Creates a new ignore rule that excludes the specified `expression`.
+ * Creates a new ignore rule that excludes the specified `ignore` expression.
  *
- * An ignore rule is an object with a name and a `ranges` method.
+ * An ignore rule is an object with a `name`, `ignore` and an optional
+ * `invertRanges` properties.
  *
  * An ignore rule can be created with either a string or a regular expression
- * as the `expression` parameter.
+ * as the `ignore` paramete
  *
  * - When given a regular expression the flags of the original expression
  *   are preserved except for the `global` which will be forcefully defined
@@ -298,109 +264,402 @@ export function rule (name, expression, replacement) {
  *   expressions. These expressions will be created with the `multiline` flag
  *   enabled.
  *
- * The `ranges` function, when called with a string, returns an array of ranges
- * of the ignored section of the string. A range is an array with two numbers
- * for the start and end index in the string.
- *
  * An ignore rule can also ignores everything that is not matched by the
- * expression by passing `true` as the third argument of the `ignore` function.
+ * expression by passing `true` as in the `invertRanges` argument of the
+ * `ignore` function.
  *
  * @param  {string} name the name of the rule
- * @param  {string|RegExp} expression the regular expression to match against
- *                                    a string
+ * @param  {string|RegExp} ignore the regular expression to match against
+ *                                a string
  * @param  {boolean} [invertRanges=false] if `true` the excluded ranges will
  *                                        cover every part of the string that
  *                                        is not matched by the expression
- * @throws {Error} when one argument is missing
  * @return {Object} [description]
- * @property {string} name the name of the rule
- * @property {function(string:string):Array} ranges a function that returns
- *                                                  an array of the ranges to
- *                                                  ignore in the passed-in
- *                                                  string
  * @example
  * import {ignore} from &apos;typography-fixer&apos;
  *
  * // this rule ignores markdown code blocks defined using three consecutive backticks
  * const ignoreObject = ignore(&apos;codeBlock&apos;, /(```)(.|\n)*?\1/),
  */
-export function ignore (name, expression, invertRanges = false) {
-  if (!name || !expression) {
-    throw new Error(&apos;All arguments of the ignore function are mandatory&apos;)
-  }
-
-  let source
-  let flags = [&apos;g&apos;]
-
-  if (expression instanceof RegExp) {
-    source = expression.source
-    if (expression.multiline) { flags.push(&apos;m&apos;) }
-    if (expression.ignoreCase) { flags.push(&apos;i&apos;) }
-  } else {
-    source = expression
-    flags.push(&apos;m&apos;)
-  }
-
-  const searchFlags = flags.join(&apos;&apos;)
-  if (invertRanges) {
-    return {
-      name,
-      ranges (string) {
-        const re = new RegExp(source, searchFlags)
-        const ranges = []
-        let start = 0
-        let match
-
-        do {
-          match = re.exec(string)
-          if (match) {
-            ranges.push([start, match.index - 1])
-            start = re.lastIndex
-          }
-        } while (match)
-
-        ranges.push([start, string.length])
-
-        return ranges
-      }
-    }
-  } else {
-    return {
-      name,
-      ranges (string) {
-        const re = new RegExp(source, searchFlags)
-        const ranges = []
-        let match
-
-        do {
-          match = re.exec(string)
-          if (match) { ranges.push([match.index, re.lastIndex]) }
-        } while (match)
-
-        return ranges
-      }
-    }
-  }
+export function ignore (name, ignore, invertRanges = false) {
+  return Object.freeze({name, ignore, invertRanges})
 }
 
-function filterRules (ruleset) {
-  const ignores = []
-  const rules = []
+//  ########  ########  #### ##     ##    ###    ######## ########
+//  ##     ## ##     ##  ##  ##     ##   ## ##      ##    ##
+//  ##     ## ##     ##  ##  ##     ##  ##   ##     ##    ##
+//  ########  ########   ##  ##     ## ##     ##    ##    ######
+//  ##        ##   ##    ##   ##   ##  #########    ##    ##
+//  ##        ##    ##   ##    ## ##   ##     ##    ##    ##
+//  ##        ##     ## ####    ###    ##     ##    ##    ########
 
-  for (let i = 0, len = ruleset.length; i &lt; len; i++) {
-    let rule = ruleset[i]
+/**
+ * A predicate that returns true when the passed-in value is a regular
+ * expression.
+ *
+ * @param  {*} value the value to test
+ * @return {boolean} whether the value is a regular expression or not
+ * @access private
+ */
+const isRegExp = is(RegExp)
 
-    if (rule.ranges) {
-      ignores.push(rule)
-    } else {
-      rules.push(rule)
-    }
+/**
+ * A predicate that returns true when the passed-in value is a string.
+ *
+ * @param  {*} value the value to test
+ * @return {boolean} whether the value is a string or not
+ * @access private
+ */
+const isString = is(String)
+
+/**
+ * A predicate that returns true when the passed-in value is a function.
+ *
+ * @param  {*} value the value to test
+ * @return {boolean} whether the value is a function or not
+ * @access private
+ */
+const isFunction = is(Function)
+
+/**
+ * A predicate that returns true when the passed-in value is either a string
+ * or a regular expression.
+ *
+ * @param  {*} value the value to test
+ * @return {boolean} true if the value is either a regular expression
+ *                        or a string
+ * @access private
+ */
+const isStringOrRegExp = either(isString, isRegExp)
+
+/**
+ * A predicate that returns true when the passed-in value is either a string
+ * or a function.
+ *
+ * @param  {*} value the value to test
+ * @return {boolean} true if the value is either a function or a string
+ * @access private
+ */
+const isStringOrFunction = either(isString, isFunction)
+
+/**
+ * A predicate that returns true when the passed-in object is a valid rule.
+ *
+ * @param  {*} value the object to test
+ * @return {boolean} true if the passed-in object is a valid rule
+ * @access private
+ */
+const isRule = where({
+  name: isString,
+  match: isStringOrRegExp,
+  replace: isStringOrFunction
+})
+
+/**
+ * A predicate that returns true when the passed-in object is a valid
+ * ignore rule.
+ *
+ * @param  {*} value the object to test
+ * @return {boolean} true if the passed-in object is a valid ignore rule
+ * @access private
+ */
+const isIgnore = where({
+  name: isString,
+  ignore: isStringOrRegExp
+})
+
+/**
+ * Wraps the passed-in condition and function into an array to be used
+ * in a `cond` argument.
+ *
+ * @param  {function(value:*):boolean} predicate a function to use as predicate
+ * @param  {function(value:*):*} then a function to use when the predicate
+ *                                    is fulfilled
+ * @return {Array&lt;Function&gt;} an array with the two passed-in functions
+ */
+const when = (predicate, then) =&gt; [predicate, then]
+
+/**
+ * Returns the base flags array for a regular expression depending on whether
+ * the regexp should match globally or not.
+ *
+ * @param  {boolean} global whether the regexp should match globally or not
+ * @return {Array} the base flags array
+ * @access private
+ */
+const baseFlags = (global) =&gt; global ? [&apos;g&apos;] : []
+
+/**
+ * Extract the flag letter corresponding to a given property from the specified
+ * regular expression. For instance, if asked the flag for the multiline
+ * property and the passed-in expression has `multiline` enabled the function
+ * will return `&apos;m&apos;` otherwise it will return an empty string.
+ *
+ * @param  {string} prop the property flag to extract
+ * @param  {RegExp} re the target regular expression
+ * @return {string} the flag string
+ * @access private
+ */
+const flag = curry((prop, re) =&gt; re[prop] ? prop[0] : &apos;&apos;)
+
+/**
+ * Returns the flags array for the given regular expression but with the
+ * global flag defined using the specified parameter.
+ *
+ * This function is used to create clones of rules and ignores expression
+ * but configurated to be used in different context.
+ *
+ * @param  {boolean} global whether the regexp should match globally or not
+ * @param  {RegExp} re the target regular expression
+ * @return {Array} an array of regular expression flags
+ * @access private
+ */
+const flagsForRegExp = curry((global, re) =&gt; {
+  const appendFlags = compose(
+    append(flag(&apos;multiline&apos;, re)),
+    append(flag(&apos;ignoreCase&apos;, re))
+  )
+
+  return appendFlags(baseFlags(global))
+})
+
+/**
+ * Returns a cloned regular expression from the passed-in rule&apos;s property
+ * specified in the arguments.
+ *
+ * @param  {boolean} global whether the regexp should match globally or not
+ * @param  {string} prop the rule property to clone
+ * @param  {Object} rule the source rule object
+ * @return {RegExp} the cloned regular expression
+ * @access private
+ */
+const ruleRegExp = curry((global, prop, rule) =&gt; {
+  const getSource = (e) =&gt; isRegExp(e) ? e.source : e
+  const getFlags = compose(
+    join(&apos;&apos;),
+    (e) =&gt;
+      isRegExp(e) ? flagsForRegExp(global, e) : concat(baseFlags(global), &apos;m&apos;)
+  )
+
+  return new RegExp(getSource(rule[prop]), getFlags(rule[prop]))
+})
+
+/**
+ * A parameterized function that returns a cloned regular expression for
+ * the passed-in ignore rule.
+ *
+ * @param  {Object} ignore the source ignore rule
+ * @return {RegExp} the cloned regular expression
+ * @access private
+ */
+const ignoreRuleRegExp = ruleRegExp(true, &apos;ignore&apos;)
+
+/**
+ * A parameterized function that returns a cloned regular expression for
+ * the passed-in rule to use when searching matches globally in a string.
+ *
+ * @param  {Object} ignore the source ignore rule
+ * @return {RegExp} the cloned regular expression
+ * @access private
+ */
+const searchRuleRegExp = ruleRegExp(true, &apos;match&apos;)
+
+/**
+ * A parameterized function that returns a clone regular expression for
+ * the passed-in ignore rule when performing a simple match against a string.
+ *
+ * @param  {Object} ignore the source ignore rule
+ * @return {RegExp} the cloned regular expression
+ * @access private
+ */
+const matchRuleRegExp = ruleRegExp(false, &apos;match&apos;)
+
+/**
+ * Returns the check results of the given rule against the passed-in string.
+ * If no matches are found the function returns an empty array.
+ *
+ * @param  {Object} rule the rule to check the string
+ * @param  {string} string the string to check
+ * @return {Array&lt;Object&gt;} an array of resuls
+ * @access private
+ */
+function checkString (rule, string) {
+  const searchRegExp = searchRuleRegExp(rule)
+  const matchRegExp = matchRuleRegExp(rule)
+
+  const doCheck = (string) =&gt; {
+    const matches = []
+    searchRegExp.lastIndex = 0
+
+    let match
+    do {
+      match = searchRegExp.exec(string)
+      if (match &amp;&amp; match[0].replace(matchRegExp, rule.replace) !== match[0]) {
+        matches.push({
+          rule: rule.name,
+          range: [match.index, searchRegExp.lastIndex]
+        })
+      }
+    } while (match)
+
+    return matches
   }
 
-  return {ignores, rules}
+  return string ? doCheck(string) : doCheck
 }
 
-function rangesIntersects (rangeA, rangeB) {
+/**
+ * Returns the passed-in string fixed according to the specified rule.
+ *
+ * @param  {Object} rule the rule to apply to the string
+ * @param  {string} string the string to fix
+ * @return {string} the fixed string
+ * @access private
+ */
+function fixString (rule, string) {
+  const searchRegExp = searchRuleRegExp(rule)
+
+  const doFix = (string) =&gt; {
+    searchRegExp.length = 0
+
+    return replace(searchRegExp, rule.replace, string)
+  }
+
+  return string ? doFix(string) : doFix
+}
+
+/**
+ * Returns a function to compute the ranges to ignore according to the
+ * passed-in rule.
+ *
+ * @param  {Object} rule the rule for which computing the range
+ * @return {function(string):Array} a function that returns the range for
+ *                                  for a given string
+ * @access private
+ */
+function rangesFunctionFor (rule) {
+  return rule.invertRanges ? exclusiveRangesFor(rule) : inclusiveRangesFor(rule)
+}
+
+/**
+ * Returns the ignored ranges in the string for the passed-in rule. All the
+ * sections of the string that is matched by the rule regular expression will
+ * be ignored.
+ *
+ * @param  {Object} rule the ignore rule for which getting ranges
+ * @param  {string} the string into which find the ranges
+ * @return {Array&lt;Array&gt;} an array with the ignored ranges
+ * @access private
+ */
+function inclusiveRangesFor (rule, string) {
+  const re = ignoreRuleRegExp(rule)
+
+  const getRanges = (string) =&gt; {
+    re.lastIndex = 0
+    const ranges = []
+    let match
+
+    do {
+      match = re.exec(string)
+      if (match) { ranges.push([match.index, re.lastIndex]) }
+    } while (match)
+
+    return ranges
+  }
+
+  return string ? getRanges(string) : getRanges
+}
+
+/**
+ * Returns the ignored ranges in the string for the passed-in rule. All the
+ * sections of the string that is not matched by the rule regular expression
+ * will be ignored.
+ *
+ * @param  {Object} rule the ignore rule for which getting ranges
+ * @param  {string} the string into which find the ranges
+ * @return {Array&lt;Array&gt;} an array with the ignored ranges
+ * @access private
+ */
+function exclusiveRangesFor (rule, string) {
+  const re = ignoreRuleRegExp(rule)
+
+  const getRanges = (string) =&gt; {
+    re.lastIndex = 0
+    const ranges = []
+    let start = 0
+    let match
+
+    do {
+      match = re.exec(string)
+      if (match) {
+        ranges.push([start, match.index - 1])
+        start = re.lastIndex
+      }
+    } while (match)
+
+    ranges.push([start, string.length])
+
+    return ranges
+  }
+
+  return string ? getRanges(string) : getRanges
+}
+
+/**
+ * A filter function that only keep objects in the list that are either valid
+ * rules or ignore rules.
+ *
+ * @param  {Array&lt;Object&gt;} ruleset the list of objects to filter
+ * @return {Array&lt;Object&gt;} the filtered list
+ * @access private
+ */
+const rulesFilter = filter(either(isRule, isIgnore))
+
+/**
+ * A grouping function that separates rules and ignore rules into two
+ * separate lists.
+ *
+ * @param  {Array&lt;Object&gt;} ruleset the list of rules to group
+ * @return {Object} an object with the rules and ignores from the original array
+ * @property {Array&lt;Object&gt;} rules the array of rules
+ * @property {Array&lt;Object&gt;} ignores the array of ignores
+ * @access private
+ */
+const rulesGrouper = groupBy(rule =&gt; rule.ignore ? &apos;ignores&apos; : &apos;rules&apos;)
+
+/**
+ * Takes an object and returns a new object where the `rules` and `ignores`
+ * properties have been defined with a new array if they were not present.
+ *
+ * @param  {Object} object the initial object
+ * @return {Object} a new object that is guarantee to have `rules` and
+ *                  `ignores` properties
+ * @access private
+ */
+const setRulesDefault = merge({ignores: [], rules: []})
+
+/**
+ * Returns an object with two lists containing the rules and ignores from
+ * the passed-in array. Every objects that doesn&apos;t match the criteria will
+ * be discarded.
+ *
+ * @param  {Array&lt;Object&gt;} ruleset the array of rules to split
+ * @return {Object} an object with the rules and ignores from the original array
+ * @property {Array&lt;Object&gt;} rules the array of rules
+ * @property {Array&lt;Object&gt;} ignores the array of ignores
+ * @access private
+ */
+const splitRules = compose(setRulesDefault, rulesGrouper, rulesFilter)
+
+/**
+ * Returns whether the two passed-in ranges intersect or not
+ *
+ * @param  {Array} rangeA the first range to test
+ * @param  {Array} rangeB the second range to test
+ * @return {boolean} whether the two ranges intersect
+ * @access private
+ */
+const rangesIntersects = curry((rangeA, rangeB) =&gt; {
   const [startA, endA] = rangeA
   const [startB, endB] = rangeB
 
@@ -408,64 +667,108 @@ function rangesIntersects (rangeA, rangeB) {
          (endB &gt;= startA &amp;&amp; endB &lt;= endA) ||
          (startA &gt;= startB &amp;&amp; startA &lt;= endB) ||
          (endA &gt;= startB &amp;&amp; endA &lt;= endB)
-}
+})
 
-function flatten (arr) {
-  return arr.reduce((memo, el) =&gt; { return memo.concat(el) }, [])
-}
-
+/**
+ * Takes a string and a list of ranges and returns an object with two lists
+ * containing in `ignored` the string parts that are contained in the passed-in
+ * ranges and in `legit` the parts that are not contained by the ranges.
+ *
+ * @param  {string} string the string to split
+ * @param  {Array&lt;Array&gt;} ranges the ranges to use to split the string
+ * @return {Object} an object with the string split by ranges
+ * @property {Array&lt;string&gt;} legit the parts of the string not contained
+ *                                 in the passed-in ranges
+ * @property {Array&lt;string&gt;} ignored the parts of the string contained
+ *                                   in the passed-in ranges
+ * @access private
+ */
 function splitByRanges (string, ranges) {
-  const included = []
-  const excluded = []
+  const results = {legit: [], ignored: []}
 
   let start = 0
-  for (let i = 0, len = ranges.length; i &lt; len; i++) {
-    const range = ranges[i]
-
-    included.push(string.slice(start, range[0]))
-    excluded.push(string.slice(range[0], range[1]))
+  const reducer = (memo, range) =&gt; {
+    memo.legit.push(string.slice(start, range[0]))
+    memo.ignored.push(string.slice(range[0], range[1]))
     start = range[1]
+    return results
   }
-  included.push(string.slice(start, string.length))
+  reduce(reducer, results, ranges)
 
-  return {included, excluded}
+  results.legit.push(string.slice(start, string.length))
+  results.ignored.push(&apos;&apos;)
+
+  return results
 }
 
-function alternateJoin (a, b) {
-  let string = &apos;&apos;
+/**
+ * A reducer function that takes a string `memo` and a tuple of two strings `a`
+ * and `b` and which returns a string that is the result of `memo + a + b`.
+ *
+ * @param  {string} memo the reduce memo
+ * @param  {array} tuple the current pair of string from the two lists
+ * @return {string} the new memo
+ * @access private
+ */
+const joinReducer = (memo, [a, b]) =&gt; memo + a + b
 
-  for (let i = 0, len = a.length; i &lt; len; i++) {
-    string += a[i]
-    if (b[i]) { string += b[i] }
-  }
+/**
+ * Takes two lists and joins them such as the final string is the result
+ * of `a[0] + b[0] + a[1] + b[1] + a[n] + b[n]`.
+ *
+ * @param  {Array&lt;string&gt;} a the first list to join
+ * @param  {Array&lt;string&gt;} b the second list to join
+ * @return {string} the string resulting of joining the two lists
+ * @access private
+ */
+const alternateJoin = (a, b) =&gt; reduce(joinReducer, &apos;&apos;, transpose([a, b]))
 
-  return string
-}
-
-function campactRanges (ranges) {
+/**
+ * Takes a list of ranges and returns a new list where all the intersecting
+ * ranges have been merged.
+ *
+ * @param  {Array&lt;Array&gt;} ranges [description]
+ * @return {Array&lt;Array&gt;} [description]
+ * @access private
+ */
+function compactRanges (ranges) {
   if (ranges.length === 0) { return [] }
 
-  const newRanges = ranges.reduce((memo, rangeA) =&gt; {
-    if (memo.length === 0) {
-      memo.push(rangeA)
-      return memo
-    } else {
-      const newMemo = memo.filter((rangeB) =&gt; {
-        if (rangesIntersects(rangeA, rangeB)) {
-          rangeA[0] = Math.min(rangeA[0], rangeB[0])
-          rangeA[1] = Math.max(rangeA[1], rangeB[1])
-          return false
-        } else {
-          return true
-        }
-      })
-
-      return newMemo.concat([rangeA])
-    }
-  }, [])
-
-  return newRanges.sort((a, b) =&gt; { return a[0] - b[0] })
+  return reduce(rangesReducer, [], ranges)
 }
+
+/**
+ * The reducer function used to merge intersecting ranges.
+ *
+ * @param  {Array&lt;Array&gt;} memo the initial memo array
+ * @param  {Array} rangeA the current range to process
+ * @return {Array&lt;Array&gt;} the new memo array
+ * @access private
+ */
+function rangesReducer (memo, rangeA) {
+  const filterer = (rangeB) =&gt; {
+    if (rangesIntersects(rangeA, rangeB)) {
+      rangeA[0] = Math.min(rangeA[0], rangeB[0])
+      rangeA[1] = Math.max(rangeA[1], rangeB[1])
+      return false
+    } else {
+      return true
+    }
+  }
+
+  return memo.length === 0
+    ? append(rangeA, memo)
+    : append(rangeA, filter(filterer, memo))
+}
+
+/**
+ * Takes a list of ranges and sort them by their start position.
+ *
+ * @param  {Array&lt;Array&gt;} ranges the list of ranges to sort
+ * @return {Array&lt;Array&gt;} the sorted ranges list
+ * @access private
+ */
+const sortRanges = sort((a, b) =&gt; a[0] - b[0])
 </code></pre>
 
 </div>

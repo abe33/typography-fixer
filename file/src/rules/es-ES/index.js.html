@@ -38,7 +38,19 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-group">group</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-ignore">ignore</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-rule">rule</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules/fr-FR</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ruleset">ruleset</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">ignores</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-htmlIgnores">htmlIgnores</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-markdownIgnores">markdownIgnores</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-fractions">fractions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-html">html</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-lineBreaks">lineBreaks</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-punctuations">punctuations</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-symbols">symbols</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-units">units</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules/en-UK</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-enUK_HTML">enUK_HTML</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-enUK">enUK</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules/es-ES</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-esES">esES</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules/fr-FR</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-frFR_HTML">frFR_HTML</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-frFR">frFR</a></span></span></li>
 </ul>
 </div>
 </nav>
@@ -46,13 +58,51 @@
 <div class="content" data-ice="content"><h1 data-ice="title">src/rules/es-ES/index.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {rule, group} from &apos;../../typography-fixer&apos;
 import {currenciesRegExp} from &apos;../../constants&apos;
+import punctuations from &apos;../punctuations&apos;
+import fractions from &apos;../fractions&apos;
+import symbols from &apos;../symbols&apos;
+import units from &apos;../units&apos;
 
-let ruleset
+let esES
 
-export default ruleset = createRuleset()
+/**
+ * The ruleset for spanish typography.
+ *
+ * This ruleset includes:
+ *
+ * - Replacing consecutive `&#xA1;` or `&#xBF;` characters by a single one
+ * - Replacing single quotes in words with typographic ones
+ * - Replacing double quotes around a sentence with typographic ones
+ * - Removing spaces before `,`, `.`, `)`, `&#x2026;`, `&#x2019;`, `&#x201D;`, `;`, `%`, `&#x2030;`, `&#x2031;`,
+ *   and `:`
+ * - Removing spaces after `&#x201C;`, `(`, and `&#x2019;`
+ * - Removing spaces around an en-dash placed between two numbers
+ * - Removing spaces between a currency
+ * - Adding spaces around an en-dash placed between two words
+ * - Adding a space after `,`, `.`, `;`, `%`, `&#x2030;`, `&#x2031;`, `)`, and `:`
+ * - Adding a thin non-breaking space after a `&#xA1;` or a `&#xBF;`
+ * - Adding a thin non-breaking space before a `!` or a `?`
+ *
+ * Finally, the following rulesets are also included:
+ *
+ * - {@link src/rules/punctuations.js~punctuations}
+ * - {@link src/rules/fractions.js~fractions}
+ * - {@link src/rules/symbols.js~symbols}
+ * - {@link src/rules/units.js~units}
+ *
+ * @type {Array&lt;Object&gt;}
+ */
+export default esES = createRuleset()
 
 function createRuleset () {
   return group(&apos;es-ES&apos;, [
+    units,
+    symbols,
+    fractions,
+    punctuations,
+    group(&apos;punctuations&apos;, [
+      rule(&apos;collapseMultiplePunctuation&apos;, /([&#xA1;&#xBF;])\1+/, &apos;$1&apos;),
+    ]),
     group(&apos;quotes&apos;, [
       rule(&apos;singleQuote&apos;, /(\w)&apos;(\w)/, &apos;$1\u2019$2&apos;),
       rule(&apos;doubleQuote&apos;, /&quot;([^&quot;]+)&quot;/, &apos;\u00ab$1\u00bb&apos;)
@@ -74,7 +124,6 @@ function createRuleset () {
       rule(&apos;spaceBeforeCurrency&apos;, `(\\d)\x20?([${currenciesRegExp}])`, &apos;$1\u00a0$2&apos;),
     ])
   ])
-
 }
 </code></pre>
 

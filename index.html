@@ -38,7 +38,19 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-group">group</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-ignore">ignore</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-rule">rule</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules/fr-FR</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ruleset">ruleset</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">ignores</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-htmlIgnores">htmlIgnores</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-markdownIgnores">markdownIgnores</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-fractions">fractions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-html">html</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-lineBreaks">lineBreaks</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-punctuations">punctuations</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-symbols">symbols</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-units">units</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules/en-UK</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-enUK_HTML">enUK_HTML</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-enUK">enUK</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules/es-ES</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-esES">esES</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules/fr-FR</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-frFR_HTML">frFR_HTML</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-frFR">frFR</a></span></span></li>
 </ul>
 </div>
 </nav>
@@ -47,10 +59,61 @@
 <h1 id="typography-fixer">Typography-Fixer</h1>
 <p>This module provides helper functions to check for and fix various punctuations or typographic mistakes and enforce proper use of non-breaking spaces in a text.</p>
 <p>This is neither a spell-checker nor a hyphenation helper. While it may impact how line will breaks it don&apos;t do anything beyond adding non-breaking spaces here and there.</p>
+<h3 id="what-about-html-entities">What about HTML entities</h3>
+<p>Typography-Fixer doesn&apos;t use HTML entities, it relies solely on unicode characters. The main reason is that, except for XML reserved characters (<code>&lt;</code>, <code>&gt;</code> and <code>&amp;</code>), no one should no longer care about special characters when using a UTF8 charset. If you don&apos;t use UTF8 (seriously?) <a href="https://www.npmjs.com/search?q=html+entities">there&apos;s a bunch of modules for that purpose</a>.
+The only exception is for the <code>&amp;amp;</code> entity in html enhancement rules.</p>
 <h2 id="install">Install</h2>
 <pre><code class="lang-bash"><code class="source-code prettyprint">npm install --save typography-fixer</code>
 </code></pre>
-<h2 id="complete-documentation">Complete Documentation</h2>
+<h2 id="usage">Usage</h2>
+<p>When using the package, the two functions you need to care about are <code>check</code> and <code>fix</code>. But the packages exposes a total of five methods available using <code>require(&apos;typography-fixer&apos;)</code>. On top of that, rulesets can be found at the <code>typography-fixer/lib/rules</code> path, while ignore sets are located at <code>typography-fixer/lib/ignores</code>.</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">import {check, fix} from &apos;typography-fixer&apos;
+import englishRules from &apos;typography-fixer/lib/rules/en-UK&apos;
+import markdown from &apos;typography-fixer/lib/ignores/markdown&apos;
+
+const rules = englishRules.concat(markdown)
+
+// returns an array with all the places where rules have been transgressed
+// or undefined if no rules were broken.
+const checkResults = check(rules, &apos;Some text &quot;to verify&quot;.&apos;)
+
+// returns the string with all rule violations fixed
+// in that case it returns: &apos;Some text &#x201C;to verify.&#x201D;&apos;
+const fixedString = fix(rules, &apos;Some text &quot;to verify&quot;.&apos;)</code>
+</code></pre>
+<p>The <code>check</code> function takes an array of rules and ignores, and returns an array of violations to the specified rules. A result is an object with the name of the broken rule and an array representing the range of the match. If a rule matches a part of a text but its application does&apos;t change this part then the match is simply ignored.</p>
+<p>The <code>fix</code> function also takes an array of rules and ignores, and returns the corrected string.</p>
+<p>Note that since the <code>check</code> function operates on a string without modifying it, some fixes won&apos;t be detected are they would only be applied after a first batch of rules was applied, and other times several rules can returns violations at the same place, with some of them that won&apos;t be applied as they will become irrelevant after some replacements. One example of the latter is the rule for <code>etc...</code>, it will returns violations for both <code>etc</code> followed by an ellipsis and for an ellipsis formed with three periods.</p>
+<h2 id="rules-and-ignores">Rules And Ignores</h2>
+<p><code>typography-fixer</code> works using two kind of entities, <code>rules</code> and <code>ignores</code>. These objects can be created using the <code>rule</code> and <code>ignore</code> functions exposed by the package.</p>
+<ul>
+<li><p><code>rule(name, expression, replacement)</code> &#x2013; defines a pattern for a class of errors identified with its <code>name</code>. It returns an <code>Object</code> with the given name, and two functions <code>fix</code> and <code>check</code>, both taking a string as argument. The <code>replacement</code> parameter can either be a <code>String</code> or a <code>Function</code> to pass to the <code>String#replace</code> function.</p>
+<p>For instance, the following code defines a rule that replaces three periods by an ellipsis:</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">rule(&apos;triplePeriods&apos;, /\.{3,}/, &apos;\u2026&apos;),</code>
+</code></pre>
+</li>
+<li><p><code>ignore(name, expression, invertRanges)</code> &#x2013; defines parts of a string where the rules don&apos;t apply. It returns an <code>Object</code> with the given name and a <code>ranges</code> method that returns an array of the text ranges to preserve. When the <code>invertRanges</code> parameter is <code>true</code> the ranges returned by the <code>ranges</code> method will span every part of the string that are not matched by the expression.</p>
+<p>For instance, the following code defines an ignore to preserve inline code blocks in Markdown:</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">ignore(&apos;codeInline&apos;, /(`{1,2}).*?\1/),</code>
+</code></pre>
+</li>
+</ul>
+<p>Both functions take an <code>expression</code> parameter that can be either a <code>RegExp</code> or a <code>String</code>. It&apos;ll be used to create a regular expression (so take care of escaping backslashes when passing a string).</p>
+<p>When passing a regular expression, the <code>global</code> flag will be automatically defined for the regexes used to scan a string. The <code>multiline</code> or <code>ignoreCase</code> can be freely defined, they will be preserved in the regexes created in the rule&apos;s methods.</p>
+<h3 id="groups">Groups</h3>
+<p>Rules and ignores can be organized using the last exposed function: <code>group</code>. This function takes a name and an array of rules and returns a new array. Every rules in the new array will have a name such as <code>groupName.originalRuleName</code>.</p>
+<p>Groups can be be nested, so the following is possible:</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">import {group, rule} from &apos;typography-fixer&apos;
+
+// The resulting array will contains one rule with the
+// name topGroup.nestedGroup.theRule
+export default group(&apos;topGroup&apos;, [
+  group(&apos;nestedGroup&apos;, [
+    rule(&apos;theRule&apos;, /foo/, &apos;bar&apos;)
+  ])
+])</code>
+</code></pre>
+<p>The result is always a flat array so that we can apply every array operations on a ruleset without having to care about nesting. For instance, excluding rules is as simple as running a filter on the array.</p>
 </div>
 </div>
 

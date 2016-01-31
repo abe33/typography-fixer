@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl" href="../../../../">
-  <title data-ice="title">src/rules/fr-FR/html.js | API Document</title>
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/rules/fractions.js | API Document</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -55,37 +55,27 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">src/rules/fr-FR/html.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {rule, group} from &apos;../../typography-fixer&apos;
-import html from &apos;../html&apos;
+<div class="content" data-ice="content"><h1 data-ice="title">src/rules/fractions.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {rule, group} from &apos;../typography-fixer&apos;
+import {vulgarFractions} from &apos;../constants&apos;
 
-let frFR_HTML
+let fractions
 
 /**
- * The ruleset for HTML improvement on french typography
+ * A ruleset to replace vulgar fractions with their corresponding unicode
+ * character.
  *
- * It includes rules for:
- *
- * - Wrapping ends of common abbreviation in a `&lt;sup&gt;` tag so that `Mmes`
- *   becomes `M&lt;sup&gt;mes&lt;/sup&gt;`
- * - Wrapping ordinal number suffix in a `&lt;sup&gt;` tag
- *
- * Finally, the following rulesets are also included:
- *
- * - {@link src/rules/html.js~html}
+ * The following fractions are supported: `&#xBD;`, `&#x2189;`, `&#x2153;`, `&#x2154;`, `&#xBC;`, `&#xBE;`, `&#x2155;`,
+ * `&#x2156;`, `&#x2157;`, `&#x2158;`, `&#x2159;`, `&#x215A;`, `&#x2150;`, `&#x215B;`, `&#x215C;`, `&#x215D;`, `&#x215E;`, `&#x2151;` and `&#x2152;`.
  *
  * @type {Array&lt;Object&gt;}
  */
-export default frFR_HTML = createRuleset()
+export default fractions = createRuleset()
 
 function createRuleset () {
-  return group(&apos;fr-FR.html&apos;, [
-    html,
-    rule(&apos;abbrWithSuperText&apos;, /Mmes|Mme|Mlles|Mlle|Me|Mgr|Dr|cie|Cie|St&#xE9;/, (m) =&gt; {
-      return `${m[0]}&lt;sup&gt;${m.slice(1, m.length)}&lt;/sup&gt;`
-    }),
-    rule(&apos;ordinalNumbers&apos;, /(\d)(res|re|es|e|&#xE8;mes)/, &apos;$1&lt;sup class=&quot;ord&quot;&gt;$2&lt;/sup&gt;&apos;)
-  ])
+  return group(&apos;fractions&apos;, vulgarFractions.map(([a,b,char]) =&gt; {
+    return rule(`${a}On${b}`, `\\b${a}\\s*/\\s*${b}\\b`, char)
+  }))
 }
 </code></pre>
 

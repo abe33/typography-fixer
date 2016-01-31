@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../../../">
-  <title data-ice="title">src/rules/fr-FR/html.js | API Document</title>
+  <title data-ice="title">src/rules/en-UK/html.js | API Document</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -55,20 +55,18 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">src/rules/fr-FR/html.js</h1>
+<div class="content" data-ice="content"><h1 data-ice="title">src/rules/en-UK/html.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {rule, group} from &apos;../../typography-fixer&apos;
 import html from &apos;../html&apos;
 
-let frFR_HTML
+let enUK_HTML
 
 /**
- * The ruleset for HTML improvement on french typography
+ * The ruleset for HTML improvement on english typography
  *
  * It includes rules for:
  *
- * - Wrapping ends of common abbreviation in a `&lt;sup&gt;` tag so that `Mmes`
- *   becomes `M&lt;sup&gt;mes&lt;/sup&gt;`
- * - Wrapping ordinal number suffix in a `&lt;sup&gt;` tag
+ * - wrapping ordinal numbers suffix in a `&lt;span&gt;` with the `ord` class
  *
  * Finally, the following rulesets are also included:
  *
@@ -76,15 +74,12 @@ let frFR_HTML
  *
  * @type {Array&lt;Object&gt;}
  */
-export default frFR_HTML = createRuleset()
+export default enUK_HTML = createRuleset()
 
 function createRuleset () {
-  return group(&apos;fr-FR.html&apos;, [
+  return group(&apos;en-UK.html&apos;, [
     html,
-    rule(&apos;abbrWithSuperText&apos;, /Mmes|Mme|Mlles|Mlle|Me|Mgr|Dr|cie|Cie|St&#xE9;/, (m) =&gt; {
-      return `${m[0]}&lt;sup&gt;${m.slice(1, m.length)}&lt;/sup&gt;`
-    }),
-    rule(&apos;ordinalNumbers&apos;, /(\d)(res|re|es|e|&#xE8;mes)/, &apos;$1&lt;sup class=&quot;ord&quot;&gt;$2&lt;/sup&gt;&apos;)
+    rule(&apos;ordinalNumbers&apos;, /(\d)(st|nd|rd|th)/, &apos;$1&lt;span class=&quot;ord&quot;&gt;$2&lt;/span&gt;&apos;)
   ])
 }
 </code></pre>

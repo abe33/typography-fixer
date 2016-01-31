@@ -38,7 +38,19 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-group">group</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-ignore">ignore</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-rule">rule</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules/fr-FR</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ruleset">ruleset</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">ignores</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-htmlIgnores">htmlIgnores</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-markdownIgnores">markdownIgnores</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-fractions">fractions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-html">html</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-lineBreaks">lineBreaks</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-punctuations">punctuations</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-symbols">symbols</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-units">units</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules/en-UK</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-enUK_HTML">enUK_HTML</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-enUK">enUK</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules/es-ES</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-esES">esES</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">rules/fr-FR</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-frFR_HTML">frFR_HTML</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-frFR">frFR</a></span></span></li>
 </ul>
 </div>
 </nav>
@@ -46,19 +58,64 @@
 <div class="content" data-ice="content"><h1 data-ice="title">src/rules/en-UK/index.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {rule, group} from &apos;../../typography-fixer&apos;
 import {currenciesRegExp} from &apos;../../constants&apos;
+import punctuations from &apos;../punctuations&apos;
+import fractions from &apos;../fractions&apos;
+import symbols from &apos;../symbols&apos;
+import units from &apos;../units&apos;
 
-let ruleset
+let enUK
 
-export default ruleset = createRuleset()
+/**
+ * The ruleset for english typography in the United Kingdom.
+ *
+ * It&apos;s hard to find a single, universally adopted, typographic styleguide
+ * for english, so this ruleset try to rely only on commonly used rules.
+ *
+ * This ruleset includes:
+ *
+ * - Replacing hyphen between numbers such as in `1939-45` by an en-dash
+ * - Replacing hyphen between words with an em-dash
+ * - Removing a period placed after abbreviations such as `Mr` or `Dr`
+ * - Replacing quotes after a number by the corresponding prime
+ * - Replacing single quotes in words with typographic ones
+ * - Replacing double quotes around a sentence with typographic ones
+ * - Replacing `No.` and other variations before a number by `&#x2116;`
+ * - Moving punctuations after a quotation mark into it
+ * - Collapsing multiple spaces into a single one
+ * - Removing spaces before `,`, `.`, `)`, `&#x2026;`, `&#x2019;`, `&#x201D;`, `?`, `!`, `;`, `%`,
+ *   `&#x2030;`, `&#x2031;`, and `:`
+ * - Removing spaces after `&#x201C;`, `(`, and `&#x2019;` but only if it is not preceded by
+ *   a `s`
+ * - Removing spaces around an en-dash placed between two numbers
+ * - Removing spaces between a currency
+ * - Adding spaces around an en-dash placed between two words
+ * - Adding a space after `,`, `.`, `?`, `!`, `;`, `%`, `&#x2030;`, `&#x2031;`, `)`, and `:`
+ * - Adding a non-breaking space after a `&#x2116;`
+ * - Adding a non-breaking space between an honorific and a name
+ *
+ * Finally, the following rulesets are also included:
+ *
+ * - {@link src/rules/punctuations.js~punctuations}
+ * - {@link src/rules/fractions.js~fractions}
+ * - {@link src/rules/symbols.js~symbols}
+ * - {@link src/rules/units.js~units}
+ *
+ * @see http://typophile.com/files/typography_rules.pdf
+ * @see http://j.poitou.free.fr/pro/html/typ/anglais.html
+ * @type {Array&lt;Object&gt;}
+ */
+export default enUK = createRuleset()
 
 function createRuleset () {
   return group(&apos;en-UK&apos;, [
+    units,
+    symbols,
+    fractions,
+    punctuations,
     group(&apos;punctuations&apos;, [
-      rule(&apos;collapseMultiplePunctuation&apos;, /([!?])\1+/, &apos;$1&apos;),
-      rule(&apos;shortEtCaetera&apos;, /([Ee]tc)(\.{3}|\u2026)/, &apos;$1.&apos;),
-      rule(&apos;triplePeriods&apos;, /\.{3,}/, &apos;\u2026&apos;),
       rule(&apos;enDashBetweenWords&apos;, /(\D\x20)-(\x20\D)/, &apos;$1\u2013$2&apos;),
-      rule(&apos;enDashBetweenNumbers&apos;, /(\d)\s*-\s*(\d)/, &apos;$1\u2013$2&apos;)
+      rule(&apos;enDashBetweenNumbers&apos;, /(\d)\s*(?:-|\u2011)\s*(\d)/, &apos;$1\u2013$2&apos;),
+      rule(&apos;noPeriodAfterAbbr&apos;, /\b(Mr|Ms|Mrs|Prof|Dr)\./, &apos;$1&apos;)
     ]),
     group(&apos;quotes&apos;, [
       rule(&apos;singlePrime&apos;, /(\d)&apos;/, &apos;$1\u2032&apos;),
@@ -70,18 +127,23 @@ function createRuleset () {
     group(&apos;spaces&apos;, [
       rule(&apos;collapseMultipleSpaces&apos;, /\x20{2,}/, &apos; &apos;),
       rule(&apos;noSpaceBeforePunctuation&apos;, /\s+(\.|,|;|:|!|\?|%|\)|\u2019|\u2026|\u2030|\u2031)/, &apos;$1&apos;),
-      rule(&apos;noSpaceAfterPunctuation&apos;, /(\u2019|\()\s+/, &apos;$1&apos;),
+      rule(&apos;noSpaceAfterParenthesis&apos;, /(\()\s+/, &apos;$1&apos;),
+      rule(&apos;noSpaceAfterQuote&apos;, /([^s])(\u2019)\s+/, &apos;$1$2&apos;),
       rule(&apos;noSpaceAroundEnDashBetweenNumbers&apos;, /(\d)\s*\u2013\s*(\d)/, &apos;$1\u2013$2&apos;),
       rule(&apos;spaceAfterPunctuation&apos;, /(,|;|!|\?|%|\u2026|\u2030|\u2031)([^\s\)])/, &apos;$1 $2&apos;),
       rule(&apos;spaceAfterPeriodOrColon&apos;, /(\D)(\.|:)([^\s\)])/, &apos;$1$2 $3&apos;),
       rule(&apos;noSpaceAroundEmDash&apos;, /\s*(\u2014)\s*/, &apos;$1&apos;),
-      rule(&apos;spaceAroundEnDash&apos;, /([^\d\s])\x20*(\u2013)\x20*(\D)/, &apos;$1\u00a0$2 $3&apos;),
       rule(&apos;noSpaceAfterLeftQuote&apos;, /(\u201c)\s*(\S)/, &apos;$1$2&apos;),
+      rule(&apos;noSpaceAfterCurrency&apos;, `([${currenciesRegExp}])\\s*(\\d)`, &apos;$1$2&apos;),
       rule(&apos;noSpaceBeforeRightQuote&apos;, /(\S)\s*(\u201d)/, &apos;$1$2&apos;),
+      rule(&apos;spaceAroundEnDash&apos;, /([^\d\s])\x20*(\u2013)\x20*(\D)/, &apos;$1\u00a0$2 $3&apos;),
       rule(&apos;spaceAfterParenthesis&apos;, /(\))(\w)/, &apos;$1 $2&apos;),
       rule(&apos;spaceBeforeParenthesis&apos;, /(\S)(\()/, &apos;$1 $2&apos;),
       rule(&apos;nonBreakingSpaceAfterHonorific&apos;, /(Mr|Mrs|Ms|Miss|Sir|Lady)\s([A-Z])/, &apos;$1\u00a0$2&apos;),
-      rule(&apos;noSpaceAfterCurrency&apos;, `([${currenciesRegExp}])\\s*(\\d)`, &apos;$1$2&apos;)
+      rule(&apos;nonBreakingSpaceAfterNumeroSign&apos;, /(\u2116)\s*(\d)/, &apos;$1\u00a0$2&apos;)
+    ]),
+    group(&apos;abbr&apos;, [
+      rule(&apos;numeroSign&apos;, /(?:N|n)o\.\s*(\d)/, &apos;\u2116\u00a0$1&apos;)
     ])
   ])
 }
