@@ -8,7 +8,7 @@ let enUK_HTML
  *
  * It includes rules for:
  *
- * - TODO
+ * - wrapping ordinal numbers suffix in a `<span>` with the `ord` class
  *
  * Finally, the following rulesets are also included:
  *
@@ -20,6 +20,7 @@ export default enUK_HTML = createRuleset()
 
 function createRuleset () {
   return group('en-UK.html', [
-    html
+    html,
+    rule('ordinalNumbers', /(\d)(st|nd|rd|th)/, '$1<span class="ord">$2</span>')
   ])
 }
