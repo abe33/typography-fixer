@@ -65,14 +65,14 @@ const fixedString = fixString('Some text "to verify".')
 
 `typography-fixer` works using two kind of entities, `rules` and `ignores`. These objects can be created using the `rule` and `ignore` functions exposed by the package.
 
-- `rule(name, expression, replacement)` &ndash; defines a pattern for a class of errors identified with its `name`. It returns an `Object` with the given name, and two functions `fix` and `check`, both taking a string as argument. The `replacement` parameter can either be a `String` or a `Function` to pass to the `String#replace` function.
+- `rule(name, match, replacement)` &ndash; defines a pattern for a class of errors identified with its `name`. It returns a frozen `Object` with the given `name`, `match` and `replacement` properties. This function is just a shorthand helper to creates a rule object.
 
   For instance, the following code defines a rule that replaces three periods by an ellipsis:
 
   ```js
   rule('triplePeriods', /\.{3,}/, '\u2026'),
   ```
-- `ignore(name, expression, invertRanges)` &ndash; defines parts of a string where the rules don't apply. It returns an `Object` with the given name and a `ranges` method that returns an array of the text ranges to preserve. When the `invertRanges` parameter is `true` the ranges returned by the `ranges` method will span every part of the string that are not matched by the expression.
+- `ignore(name, ignore, invertRanges)` &ndash; defines parts of a string where the rules don't apply. It returns a frozen `Object` with the given `name`, `ignore` and `invertRanges` properties. When the `invertRanges` parameter is `true` the ignore rule will ignore every part of the string that are not matched by the `ignore` expression.
 
   For instance, the following code defines an ignore to preserve inline code blocks in Markdown:
 
@@ -80,7 +80,7 @@ const fixedString = fixString('Some text "to verify".')
   ignore('codeInline', /(`{1,2}).*?\1/),
   ```
 
-Both functions take an `expression` parameter that can be either a `RegExp` or a `String`. It'll be used to create a regular expression (so take care of escaping backslashes when passing a string).
+Both functions take an expression that can be either a `RegExp` or a `String`. It'll be used to create a regular expression (so take care of escaping backslashes when passing a string).
 
 When passing a regular expression, the `global` flag will be automatically defined for the regexes used to scan a string. The `multiline` or `ignoreCase` can be freely defined, they will be preserved in the regexes created in the rule's methods.
 
@@ -102,4 +102,4 @@ export default group('topGroup', [
 ])
 ```
 
-The result is always a flat array so that we can apply every array operations on a ruleset without having to care about nesting. For instance, excluding rules is as simple as running a filter on the array.
+The result is always a frozen flat array so that we can apply every array operations on a ruleset without having to care about nesting. For instance, excluding rules is as simple as running a filter on the array.
