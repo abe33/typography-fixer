@@ -43,6 +43,8 @@ The `fix` function also takes an array of rules and ignores, and returns the cor
 
 Note that since the `check` function operates on a string without modifying it, some fixes won't be detected are they would only be applied after a first batch of rules was applied, and other times several rules can returns violations at the same place, with some of them that won't be applied as they will become irrelevant after some replacements. One example of the latter is the rule for `etc...`, it will returns violations for both `etc` followed by an ellipsis and for an ellipsis formed with three periods.
 
+For a complete list of all rules available please check the [API documentation](http://abe33.github.io/typography-fixer/variable/index.html)
+
 ## Rules And Ignores
 
 `typography-fixer` works using two kind of entities, `rules` and `ignores`. These objects can be created using the `rule` and `ignore` functions exposed by the package.
