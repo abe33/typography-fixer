@@ -19,7 +19,7 @@ npm install --save typography-fixer
 
 ## Usage
 
-When using the package, the two functions you need to care about are `check` and `fix`. But the packages exposes a total of five methods available using `require('typography-fixer')`. On top of that, rulesets can be found at the `typography-fixer/lib/rules` path, while ignore sets are located at `typography-fixer/lib/ignores`.
+When using the package, the two functions you need to care about are `check` and `fix`. But the packages exposes a total of five functions available using `require('typography-fixer')`. On top of that, rulesets can be found at the `typography-fixer/lib/rules` path, while ignore sets are located at `typography-fixer/lib/ignores`.
 
 ```js
 import {check, fix} from 'typography-fixer'
@@ -44,6 +44,22 @@ The `fix` function also takes an array of rules and ignores, and returns the cor
 Note that since the `check` function operates on a string without modifying it, some fixes won't be detected are they would only be applied after a first batch of rules was applied, and other times several rules can returns violations at the same place, with some of them that won't be applied as they will become irrelevant after some replacements. One example of the latter is the rule for `etc...`, it will returns violations for both `etc` followed by an ellipsis and for an ellipsis formed with three periods.
 
 For a complete list of all rules available please check the [API documentation](http://abe33.github.io/typography-fixer/variable/index.html)
+
+Note that the `check` and `fix` functions are curried and when called with just a rules array they will return a new function that can then be used to perform the operation on a passed-in string.
+
+```js
+import {check, fix} from 'typography-fixer'
+import englishRules from 'typography-fixer/lib/rules/en-UK'
+import markdown from 'typography-fixer/lib/ignores/markdown'
+
+const rules = englishRules.concat(markdown)
+
+const checkString = check(rules)
+const checkResults = checkString('Some text "to verify".')
+
+const fixString = fix(rules)
+const fixedString = fixString('Some text "to verify".')
+```
 
 ## Rules And Ignores
 
