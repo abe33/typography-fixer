@@ -1,8 +1,6 @@
 import {rule, group} from '../typography-fixer'
 import {vulgarFractions} from '../constants'
 
-let fractions
-
 /**
  * A ruleset to replace vulgar fractions with their corresponding unicode
  * character.
@@ -12,10 +10,8 @@ let fractions
  *
  * @type {Array<Object>}
  */
-export default fractions = createRuleset()
+const fractions = group('fractions', vulgarFractions.map(([a, b, char]) => {
+  return rule(`${a}On${b}`, `\\b${a}\\s*/\\s*${b}\\b`, char)
+}))
 
-function createRuleset () {
-  return group('fractions', vulgarFractions.map(([a,b,char]) => {
-    return rule(`${a}On${b}`, `\\b${a}\\s*/\\s*${b}\\b`, char)
-  }))
-}
+export default fractions

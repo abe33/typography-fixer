@@ -8,7 +8,6 @@ const rules = concat([ruleObject], ignores)
 const fixString = fix(rules)
 
 describe('markdown ignores', () => {
-
   it('preserves plain urls', () => {
     expect(fixString('http://foo.com/foo.jpg')).to.eql('http://foo.com/foo.jpg')
   })

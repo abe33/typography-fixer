@@ -210,13 +210,13 @@ describe('fr-FR ruleset', () => {
 
     let honorifics = ['M.', 'MM.', 'Mme', 'Mmes', 'Mlle', 'Mlles', 'Dr', 'Mgr', 'Me']
     honorifics.forEach((honorific) => {
-      it(`adds a non-breaking space after ${honorific} followed by a name`, () => {
+      it(`adds a non-breaking space after ${honorific} followed by a name`, () => {
         expect(fixString(`${honorific} Martin`)).to.eql(`${honorific}\u00a0Martin`)
 
         expect(fixString(`${honorific} est servi`)).to.eql(`${honorific} est servi`)
       })
 
-      it(`checks only when ${honorific} is followed by a name and separated with a simple space`, () => {
+      it(`checks only when ${honorific} is followed by a name and separated with a simple space`, () => {
         expect(checkString(`${honorific} Martin`)).to.have.length(1)
 
         expect(checkString(`${honorific}\u00a0Martin`)).to.be(undefined)

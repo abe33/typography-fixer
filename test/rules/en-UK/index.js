@@ -31,7 +31,7 @@ describe('en-UK ruleset', () => {
     })).to.be(true)
   })
 
-  describe('spaces', () => {
+  describe('spaces', () => {
     it('replaces consecutive spaces with a single space', () => {
       expect(fixString('One    day')).to.eql('One day')
 
@@ -170,16 +170,16 @@ describe('en-UK ruleset', () => {
 
     let honorifics = ['Mr', 'Mrs', 'Ms', 'Miss', 'Sir', 'Lady']
     honorifics.forEach((honorific) => {
-      it(`adds a non-breaking space after ${honorific} followed by a name`, () => {
+      it(`adds a non-breaking space after ${honorific} followed by a name`, () => {
         expect(fixString(`${honorific} Smith`)).to.eql(`${honorific}\u00a0Smith`)
 
         expect(fixString(`${honorific} is served`)).to.eql(`${honorific} is served`)
       })
 
-      it(`checks only when ${honorific} has a simple space and is followed by a name`, () => {
+      it(`checks only when ${honorific} has a simple space and is followed by a name`, () => {
         expect(checkString(`${honorific} Smith`)).to.have.length(1)
 
-        expect(checkString(`${honorific}\00a0Smith`)).to.be(undefined)
+        expect(checkString(`${honorific}\u00a0Smith`)).to.be(undefined)
         expect(checkString(`${honorific} is served`)).to.be(undefined)
       })
     })
@@ -239,7 +239,7 @@ describe('en-UK ruleset', () => {
 
     it('replaces quotes by primes when placed after numbers', () => {
       expect(fixString("She's 5'6\" tall")).to.eql('She\u2019s 5\u20326\u2033 tall')
-      expect(fixString("a 9\" nail")).to.eql('a 9\u2033 nail')
+      expect(fixString('a 9" nail')).to.eql('a 9\u2033 nail')
       expect(fixString("I Was Crushed By A 40' Man")).to.eql('I Was Crushed By A 40\u2032 Man')
     })
   })

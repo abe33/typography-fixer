@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha --recursive --compilers js:babel-register",
     "babel": "babel src --out-dir lib",
-    "standard": "standard src/*.js test/*.js",
+    "standard": "standard",
     "esdoc": "esdoc -c esdoc.json",
     "prepublish": "npm run babel"
   },

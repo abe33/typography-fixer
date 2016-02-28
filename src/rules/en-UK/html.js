@@ -1,8 +1,6 @@
 import {rule, group} from '../../typography-fixer'
 import html from '../html'
 
-let enUK_HTML
-
 /**
  * The ruleset for HTML improvement on english typography
  *
@@ -16,11 +14,9 @@ let enUK_HTML
  *
  * @type {Array<Object>}
  */
-export default enUK_HTML = createRuleset()
+const enUK_HTML = group('en-UK.html', [
+  html,
+  rule('ordinalNumbers', /(\d)(st|nd|rd|th)/, '$1<span class="ord">$2</span>')
+])
 
-function createRuleset () {
-  return group('en-UK.html', [
-    html,
-    rule('ordinalNumbers', /(\d)(st|nd|rd|th)/, '$1<span class="ord">$2</span>')
-  ])
-}
+export default enUK_HTML

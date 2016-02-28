@@ -2,8 +2,6 @@ import {rule, group} from '../typography-fixer'
 import {allUnits, surfaceUnits, volumeUnits} from '../constants'
 import lowercase from '../lowercase'
 
-let units
-
 /**
  * The ruleset for measurement units formatting.
  *
@@ -42,15 +40,13 @@ let units
  * @see https://en.wikipedia.org/wiki/International_System_of_Units
  * @see http://physics.nist.gov/cuu/Units/checklist.html
  */
-export default units = createRuleset()
+const units = group('units', [
+  group('exponent', [
+    rule('surface', `(${surfaceUnits.join('|')})2`, '$1²'),
+    rule('volume', `(${volumeUnits.join('|')})3`, '$1³')
+  ]),
+  rule('unitSpace', `(\\d)\\s*(${allUnits.join('|')})(?=[\\.,\\)\\s]|$)`, '$1\u202f$2'),
+  rule('noPeriodAfterUnit', `(${allUnits.join('|')})\\.(\\s[${lowercase.join('')}])`, '$1$2')
+])
 
-function createRuleset () {
-  return group('units', [
-    group('exponent', [
-      rule('surface', `(${surfaceUnits.join('|')})2`, '$1²'),
-      rule('volume', `(${volumeUnits.join('|')})3`, '$1³')
-    ]),
-    rule('unitSpace', `(\\d)\\s*(${allUnits.join('|')})(?=[\\.,\\)\\s]|$)`, '$1\u202f$2'),
-    rule('noPeriodAfterUnit', `(${allUnits.join('|')})\\.(\\s[${lowercase.join('')}])`, '$1$2')
-  ])
-}
+export default units

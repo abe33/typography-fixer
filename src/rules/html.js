@@ -1,7 +1,5 @@
 import {rule, group} from '../typography-fixer'
 
-let html
-
 /**
  * A common ruleset for HTML typographic enhancement.
  *
@@ -13,12 +11,10 @@ let html
  *
  * @type {Array<Object>}
  */
-export default html = createRuleset()
+const html = group('common', [
+  rule('quotes', /(\u00ab|\u00bb|\u201c|\u201d)/, '<span class="dquo">$1</span>'),
+  rule('ampersand', /(&amp;|&)($|\s)/, '<span class="amp">$1</span>$2'),
+  rule('caps', /(([A-Z]\.?){2,})/, '<span class="caps">$1</span>')
+])
 
-function createRuleset () {
-  return group('common', [
-    rule('quotes', /(\u00ab|\u00bb|\u201c|\u201d)/, '<span class="dquo">$1</span>'),
-    rule('ampersand', /(&amp;|&)($|\s)/, '<span class="amp">$1</span>$2'),
-    rule('caps', /(([A-Z]\.?){2,})/, '<span class="caps">$1</span>')
-  ])
-}
+export default html

@@ -105,14 +105,14 @@ describe('es-ES ruleset', () => {
       })
     })
 
-    it('adds thin non-breaking spaces in questions', ()   => {
+    it('adds thin non-breaking spaces in questions', () => {
       expect(fixString('¿Como te llamo?')).to.eql('¿\u202fComo te llamo\u202f?')
 
       expect(checkString('¿Como te llamo?')).to.have.length(2)
       expect(checkString('¿\u202fComo te llamo\u202f?')).to.be(undefined)
     })
 
-    it('adds thin non-breaking spaces in exclamations', ()   => {
+    it('adds thin non-breaking spaces in exclamations', () => {
       expect(fixString('¡Madre de dios!')).to.eql('¡\u202fMadre de dios\u202f!')
 
       expect(checkString('¡Madre de dios!')).to.have.length(2)

@@ -1,7 +1,5 @@
 import {rule, group} from '../typography-fixer'
 
-let lineBreaks
-
 /**
  * A generic ruleset to improve line breaks.
  *
@@ -13,12 +11,10 @@ let lineBreaks
  *
  * @type {Array<Object>}
  */
-export default lineBreaks = createRuleset()
+const lineBreaks = group('line-breaks', [
+  rule('numberBeforeWord', /(\d)\x20(\D)/, '$1\u00a0$2'),
+  rule('shortWords', /\b(\w{1,3})\x20/, '$1\u00a0'),
+  rule('lastParagraphWords', /(\w+)\x20(\w+\.)$/m, '$1\u00a0$2')
+])
 
-function createRuleset () {
-  return group('line-breaks', [
-    rule('numberBeforeWord', /(\d)\x20(\D)/, '$1\u00a0$2'),
-    rule('shortWords', /\b(\w{1,3})\x20/, '$1\u00a0'),
-    rule('lastParagraphWords', /(\w+)\x20(\w+\.)$/m, '$1\u00a0$2')
-  ])
-}
+export default lineBreaks

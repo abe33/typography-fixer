@@ -1,7 +1,5 @@
 import {rule, group} from '../typography-fixer'
 
-let symbols
-
 /**
  * A ruleset to replace common miswritten symbols.
  *
@@ -13,12 +11,10 @@ let symbols
  *
  * @type {Array<Object>}
  */
-export default symbols = createRuleset()
+const symbols = group('symbols', [
+  rule('copyright', /\([cC]\)/, '©'),
+  rule('trademark', /\bTM\b/, '™'),
+  rule('registered', /\([rR]\)/, '®')
+])
 
-function createRuleset () {
-  return group('symbols', [
-    rule('copyright', /\([cC]\)/, '©'),
-    rule('trademark', /\bTM\b/, '™'),
-    rule('registered', /\([rR]\)/, '®')
-  ])
-}
+export default symbols

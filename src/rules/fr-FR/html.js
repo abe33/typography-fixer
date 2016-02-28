@@ -1,8 +1,6 @@
 import {rule, group} from '../../typography-fixer'
 import html from '../html'
 
-let frFR_HTML
-
 /**
  * The ruleset for HTML improvement on french typography
  *
@@ -18,14 +16,12 @@ let frFR_HTML
  *
  * @type {Array<Object>}
  */
-export default frFR_HTML = createRuleset()
+const frFR_HTML = group('fr-FR.html', [
+  html,
+  rule('abbrWithSuperText', /Mmes|Mme|Mlles|Mlle|Me|Mgr|Dr|cie|Cie|Sté/, (m) => {
+    return `${m[0]}<sup>${m.slice(1, m.length)}</sup>`
+  }),
+  rule('ordinalNumbers', /(\d)(res|re|es|e|èmes)/, '$1<sup class="ord">$2</sup>')
+])
 
-function createRuleset () {
-  return group('fr-FR.html', [
-    html,
-    rule('abbrWithSuperText', /Mmes|Mme|Mlles|Mlle|Me|Mgr|Dr|cie|Cie|Sté/, (m) => {
-      return `${m[0]}<sup>${m.slice(1, m.length)}</sup>`
-    }),
-    rule('ordinalNumbers', /(\d)(res|re|es|e|èmes)/, '$1<sup class="ord">$2</sup>')
-  ])
-}
+export default frFR_HTML

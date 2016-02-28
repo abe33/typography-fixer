@@ -5,8 +5,6 @@ import fractions from '../fractions'
 import symbols from '../symbols'
 import units from '../units'
 
-let frFR
-
 /**
  * The ruleset for french typography.
  *
@@ -64,66 +62,64 @@ let frFR
  * @see http://gargas.biomedicale.univ-paris5.fr/lt/typo.html
  * @type {Array<Object>}
  */
-export default frFR = createRuleset()
-
-function createRuleset () {
-  return group('fr-FR', [
-    units,
-    symbols,
-    fractions,
-    punctuations,
-    group('punctuations', [
-      rule('maleHonorific', /Mr\.?/, 'M.'),
-      rule('possessiveInterrogative', /a(-|\u2011)t'il/, 'a\u2011t\u2011il'),
-      rule('cad', /c\.?(-|\u2011)?[aà](-|\u2011)?d\.?/, 'c.\u2011à\u2011d.'),
-      rule('numberAbbr', /(n|N)°/, '$1\u00ba'),
-      rule('enDashBetweenWords', /(\D\x20)-(\x20\D)/, '$1\u2013$2'),
-      rule('enDashBetweenNumbers', /(\d)\s*(?:-|\u2011)\s*(\d)/, '$1\u2013$2'),
-      rule('anti', /anti(?:-|\u2011)([^i]\w+)(?!-|\u2011)\b/, 'anti$1')
-    ]),
-    group('quotes', [
-      rule('singleQuote', /(\w)'(\w)/, '$1\u2019$2'),
-      rule('doubleQuote', /"([^"]+)"/, '\u00ab$1\u00bb')
-    ]),
-    group('spaces', [
-      rule('collapseMultipleSpaces', /\x20{2,}/, ' '),
-      rule('noSpaceBeforePunctuation', /\s+(,|\.|\)|\u2026|\u2019)/, '$1'),
-      rule('noSpaceAfterPunctuation', /(\u2019|\()\s+/, '$1'),
-      rule('noSpaceAroundEnDashBetweenNumbers', /(\d)\s*\u2013\s*(\d)/, '$1\u2013$2'),
-      rule('nonBreakingSpaceBeforePunctuation', /(\S)(?:\x20)?([?!;%\u2030\u2031])/, '$1\u202F$2'),
-      rule('nonBreakingSpaceBeforeColon', /([^\s\d])(?:\x20)?(:)/, '$1\u202F$2'),
-      rule('nonBreakingSpaceBeforeColonBetweenTwoNumbers1', /(\d)\s*(:)(\s\d)/, '$1\u202F$2$3'),
-      rule('nonBreakingSpaceBeforeColonBetweenTwoNumbers2', /(\d)\s(:)(\d)/, '$1\u202F$2$3'),
-      rule('nonBreakingSpaceBeforeColonAfterNumber', /(\d)\s*(:)(\D)/, '$1\u202F$2$3'),
-      rule('spaceAfterPunctuation', /(;|!|\?|%|\u2026|\u2030|\u2031)([^\s\)])/, '$1 $2'),
-      rule('spaceAfterPeriod', /(\.)([^\)\s-\u2011])/, '$1 $2'),
-      rule('spaceAfterColon', /(\D\s?)(:)([^\s\)])/, '$1$2 $3'),
-      rule('spaceAfterComma', /(\D)(,)([^\s\)])/, '$1$2 $3'),
-      rule('spaceAfterParenthesis', /(\))(\w)/, '$1 $2'),
-      rule('spaceBeforeParenthesis', /(\S)(\()/, '$1 $2'),
-      rule('spaceBeforeCurrency', `(\\d)\x20?([${currenciesRegExp}])`, '$1\u00a0$2'),
-      rule('spaceAroundEnDash', /([^\d\s])\x20*(\u2013)\x20*(\D)/, '$1\u00a0$2 $3'),
-      rule('spaceAfterLeftQuote', /(\u00ab)\x20*(\S)/, '$1\u202F$2'),
-      rule('spaceBeforeRightQuote', /(\S)\x20*(\u00bb)/, '$1\u202F$2'),
-      rule('nonBreakingSpaceAfterHonorific', /(MM\.|M\.|Mme|Mmes|Mlle|Mlles|Dr|Me|Mgr)\x20([A-Z])/, '$1\u00a0$2')
-    ]),
-    group('ordinal', [
-      rule('greaterThan10', /(\d{2,})emes\b/, '$1èmes'),
-      rule('firstFemalePlural', /(\d{1})[èe]res\b/, '$1res'),
-      rule('lowerThan10', /((^|[^\d])\d)[èe]mes\b/, '$1es'),
-      rule('firstFemale', /(\d)[èe]re\b/, '$1re'),
-      rule('firstMale', /(\d)[èe]me(?!s)\b/, '$1e')
-    ]),
-    group('datetime', [
-      rule('daysAndMonths', /(Lundi|Mardi|Mercredi|Jeudi|Vendredi|Samedi|Dimanche|Janvier|Février|Mars|Avril|Mai|Juin|Juillet|Aout|Septembre|Octobre|Novembre|Décembre)/, (s) => {
-        return s.toLowerCase()
-      })
-    ]),
-    group('ligatures', [
-      rule('lowerOe', /oe/, '\u0153'),
-      rule('upperOe', /O[eE]/, '\u0152'),
-      rule('lowerAe', /ae/, '\u00e6'),
-      rule('upperAe', /A[eE]/, '\u00c6')
-    ])
+const frFR = group('fr-FR', [
+  units,
+  symbols,
+  fractions,
+  punctuations,
+  group('punctuations', [
+    rule('maleHonorific', /Mr\.?/, 'M.'),
+    rule('possessiveInterrogative', /a(-|\u2011)t'il/, 'a\u2011t\u2011il'),
+    rule('cad', /c\.?(-|\u2011)?[aà](-|\u2011)?d\.?/, 'c.\u2011à\u2011d.'),
+    rule('numberAbbr', /(n|N)°/, '$1\u00ba'),
+    rule('enDashBetweenWords', /(\D\x20)-(\x20\D)/, '$1\u2013$2'),
+    rule('enDashBetweenNumbers', /(\d)\s*(?:-|\u2011)\s*(\d)/, '$1\u2013$2'),
+    rule('anti', /anti(?:-|\u2011)([^i]\w+)(?!-|\u2011)\b/, 'anti$1')
+  ]),
+  group('quotes', [
+    rule('singleQuote', /(\w)'(\w)/, '$1\u2019$2'),
+    rule('doubleQuote', /"([^"]+)"/, '\u00ab$1\u00bb')
+  ]),
+  group('spaces', [
+    rule('collapseMultipleSpaces', /\x20{2,}/, ' '),
+    rule('noSpaceBeforePunctuation', /\s+(,|\.|\)|\u2026|\u2019)/, '$1'),
+    rule('noSpaceAfterPunctuation', /(\u2019|\()\s+/, '$1'),
+    rule('noSpaceAroundEnDashBetweenNumbers', /(\d)\s*\u2013\s*(\d)/, '$1\u2013$2'),
+    rule('nonBreakingSpaceBeforePunctuation', /(\S)(?:\x20)?([?!;%\u2030\u2031])/, '$1\u202F$2'),
+    rule('nonBreakingSpaceBeforeColon', /([^\s\d])(?:\x20)?(:)/, '$1\u202F$2'),
+    rule('nonBreakingSpaceBeforeColonBetweenTwoNumbers1', /(\d)\s*(:)(\s\d)/, '$1\u202F$2$3'),
+    rule('nonBreakingSpaceBeforeColonBetweenTwoNumbers2', /(\d)\s(:)(\d)/, '$1\u202F$2$3'),
+    rule('nonBreakingSpaceBeforeColonAfterNumber', /(\d)\s*(:)(\D)/, '$1\u202F$2$3'),
+    rule('spaceAfterPunctuation', /(;|!|\?|%|\u2026|\u2030|\u2031)([^\s\)])/, '$1 $2'),
+    rule('spaceAfterPeriod', /(\.)([^\)\s-\u2011])/, '$1 $2'),
+    rule('spaceAfterColon', /(\D\s?)(:)([^\s\)])/, '$1$2 $3'),
+    rule('spaceAfterComma', /(\D)(,)([^\s\)])/, '$1$2 $3'),
+    rule('spaceAfterParenthesis', /(\))(\w)/, '$1 $2'),
+    rule('spaceBeforeParenthesis', /(\S)(\()/, '$1 $2'),
+    rule('spaceBeforeCurrency', `(\\d)\x20?([${currenciesRegExp}])`, '$1\u00a0$2'),
+    rule('spaceAroundEnDash', /([^\d\s])\x20*(\u2013)\x20*(\D)/, '$1\u00a0$2 $3'),
+    rule('spaceAfterLeftQuote', /(\u00ab)\x20*(\S)/, '$1\u202F$2'),
+    rule('spaceBeforeRightQuote', /(\S)\x20*(\u00bb)/, '$1\u202F$2'),
+    rule('nonBreakingSpaceAfterHonorific', /(MM\.|M\.|Mme|Mmes|Mlle|Mlles|Dr|Me|Mgr)\x20([A-Z])/, '$1\u00a0$2')
+  ]),
+  group('ordinal', [
+    rule('greaterThan10', /(\d{2,})emes\b/, '$1èmes'),
+    rule('firstFemalePlural', /(\d{1})[èe]res\b/, '$1res'),
+    rule('lowerThan10', /((^|[^\d])\d)[èe]mes\b/, '$1es'),
+    rule('firstFemale', /(\d)[èe]re\b/, '$1re'),
+    rule('firstMale', /(\d)[èe]me(?!s)\b/, '$1e')
+  ]),
+  group('datetime', [
+    rule('daysAndMonths', /(Lundi|Mardi|Mercredi|Jeudi|Vendredi|Samedi|Dimanche|Janvier|Février|Mars|Avril|Mai|Juin|Juillet|Aout|Septembre|Octobre|Novembre|Décembre)/, (s) => {
+      return s.toLowerCase()
+    })
+  ]),
+  group('ligatures', [
+    rule('lowerOe', /oe/, '\u0153'),
+    rule('upperOe', /O[eE]/, '\u0152'),
+    rule('lowerAe', /ae/, '\u00e6'),
+    rule('upperAe', /A[eE]/, '\u00c6')
   ])
-}
+])
+
+export default frFR

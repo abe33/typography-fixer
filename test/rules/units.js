@@ -43,7 +43,7 @@ describe('units ruleset', () => {
       expect(checkString(`10\u202f${unit}`)).to.be(undefined)
     })
 
-    it(`removes a period after ${unit} if not at the end of a sentence`, () => {
+    it(`removes a period after ${unit} if not at the end of a sentence`, () => {
       expect(fixString(`10\u202f${unit}.`)).to.eql(`10\u202f${unit}.`)
       expect(fixString(`10\u202f${unit}. Foo`)).to.eql(`10\u202f${unit}. Foo`)
       expect(fixString(`10\u202f${unit}. Émile`)).to.eql(`10\u202f${unit}. Émile`)
