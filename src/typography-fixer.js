@@ -94,11 +94,11 @@ export function fix (ruleset = [], string) {
     R.ap(map(rangesFunctionFor, ignores)),
     R.of
   )
-  const fixer = pipe(...map(fixString, rules))
+
+  const fixContent = map(pipe(...map(fixString, rules)))
 
   const doFix = (string) => {
     const {legit, ignored} = splitByRanges(string, getRanges(string))
-    const fixContent = map(fixer)
 
     return alternateJoin(fixContent(legit), ignored)
   }
@@ -130,15 +130,9 @@ export function fix (ruleset = [], string) {
  * ])
  */
 export function group (name, rules) {
-  const rulesAsFirstArgument = compose(isArrayLike, head)
-  const nameThenRules = both(
-    compose(isString, head),
-    compose(isArrayLike, tail)
-  )
-
   const normalizeArguments = cond([
-    when(rulesAsFirstArgument, ([rules]) => [[], rules]),
-    when(nameThenRules, ([name, rules]) => [[name], rules]),
+    when(hasRulesAsFirstArgument, ([rules]) => [[], rules]),
+    when(hasNameThenRules, ([name, rules]) => [[name], rules]),
     when(R.T, () => [[], []])
   ])
 
@@ -309,6 +303,38 @@ const isIgnore = where({
   name: isString,
   ignore: isStringOrRegExp
 })
+
+/**
+ * A predicate that returns true when the passed-in object is either a rule
+ * or an ignore rule.
+ * @param  {*} value the object to test
+ * @return {boolean} true if the passed-in object is a valid rule or ignore rule
+ * @access private
+ */
+const isRuleOrIgnore = either(isRule, isIgnore)
+
+/**
+ * A predicate that returns true when the passed-in array contains a rules
+ * array in its head.
+ * @param  {Arguments} args the arguments to test
+ * @return {boolean} true if the arguments array contains a rules array
+ *                   at index 0
+ * @access private
+ */
+const hasRulesAsFirstArgument = compose(isArrayLike, head)
+
+/**
+ * A predicate that returns true when the passed-in array contains a string
+ * and then a rules array.
+ * @param  {Arguments} args the arguments to test
+ * @return {boolean} true if the arguments array contains a string and a rules
+ *                   array
+ * @access private
+ */
+const hasNameThenRules = both(
+  compose(isString, head),
+  compose(isArrayLike, head, tail)
+)
 
 /**
  * Wraps the passed-in condition and function into an array to be used
@@ -555,7 +581,7 @@ function exclusiveRangesFor (rule, string) {
  * @return {Array<Object>} the filtered list
  * @access private
  */
-const rulesFilter = filter(either(isRule, isIgnore))
+const rulesFilter = filter(isRuleOrIgnore)
 
 /**
  * A grouping function that separates rules and ignore rules into two
