@@ -1,6 +1,5 @@
 node_modules
 lib
 pages
-npm-debug.log
-.nyc_output
 coverage
+.nyc_output
