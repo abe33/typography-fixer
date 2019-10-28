@@ -110,9 +110,11 @@ const frFR = group('fr-FR', [
     rule('firstMale', /(\d)[èe]me(?!s)\b/, '$1e'),
   ]),
   group('datetime', [
-    rule('daysAndMonths', /(Lundi|Mardi|Mercredi|Jeudi|Vendredi|Samedi|Dimanche|Janvier|Février|Mars|Avril|Mai|Juin|Juillet|Aout|Septembre|Octobre|Novembre|Décembre)/, (s) => {
-      return s.toLowerCase();
-    }),
+    rule('daysAndMonths', new RegExp(`(${[
+      'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche',
+      'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+      'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Décembre',
+    ].join('|')})`), s => s.toLowerCase()),
   ]),
   group('ligatures', [
     rule('lowerOe', /oe/, '\u0153'),

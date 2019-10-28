@@ -30,6 +30,7 @@
     "@babel/preset-env": "^7.4.2",
     "@babel/register": "^7.4.0",
     "babel-eslint": "^10.0.0",
+    "babel-plugin-transform-modern-regexp": "0.0.6",
     "esdoc": "^1.1.0",
     "eslint": "^4.12.1",
     "eslint-config": "^0.3.0",
@@ -52,7 +53,9 @@
     "presets": [
       "@babel/preset-env"
     ],
-    "plugins": [],
+    "plugins": [
+      "transform-modern-regexp"
+    ],
     "env": {
       "test": {
         "plugins": [

@@ -39,6 +39,7 @@ describe('html ignores', () => {
 
   it('preserves content of textarea tags', () => {
     expect(fixString('<textarea>foo</textarea> foo')).to.eql('<textarea>foo</textarea> bar');
-    expect(fixString('<textarea class="textarea">foo</textarea> foo')).to.eql('<textarea class="textarea">foo</textarea> bar');
+    expect(fixString('<textarea class="textarea">foo</textarea> foo'))
+      .to.eql('<textarea class="textarea">foo</textarea> bar');
   });
 });

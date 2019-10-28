@@ -1,3 +1,4 @@
+
 import expect from 'expect.js';
 import {currencies} from '../../../src/constants';
 import {fix, check} from '../../../src/typography-fixer';
@@ -164,8 +165,10 @@ describe('es-ES ruleset', () => {
     });
 
     it('replaces double quotes around a sentence by typographic quotes', () => {
-      expect(fixString('Él me dijo, "Estoy muy feliz".')).to.eql('Él me dijo, \u00ab\u202FEstoy muy feliz\u202F\u00bb.');
-      expect(fixString('Él me dijo, " Estoy muy feliz ".')).to.eql('Él me dijo, \u00ab\u202FEstoy muy feliz\u202F\u00bb.');
+      expect(fixString('Él me dijo, "Estoy muy feliz".'))
+        .to.eql('Él me dijo, \u00ab\u202FEstoy muy feliz\u202F\u00bb.');
+      expect(fixString('Él me dijo, " Estoy muy feliz ".'))
+        .to.eql('Él me dijo, \u00ab\u202FEstoy muy feliz\u202F\u00bb.');
     });
   });
 

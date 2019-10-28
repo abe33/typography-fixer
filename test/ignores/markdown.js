@@ -33,9 +33,17 @@ describe('markdown ignores', () => {
   });
 
   it('preserves links definition', () => {
-    expect(fixString('foo\n[foo]: http://foo.com/foo.jpg "foo"\nfoo')).to.eql('bar\n[foo]: http://foo.com/foo.jpg "foo"\nbar');
-    expect(fixString('foo\n[foo]: http://foo.com/foo.jpg \'foo\'\nfoo')).to.eql('bar\n[foo]: http://foo.com/foo.jpg \'foo\'\nbar');
-    expect(fixString('foo\n[foo]: http://foo.com/foo.jpg (foo)\nfoo')).to.eql('bar\n[foo]: http://foo.com/foo.jpg (foo)\nbar');
+    expect(fixString('foo\n[foo]: http://foo.com/foo.jpg "foo"\nfoo'))
+      .to.eql('bar\n[foo]: http://foo.com/foo.jpg "foo"\nbar');
+
+    expect(fixString('foo\n[foo]: http://foo.com/foo.jpg \'foo\'\nfoo'))
+      .to.eql('bar\n[foo]: http://foo.com/foo.jpg \'foo\'\nbar');
+
+    expect(fixString('foo\n[foo]: http://foo.com/foo.jpg (foo)\nfoo'))
+      .to.eql('bar\n[foo]: http://foo.com/foo.jpg (foo)\nbar');
+
+    expect(fixString('foo\n[foo]: mailto:foo@foo.com (foo)\nfoo'))
+      .to.eql('bar\n[foo]: mailto:foo@foo.com (foo)\nbar');
   });
 
   it('preserves content of inline code', () => {
@@ -43,11 +51,13 @@ describe('markdown ignores', () => {
   });
 
   it('preserves content of inline code with escaped backticks', () => {
-    expect(fixString('foo ``foo`foo`` foo ``foo`foo`` foo')).to.eql('bar ``foo`foo`` bar ``foo`foo`` bar');
+    expect(fixString('foo ``foo`foo`` foo ``foo`foo`` foo'))
+      .to.eql('bar ``foo`foo`` bar ``foo`foo`` bar');
   });
 
   it('preserves content of block code', () => {
-    expect(fixString('foo\n```\nfoo\n```\nfoo\n```\nfoo\n```\nfoo')).to.eql('bar\n```\nfoo\n```\nbar\n```\nfoo\n```\nbar');
+    expect(fixString('foo\n```\nfoo\n```\nfoo\n```\nfoo\n```\nfoo'))
+      .to.eql('bar\n```\nfoo\n```\nbar\n```\nfoo\n```\nbar');
   });
 
   it('preserves content of pre-formatted blocks', () => {

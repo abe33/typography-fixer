@@ -14,6 +14,7 @@ describe('line-breaks ruleset', () => {
   });
 
   it('adds a non-breaking space between the two last words of a paragraph', () => {
-    expect(fixString('Word word word word word.\nWord word word word word.\n\nWord word word word word.')).to.eql('Word word word word\u00a0word.\nWord word word word\u00a0word.\n\nWord word word word\u00a0word.');
+    expect(fixString('Word word word word word.\nWord word word word word.\n\nWord word word word word.'))
+      .to.eql('Word word word word\u00a0word.\nWord word word word\u00a0word.\n\nWord word word word\u00a0word.');
   });
 });
