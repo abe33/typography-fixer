@@ -1,4 +1,4 @@
-import {rule, group} from '../typography-fixer'
+import {rule, group} from '../typography-fixer';
 
 /**
  * A ruleset to replace common miswritten symbols.
@@ -14,7 +14,7 @@ import {rule, group} from '../typography-fixer'
 const symbols = group('symbols', [
   rule('copyright', /\([cC]\)/, '©'),
   rule('trademark', /\bTM\b/, '™'),
-  rule('registered', /\([rR]\)/, '®')
-])
+  rule('registered', /\([rR]\)/, '®'),
+]);
 
-export default symbols
+export default symbols;

@@ -1,4 +1,4 @@
-import {rule, group} from '../typography-fixer'
+import {rule, group} from '../typography-fixer';
 
 /**
  * A generic ruleset to improve line breaks.
@@ -14,7 +14,7 @@ import {rule, group} from '../typography-fixer'
 const lineBreaks = group('line-breaks', [
   rule('numberBeforeWord', /(\d)\x20(\D)/, '$1\u00a0$2'),
   rule('shortWords', /\b(\w{1,3})\x20/, '$1\u00a0'),
-  rule('lastParagraphWords', /(\w+)\x20(\w+\.)$/m, '$1\u00a0$2')
-])
+  rule('lastParagraphWords', /(\w+)\x20(\w+\.)$/m, '$1\u00a0$2'),
+]);
 
-export default lineBreaks
+export default lineBreaks;

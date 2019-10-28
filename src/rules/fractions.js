@@ -1,5 +1,5 @@
-import {rule, group} from '../typography-fixer'
-import {vulgarFractions} from '../constants'
+import {rule, group} from '../typography-fixer';
+import {vulgarFractions} from '../constants';
 
 /**
  * A ruleset to replace vulgar fractions with their corresponding unicode
@@ -11,7 +11,7 @@ import {vulgarFractions} from '../constants'
  * @type {Array<Object>}
  */
 const fractions = group('fractions', vulgarFractions.map(([a, b, char]) => {
-  return rule(`${a}On${b}`, `\\b${a}\\s*/\\s*${b}\\b`, char)
-}))
+  return rule(`${a}On${b}`, `\\b${a}\\s*/\\s*${b}\\b`, char);
+}));
 
-export default fractions
+export default fractions;

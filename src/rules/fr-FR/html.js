@@ -1,5 +1,5 @@
-import {rule, group} from '../../typography-fixer'
-import html from '../html'
+import {rule, group} from '../../typography-fixer';
+import html from '../html';
 
 /**
  * The ruleset for HTML improvement on french typography
@@ -19,9 +19,9 @@ import html from '../html'
 const frFR_HTML = group('fr-FR.html', [
   html,
   rule('abbrWithSuperText', /Mmes|Mme|Mlles|Mlle|Me|Mgr|Dr|cie|Cie|Sté/, (m) => {
-    return `${m[0]}<sup>${m.slice(1, m.length)}</sup>`
+    return `${m[0]}<sup>${m.slice(1, m.length)}</sup>`;
   }),
-  rule('ordinalNumbers', /(\d)(res|re|es|e|èmes)/, '$1<sup class="ord">$2</sup>')
-])
+  rule('ordinalNumbers', /(\d)(res|re|es|e|èmes)/, '$1<sup class="ord">$2</sup>'),
+]);
 
-export default frFR_HTML
+export default frFR_HTML;

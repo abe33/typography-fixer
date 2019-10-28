@@ -1,6 +1,6 @@
-import {rule, group} from '../typography-fixer'
-import {allUnits, surfaceUnits, volumeUnits} from '../constants'
-import lowercase from '../lowercase'
+import {rule, group} from '../typography-fixer';
+import {allUnits, surfaceUnits, volumeUnits} from '../constants';
+import lowercase from '../lowercase';
 
 /**
  * The ruleset for measurement units formatting.
@@ -43,10 +43,10 @@ import lowercase from '../lowercase'
 const units = group('units', [
   group('exponent', [
     rule('surface', `(${surfaceUnits.join('|')})2`, '$1²'),
-    rule('volume', `(${volumeUnits.join('|')})3`, '$1³')
+    rule('volume', `(${volumeUnits.join('|')})3`, '$1³'),
   ]),
   rule('unitSpace', `(\\d)\\s*(${allUnits.join('|')})(?=[\\.,\\)\\s]|$)`, '$1\u202f$2'),
-  rule('noPeriodAfterUnit', `(${allUnits.join('|')})\\.(\\s[${lowercase.join('')}])`, '$1$2')
-])
+  rule('noPeriodAfterUnit', `(${allUnits.join('|')})\\.(\\s[${lowercase.join('')}])`, '$1$2'),
+]);
 
-export default units
+export default units;

@@ -1,9 +1,9 @@
-import {rule, group} from '../../typography-fixer'
-import {currenciesRegExp} from '../../constants'
-import punctuations from '../punctuations'
-import fractions from '../fractions'
-import symbols from '../symbols'
-import units from '../units'
+import {rule, group} from '../../typography-fixer';
+import {currenciesRegExp} from '../../constants';
+import punctuations from '../punctuations';
+import fractions from '../fractions';
+import symbols from '../symbols';
+import units from '../units';
 
 /**
  * The ruleset for english typography in the United Kingdom.
@@ -52,14 +52,14 @@ const enUK = group('en-UK', [
   group('punctuations', [
     rule('enDashBetweenWords', /(\D\x20)-(\x20\D)/, '$1\u2013$2'),
     rule('enDashBetweenNumbers', /(\d)\s*(?:-|\u2011)\s*(\d)/, '$1\u2013$2'),
-    rule('noPeriodAfterAbbr', /\b(Mr|Ms|Mrs|Prof|Dr)\./, '$1')
+    rule('noPeriodAfterAbbr', /\b(Mr|Ms|Mrs|Prof|Dr)\./, '$1'),
   ]),
   group('quotes', [
     rule('singlePrime', /(\d)'/, '$1\u2032'),
     rule('doublePrime', /(\d)"/, '$1\u2033'),
     rule('singleQuote', /(\w)'(\w)/, '$1\u2019$2'),
     rule('doubleQuote', /"([^"]+)"/, '\u201c$1\u201d'),
-    rule('punctuationAfterQuote', /(\u201d)(\.|,)/, '$2$1')
+    rule('punctuationAfterQuote', /(\u201d)(\.|,)/, '$2$1'),
   ]),
   group('spaces', [
     rule('collapseMultipleSpaces', /\x20{2,}/, ' '),
@@ -77,11 +77,11 @@ const enUK = group('en-UK', [
     rule('spaceAfterParenthesis', /(\))(\w)/, '$1 $2'),
     rule('spaceBeforeParenthesis', /(\S)(\()/, '$1 $2'),
     rule('nonBreakingSpaceAfterHonorific', /(Mr|Mrs|Ms|Miss|Sir|Lady)\s([A-Z])/, '$1\u00a0$2'),
-    rule('nonBreakingSpaceAfterNumeroSign', /(\u2116)\s*(\d)/, '$1\u00a0$2')
+    rule('nonBreakingSpaceAfterNumeroSign', /(\u2116)\s*(\d)/, '$1\u00a0$2'),
   ]),
   group('abbr', [
-    rule('numeroSign', /(?:N|n)o\.\s*(\d)/, '\u2116\u00a0$1')
-  ])
-])
+    rule('numeroSign', /(?:N|n)o\.\s*(\d)/, '\u2116\u00a0$1'),
+  ]),
+]);
 
-export default enUK
+export default enUK;

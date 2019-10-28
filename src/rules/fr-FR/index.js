@@ -1,9 +1,9 @@
-import {rule, group} from '../../typography-fixer'
-import {currenciesRegExp} from '../../constants'
-import punctuations from '../punctuations'
-import fractions from '../fractions'
-import symbols from '../symbols'
-import units from '../units'
+import {rule, group} from '../../typography-fixer';
+import {currenciesRegExp} from '../../constants';
+import punctuations from '../punctuations';
+import fractions from '../fractions';
+import symbols from '../symbols';
+import units from '../units';
 
 /**
  * The ruleset for french typography.
@@ -74,11 +74,11 @@ const frFR = group('fr-FR', [
     rule('numberAbbr', /(n|N)°/, '$1\u00ba'),
     rule('enDashBetweenWords', /(\D\x20)-(\x20\D)/, '$1\u2013$2'),
     rule('enDashBetweenNumbers', /(\d)\s*(?:-|\u2011)\s*(\d)/, '$1\u2013$2'),
-    rule('anti', /anti(?:-|\u2011)([^i]\w+)(?!-|\u2011)\b/, 'anti$1')
+    rule('anti', /anti(?:-|\u2011)([^i]\w+)(?!-|\u2011)\b/, 'anti$1'),
   ]),
   group('quotes', [
     rule('singleQuote', /(\w)'(\w)/, '$1\u2019$2'),
-    rule('doubleQuote', /"([^"]+)"/, '\u00ab$1\u00bb')
+    rule('doubleQuote', /"([^"]+)"/, '\u00ab$1\u00bb'),
   ]),
   group('spaces', [
     rule('collapseMultipleSpaces', /\x20{2,}/, ' '),
@@ -100,26 +100,26 @@ const frFR = group('fr-FR', [
     rule('spaceAroundEnDash', /([^\d\s])\x20*(\u2013)\x20*(\D)/, '$1\u00a0$2 $3'),
     rule('spaceAfterLeftQuote', /(\u00ab)\x20*(\S)/, '$1\u202F$2'),
     rule('spaceBeforeRightQuote', /(\S)\x20*(\u00bb)/, '$1\u202F$2'),
-    rule('nonBreakingSpaceAfterHonorific', /(MM\.|M\.|Mme|Mmes|Mlle|Mlles|Dr|Me|Mgr)\x20([A-Z])/, '$1\u00a0$2')
+    rule('nonBreakingSpaceAfterHonorific', /(MM\.|M\.|Mme|Mmes|Mlle|Mlles|Dr|Me|Mgr)\x20([A-Z])/, '$1\u00a0$2'),
   ]),
   group('ordinal', [
     rule('greaterThan10', /(\d{2,})emes\b/, '$1èmes'),
     rule('firstFemalePlural', /(\d{1})[èe]res\b/, '$1res'),
     rule('lowerThan10', /((^|[^\d])\d)[èe]mes\b/, '$1es'),
     rule('firstFemale', /(\d)[èe]re\b/, '$1re'),
-    rule('firstMale', /(\d)[èe]me(?!s)\b/, '$1e')
+    rule('firstMale', /(\d)[èe]me(?!s)\b/, '$1e'),
   ]),
   group('datetime', [
     rule('daysAndMonths', /(Lundi|Mardi|Mercredi|Jeudi|Vendredi|Samedi|Dimanche|Janvier|Février|Mars|Avril|Mai|Juin|Juillet|Aout|Septembre|Octobre|Novembre|Décembre)/, (s) => {
-      return s.toLowerCase()
-    })
+      return s.toLowerCase();
+    }),
   ]),
   group('ligatures', [
     rule('lowerOe', /oe/, '\u0153'),
     rule('upperOe', /O[eE]/, '\u0152'),
     rule('lowerAe', /ae/, '\u00e6'),
-    rule('upperAe', /A[eE]/, '\u00c6')
-  ])
-])
+    rule('upperAe', /A[eE]/, '\u00c6'),
+  ]),
+]);
 
-export default frFR
+export default frFR;

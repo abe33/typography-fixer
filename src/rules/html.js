@@ -1,4 +1,4 @@
-import {rule, group} from '../typography-fixer'
+import {rule, group} from '../typography-fixer';
 
 /**
  * A common ruleset for HTML typographic enhancement.
@@ -14,7 +14,7 @@ import {rule, group} from '../typography-fixer'
 const html = group('common', [
   rule('quotes', /(\u00ab|\u00bb|\u201c|\u201d)/, '<span class="dquo">$1</span>'),
   rule('ampersand', /(&amp;|&)($|\s)/, '<span class="amp">$1</span>$2'),
-  rule('caps', /(([A-Z]\.?){2,})/, '<span class="caps">$1</span>')
-])
+  rule('caps', /(([A-Z]\.?){2,})/, '<span class="caps">$1</span>'),
+]);
 
-export default html
+export default html;

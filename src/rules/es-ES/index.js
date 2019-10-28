@@ -1,9 +1,9 @@
-import {rule, group} from '../../typography-fixer'
-import {currenciesRegExp} from '../../constants'
-import punctuations from '../punctuations'
-import fractions from '../fractions'
-import symbols from '../symbols'
-import units from '../units'
+import {rule, group} from '../../typography-fixer';
+import {currenciesRegExp} from '../../constants';
+import punctuations from '../punctuations';
+import fractions from '../fractions';
+import symbols from '../symbols';
+import units from '../units';
 
 /**
  * The ruleset for spanish typography.
@@ -38,11 +38,11 @@ const esES = group('es-ES', [
   fractions,
   punctuations,
   group('punctuations', [
-    rule('collapseMultiplePunctuation', /([¡¿])\1+/, '$1')
+    rule('collapseMultiplePunctuation', /([¡¿])\1+/, '$1'),
   ]),
   group('quotes', [
     rule('singleQuote', /(\w)'(\w)/, '$1\u2019$2'),
-    rule('doubleQuote', /"([^"]+)"/, '\u00ab$1\u00bb')
+    rule('doubleQuote', /"([^"]+)"/, '\u00ab$1\u00bb'),
   ]),
   group('spaces', [
     rule('nonBreakingSpaceBeforePunctuation', /(\S)(?:\x20)?([?!])/, '$1\u202F$2'),
@@ -58,8 +58,8 @@ const esES = group('es-ES', [
     rule('spaceBeforeRightQuote', /(\S)\x20*(\u00bb)/, '$1\u202F$2'),
     rule('spaceAfterParenthesis', /(\))(\w)/, '$1 $2'),
     rule('spaceBeforeParenthesis', /(\S)(\()/, '$1 $2'),
-    rule('spaceBeforeCurrency', `(\\d)\x20?([${currenciesRegExp}])`, '$1\u00a0$2')
-  ])
-])
+    rule('spaceBeforeCurrency', `(\\d)\x20?([${currenciesRegExp}])`, '$1\u00a0$2'),
+  ]),
+]);
 
-export default esES
+export default esES;

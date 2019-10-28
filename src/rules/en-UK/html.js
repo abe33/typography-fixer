@@ -1,5 +1,5 @@
-import {rule, group} from '../../typography-fixer'
-import html from '../html'
+import {rule, group} from '../../typography-fixer';
+import html from '../html';
 
 /**
  * The ruleset for HTML improvement on english typography
@@ -16,7 +16,7 @@ import html from '../html'
  */
 const enUK_HTML = group('en-UK.html', [
   html,
-  rule('ordinalNumbers', /(\d)(st|nd|rd|th)/, '$1<span class="ord">$2</span>')
-])
+  rule('ordinalNumbers', /(\d)(st|nd|rd|th)/, '$1<span class="ord">$2</span>'),
+]);
 
-export default enUK_HTML
+export default enUK_HTML;

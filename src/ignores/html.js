@@ -1,4 +1,4 @@
-import {ignore, group} from '../typography-fixer'
+import {ignore, group} from '../typography-fixer';
 
 /**
  * A set of rules to ignore some html blocks.
@@ -12,7 +12,7 @@ import {ignore, group} from '../typography-fixer'
  */
 const htmlIgnores = group('html', [
   ignore('tag', /<[^>]+>/),
-  ignore('plainTextTagContent', /<(pre|kbd|code|style|script|textarea)[^>]*>.*?<\/\1>/)
-])
+  ignore('plainTextTagContent', /<(pre|kbd|code|style|script|textarea)[^>]*>.*?<\/\1>/),
+]);
 
-export default htmlIgnores
+export default htmlIgnores;
