@@ -454,11 +454,11 @@ const matchRuleRegExp = ruleRegExp(false, 'match');
  * @return {Array<Object>} an array of resuls
  * @access private
  */
-function checkString(rule, string) {
+function checkString(rule) {
   const searchRegExp = searchRuleRegExp(rule);
   const matchRegExp = matchRuleRegExp(rule);
 
-  const doCheck = (string) => {
+  return string => {
     const matches = [];
     searchRegExp.lastIndex = 0;
 
@@ -475,8 +475,6 @@ function checkString(rule, string) {
 
     return matches;
   };
-
-  return string ? doCheck(string) : doCheck;
 }
 
 /**
@@ -487,16 +485,14 @@ function checkString(rule, string) {
  * @return {string} the fixed string
  * @access private
  */
-function fixString(rule, string) {
+function fixString(rule) {
   const searchRegExp = searchRuleRegExp(rule);
 
-  const doFix = (string) => {
+  return string => {
     searchRegExp.length = 0;
 
     return replace(searchRegExp, rule.replace, string);
   };
-
-  return string ? doFix(string) : doFix;
 }
 
 /**
@@ -522,10 +518,10 @@ function rangesFunctionFor(rule) {
  * @return {Array<Array>} an array with the ignored ranges
  * @access private
  */
-function inclusiveRangesFor(rule, string) {
+function inclusiveRangesFor(rule) {
   const re = ignoreRuleRegExp(rule);
 
-  const getRanges = (string) => {
+  return string => {
     re.lastIndex = 0;
     const ranges = [];
     let match;
@@ -537,8 +533,6 @@ function inclusiveRangesFor(rule, string) {
 
     return ranges;
   };
-
-  return string ? getRanges(string) : getRanges;
 }
 
 /**
@@ -551,10 +545,10 @@ function inclusiveRangesFor(rule, string) {
  * @return {Array<Array>} an array with the ignored ranges
  * @access private
  */
-function exclusiveRangesFor(rule, string) {
+function exclusiveRangesFor(rule) {
   const re = ignoreRuleRegExp(rule);
 
-  const getRanges = (string) => {
+  return string => {
     re.lastIndex = 0;
     const ranges = [];
     let start = 0;
@@ -572,8 +566,6 @@ function exclusiveRangesFor(rule, string) {
 
     return ranges;
   };
-
-  return string ? getRanges(string) : getRanges;
 }
 
 /**

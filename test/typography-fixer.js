@@ -10,6 +10,7 @@ describe('typographyFixer', () => {
         replace: 'bar',
       };
 
+      expect(check()).to.be.a(Function);
       expect(check([])).to.be.a(Function);
       expect(check([ruleObject])).to.be.a(Function);
     });
@@ -103,6 +104,7 @@ describe('typographyFixer', () => {
         replace: 'bar',
       };
 
+      expect(fix()).to.be.a(Function);
       expect(fix([])).to.be.a(Function);
       expect(fix([ruleObject])).to.be.a(Function);
     });
@@ -248,6 +250,14 @@ describe('typographyFixer', () => {
         expect(rules[0].name).to.eql('baz.bat.Foo');
       });
     });
+
+    describe('with an invalid type/structure', () => {
+      it('treats it as an empty structure', () => {
+        const rules = group(false, 'foo');
+
+        expect(rules).to.eql([]);
+      });
+    });
   });
 
   describe('rule()', () => {
@@ -261,10 +271,15 @@ describe('typographyFixer', () => {
 
   describe('ignore()', () => {
     it('returns a frozen object representing a ignore rule', () => {
-      const ignoreObject = ignore('foo', /foo/);
+      const ignoreObject = ignore('foo', /foo/, true);
       expect(() => {
         ignoreObject.name = 'baz';
       }).to.throwError();
+    });
+
+    it('defaults invertRanges to false', () => {
+      const ignoreObject = ignore('foo', /foo/);
+      expect(ignoreObject.invertRanges).not.to.be.ok();
     });
   });
 });
