@@ -4,12 +4,12 @@
   "description": "Check or fix strings according to typographic rules",
   "main": "lib/typography-fixer.js",
   "scripts": {
-    "test": "nyc mocha --timeout 5000 --recursive test/**/**/*.js test/**/*.js test/*.js",
+    "test": "nyc mocha --timeout 5000 --recursive 'test/**/*.js'",
     "lcov_report": "nyc report --reporter=lcov",
     "coverage": "npm run lcov_report && codecov",
     "babel": "babel src --out-dir lib",
-    "lint": "eslint src/*.js test/*.js",
-    "lint:fix": "eslint --fix src/*.js test/*.js",
+    "lint": "eslint 'src/**/*.js' 'test/**/*.js'",
+    "lint:fix": "eslint --fix 'src/**/*.js' 'test/**/*.js'",
     "esdoc": "esdoc -c esdoc.json",
     "prepublishOnly": "npm run babel"
   },
@@ -63,7 +63,7 @@
   },
   "nyc": {
     "include": [
-      "src/*.js"
+      "src/**/*.js"
     ],
     "extension": [
       ".js"
