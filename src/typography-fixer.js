@@ -1,8 +1,11 @@
-import R from 'ramda'
+import R from 'ramda';
 
 const {
-  anyPass, append, both, compose, concat, cond, converge, curry, either, filter, flatten, groupBy, head, is, isArrayLike, join, lensProp, map, merge, not, over, pipe, propSatisfies, reduce, replace, sort, tail, transpose, unapply, unnest, where
-} = R
+  anyPass, append, both, compose, concat, cond, converge, curry,
+  either, filter, flatten, groupBy, head, is, isArrayLike, join,
+  lensProp, map, merge, not, over, pipe, propSatisfies, reduce,
+  replace, sort, tail, transpose, unapply, unnest, where,
+} = R;
 
 /**
  * Returns an array of rule violations in the passed-in string.
@@ -36,23 +39,23 @@ const {
  *
  * const results = checkSring('Some string "to check".')
  */
-export function check (ruleset = [], string) {
-  const {ignores, rules} = splitRules(ruleset)
+export function check(ruleset = [], string) {
+  const {ignores, rules} = splitRules(ruleset);
 
-  if (rules.length === 0) { return string ? undefined : function () {} }
+  if (rules.length === 0) { return string ? undefined : function() {}; }
 
-  const getRanges = compose(unnest, R.ap(map(rangesFunctionFor, ignores)), R.of)
-  const getCheckResults = converge(unapply(flatten), map(checkString, rules))
+  const getRanges = compose(unnest, R.ap(map(rangesFunctionFor, ignores)), R.of);
+  const getCheckResults = converge(unapply(flatten), map(checkString, rules));
 
   const doCheck = (string) => {
-    const anyIntersection = anyPass(map(rangesIntersects, getRanges(string)))
-    const noIntersection = compose(not, propSatisfies(anyIntersection, 'range'))
-    const results = filter(noIntersection, getCheckResults(string))
+    const anyIntersection = anyPass(map(rangesIntersects, getRanges(string)));
+    const noIntersection = compose(not, propSatisfies(anyIntersection, 'range'));
+    const results = filter(noIntersection, getCheckResults(string));
 
-    return results.length > 0 ? results : undefined
-  }
+    return results.length > 0 ? results : undefined;
+  };
 
-  return string ? doCheck(string) : doCheck
+  return string ? doCheck(string) : doCheck;
 }
 
 /**
@@ -82,10 +85,10 @@ export function check (ruleset = [], string) {
  *
  * const results = fixString('Some string "to fix".')
  */
-export function fix (ruleset = [], string) {
-  const {ignores, rules} = splitRules(ruleset)
+export function fix(ruleset = [], string) {
+  const {ignores, rules} = splitRules(ruleset);
 
-  if (rules.length === 0) { return string || function () {} }
+  if (rules.length === 0) { return string || function() {}; }
 
   const getRanges = compose(
     sortRanges,
@@ -93,17 +96,17 @@ export function fix (ruleset = [], string) {
     unnest,
     R.ap(map(rangesFunctionFor, ignores)),
     R.of
-  )
+  );
 
-  const fixContent = map(pipe(...map(fixString, rules)))
+  const fixContent = map(pipe(...map(fixString, rules)));
 
   const doFix = (string) => {
-    const {legit, ignored} = splitByRanges(string, getRanges(string))
+    const {legit, ignored} = splitByRanges(string, getRanges(string));
 
-    return alternateJoin(fixContent(legit), ignored)
-  }
+    return alternateJoin(fixContent(legit), ignored);
+  };
 
-  return string ? doFix(string) : doFix
+  return string ? doFix(string) : doFix;
 }
 
 /**
@@ -129,19 +132,19 @@ export function fix (ruleset = [], string) {
  *   ])
  * ])
  */
-export function group (name, rules) {
+export function group(name, rules) {
   const normalizeArguments = cond([
     when(hasRulesAsFirstArgument, ([rules]) => [[], rules]),
     when(hasNameThenRules, ([name, rules]) => [[name], rules]),
-    when(R.T, () => [[], []])
-  ])
+    when(R.T, () => [[], []]),
+  ]);
 
-  const [groupName, ruleset] = normalizeArguments([name, rules])
+  const [groupName, ruleset] = normalizeArguments([name, rules]);
 
-  const prefixer = compose(join('.'), concat(groupName))
-  const prefixName = over(lensProp('name'), prefixer)
+  const prefixer = compose(join('.'), concat(groupName));
+  const prefixName = over(lensProp('name'), prefixer);
 
-  return Object.freeze(map(prefixName, flatten(ruleset)))
+  return Object.freeze(map(prefixName, flatten(ruleset)));
 }
 
 /**
@@ -180,8 +183,8 @@ export function group (name, rules) {
  * // by a number, as in 12.4 or 04:35, or followed by a space or `)`
  * const ruleObject = rule('spaceAfterPeriodOrColon', /(\D)(\.|:)([^\s\)])/, '$1$2 $3')
  */
-export function rule (name, match, replace) {
-  return Object.freeze({name, match, replace})
+export function rule(name, match, replace) {
+  return Object.freeze({name, match, replace});
 }
 
 /**
@@ -217,8 +220,8 @@ export function rule (name, match, replace) {
  * // this rule ignores markdown code blocks defined using three consecutive backticks
  * const ignoreObject = ignore('codeBlock', /(```)(.|\n)*?\1/),
  */
-export function ignore (name, ignore, invertRanges = false) {
-  return Object.freeze({name, ignore, invertRanges})
+export function ignore(name, ignore, invertRanges = false) {
+  return Object.freeze({name, ignore, invertRanges});
 }
 
 //  ########  ########  #### ##     ##    ###    ######## ########
@@ -237,7 +240,7 @@ export function ignore (name, ignore, invertRanges = false) {
  * @return {boolean} whether the value is a regular expression or not
  * @access private
  */
-const isRegExp = is(RegExp)
+const isRegExp = is(RegExp);
 
 /**
  * A predicate that returns true when the passed-in value is a string.
@@ -246,7 +249,7 @@ const isRegExp = is(RegExp)
  * @return {boolean} whether the value is a string or not
  * @access private
  */
-const isString = is(String)
+const isString = is(String);
 
 /**
  * A predicate that returns true when the passed-in value is a function.
@@ -255,7 +258,7 @@ const isString = is(String)
  * @return {boolean} whether the value is a function or not
  * @access private
  */
-const isFunction = is(Function)
+const isFunction = is(Function);
 
 /**
  * A predicate that returns true when the passed-in value is either a string
@@ -266,7 +269,7 @@ const isFunction = is(Function)
  *                        or a string
  * @access private
  */
-const isStringOrRegExp = either(isString, isRegExp)
+const isStringOrRegExp = either(isString, isRegExp);
 
 /**
  * A predicate that returns true when the passed-in value is either a string
@@ -276,7 +279,7 @@ const isStringOrRegExp = either(isString, isRegExp)
  * @return {boolean} true if the value is either a function or a string
  * @access private
  */
-const isStringOrFunction = either(isString, isFunction)
+const isStringOrFunction = either(isString, isFunction);
 
 /**
  * A predicate that returns true when the passed-in object is a valid rule.
@@ -288,8 +291,8 @@ const isStringOrFunction = either(isString, isFunction)
 const isRule = where({
   name: isString,
   match: isStringOrRegExp,
-  replace: isStringOrFunction
-})
+  replace: isStringOrFunction,
+});
 
 /**
  * A predicate that returns true when the passed-in object is a valid
@@ -301,8 +304,8 @@ const isRule = where({
  */
 const isIgnore = where({
   name: isString,
-  ignore: isStringOrRegExp
-})
+  ignore: isStringOrRegExp,
+});
 
 /**
  * A predicate that returns true when the passed-in object is either a rule
@@ -311,7 +314,7 @@ const isIgnore = where({
  * @return {boolean} true if the passed-in object is a valid rule or ignore rule
  * @access private
  */
-const isRuleOrIgnore = either(isRule, isIgnore)
+const isRuleOrIgnore = either(isRule, isIgnore);
 
 /**
  * A predicate that returns true when the passed-in array contains a rules
@@ -321,7 +324,7 @@ const isRuleOrIgnore = either(isRule, isIgnore)
  *                   at index 0
  * @access private
  */
-const hasRulesAsFirstArgument = compose(isArrayLike, head)
+const hasRulesAsFirstArgument = compose(isArrayLike, head);
 
 /**
  * A predicate that returns true when the passed-in array contains a string
@@ -334,7 +337,7 @@ const hasRulesAsFirstArgument = compose(isArrayLike, head)
 const hasNameThenRules = both(
   compose(isString, head),
   compose(isArrayLike, head, tail)
-)
+);
 
 /**
  * Wraps the passed-in condition and function into an array to be used
@@ -345,7 +348,7 @@ const hasNameThenRules = both(
  *                                    is fulfilled
  * @return {Array<Function>} an array with the two passed-in functions
  */
-const when = (predicate, then) => [predicate, then]
+const when = (predicate, then) => [predicate, then];
 
 /**
  * Returns the base flags array for a regular expression depending on whether
@@ -355,7 +358,7 @@ const when = (predicate, then) => [predicate, then]
  * @return {Array} the base flags array
  * @access private
  */
-const baseFlags = (global) => global ? ['g'] : []
+const baseFlags = (global) => global ? ['g'] : [];
 
 /**
  * Extract the flag letter corresponding to a given property from the specified
@@ -368,7 +371,7 @@ const baseFlags = (global) => global ? ['g'] : []
  * @return {string} the flag string
  * @access private
  */
-const flag = curry((prop, re) => re[prop] ? prop[0] : '')
+const flag = curry((prop, re) => re[prop] ? prop[0] : '');
 
 /**
  * Returns the flags array for the given regular expression but with the
@@ -386,10 +389,10 @@ const flagsForRegExp = curry((global, re) => {
   const appendFlags = compose(
     append(flag('multiline', re)),
     append(flag('ignoreCase', re))
-  )
+  );
 
-  return appendFlags(baseFlags(global))
-})
+  return appendFlags(baseFlags(global));
+});
 
 /**
  * Returns a cloned regular expression from the passed-in rule's property
@@ -402,15 +405,15 @@ const flagsForRegExp = curry((global, re) => {
  * @access private
  */
 const ruleRegExp = curry((global, prop, rule) => {
-  const getSource = (e) => isRegExp(e) ? e.source : e
+  const getSource = (e) => isRegExp(e) ? e.source : e;
   const getFlags = compose(
     join(''),
     (e) =>
       isRegExp(e) ? flagsForRegExp(global, e) : concat(baseFlags(global), 'm')
-  )
+  );
 
-  return new RegExp(getSource(rule[prop]), getFlags(rule[prop]))
-})
+  return new RegExp(getSource(rule[prop]), getFlags(rule[prop]));
+});
 
 /**
  * A parameterized function that returns a cloned regular expression for
@@ -420,7 +423,7 @@ const ruleRegExp = curry((global, prop, rule) => {
  * @return {RegExp} the cloned regular expression
  * @access private
  */
-const ignoreRuleRegExp = ruleRegExp(true, 'ignore')
+const ignoreRuleRegExp = ruleRegExp(true, 'ignore');
 
 /**
  * A parameterized function that returns a cloned regular expression for
@@ -430,7 +433,7 @@ const ignoreRuleRegExp = ruleRegExp(true, 'ignore')
  * @return {RegExp} the cloned regular expression
  * @access private
  */
-const searchRuleRegExp = ruleRegExp(true, 'match')
+const searchRuleRegExp = ruleRegExp(true, 'match');
 
 /**
  * A parameterized function that returns a clone regular expression for
@@ -440,7 +443,7 @@ const searchRuleRegExp = ruleRegExp(true, 'match')
  * @return {RegExp} the cloned regular expression
  * @access private
  */
-const matchRuleRegExp = ruleRegExp(false, 'match')
+const matchRuleRegExp = ruleRegExp(false, 'match');
 
 /**
  * Returns the check results of the given rule against the passed-in string.
@@ -451,29 +454,29 @@ const matchRuleRegExp = ruleRegExp(false, 'match')
  * @return {Array<Object>} an array of resuls
  * @access private
  */
-function checkString (rule, string) {
-  const searchRegExp = searchRuleRegExp(rule)
-  const matchRegExp = matchRuleRegExp(rule)
+function checkString(rule, string) {
+  const searchRegExp = searchRuleRegExp(rule);
+  const matchRegExp = matchRuleRegExp(rule);
 
   const doCheck = (string) => {
-    const matches = []
-    searchRegExp.lastIndex = 0
+    const matches = [];
+    searchRegExp.lastIndex = 0;
 
-    let match
+    let match;
     do {
-      match = searchRegExp.exec(string)
+      match = searchRegExp.exec(string);
       if (match && match[0].replace(matchRegExp, rule.replace) !== match[0]) {
         matches.push({
           rule: rule.name,
-          range: [match.index, searchRegExp.lastIndex]
-        })
+          range: [match.index, searchRegExp.lastIndex],
+        });
       }
-    } while (match)
+    } while (match);
 
-    return matches
-  }
+    return matches;
+  };
 
-  return string ? doCheck(string) : doCheck
+  return string ? doCheck(string) : doCheck;
 }
 
 /**
@@ -484,16 +487,16 @@ function checkString (rule, string) {
  * @return {string} the fixed string
  * @access private
  */
-function fixString (rule, string) {
-  const searchRegExp = searchRuleRegExp(rule)
+function fixString(rule, string) {
+  const searchRegExp = searchRuleRegExp(rule);
 
   const doFix = (string) => {
-    searchRegExp.length = 0
+    searchRegExp.length = 0;
 
-    return replace(searchRegExp, rule.replace, string)
-  }
+    return replace(searchRegExp, rule.replace, string);
+  };
 
-  return string ? doFix(string) : doFix
+  return string ? doFix(string) : doFix;
 }
 
 /**
@@ -505,8 +508,8 @@ function fixString (rule, string) {
  *                                  for a given string
  * @access private
  */
-function rangesFunctionFor (rule) {
-  return rule.invertRanges ? exclusiveRangesFor(rule) : inclusiveRangesFor(rule)
+function rangesFunctionFor(rule) {
+  return rule.invertRanges ? exclusiveRangesFor(rule) : inclusiveRangesFor(rule);
 }
 
 /**
@@ -519,23 +522,23 @@ function rangesFunctionFor (rule) {
  * @return {Array<Array>} an array with the ignored ranges
  * @access private
  */
-function inclusiveRangesFor (rule, string) {
-  const re = ignoreRuleRegExp(rule)
+function inclusiveRangesFor(rule, string) {
+  const re = ignoreRuleRegExp(rule);
 
   const getRanges = (string) => {
-    re.lastIndex = 0
-    const ranges = []
-    let match
+    re.lastIndex = 0;
+    const ranges = [];
+    let match;
 
     do {
-      match = re.exec(string)
-      if (match) { ranges.push([match.index, re.lastIndex]) }
-    } while (match)
+      match = re.exec(string);
+      if (match) { ranges.push([match.index, re.lastIndex]); }
+    } while (match);
 
-    return ranges
-  }
+    return ranges;
+  };
 
-  return string ? getRanges(string) : getRanges
+  return string ? getRanges(string) : getRanges;
 }
 
 /**
@@ -548,29 +551,29 @@ function inclusiveRangesFor (rule, string) {
  * @return {Array<Array>} an array with the ignored ranges
  * @access private
  */
-function exclusiveRangesFor (rule, string) {
-  const re = ignoreRuleRegExp(rule)
+function exclusiveRangesFor(rule, string) {
+  const re = ignoreRuleRegExp(rule);
 
   const getRanges = (string) => {
-    re.lastIndex = 0
-    const ranges = []
-    let start = 0
-    let match
+    re.lastIndex = 0;
+    const ranges = [];
+    let start = 0;
+    let match;
 
     do {
-      match = re.exec(string)
+      match = re.exec(string);
       if (match) {
-        ranges.push([start, match.index - 1])
-        start = re.lastIndex
+        ranges.push([start, match.index - 1]);
+        start = re.lastIndex;
       }
-    } while (match)
+    } while (match);
 
-    ranges.push([start, string.length])
+    ranges.push([start, string.length]);
 
-    return ranges
-  }
+    return ranges;
+  };
 
-  return string ? getRanges(string) : getRanges
+  return string ? getRanges(string) : getRanges;
 }
 
 /**
@@ -581,7 +584,7 @@ function exclusiveRangesFor (rule, string) {
  * @return {Array<Object>} the filtered list
  * @access private
  */
-const rulesFilter = filter(isRuleOrIgnore)
+const rulesFilter = filter(isRuleOrIgnore);
 
 /**
  * A grouping function that separates rules and ignore rules into two
@@ -593,7 +596,7 @@ const rulesFilter = filter(isRuleOrIgnore)
  * @property {Array<Object>} ignores the array of ignores
  * @access private
  */
-const rulesGrouper = groupBy(rule => rule.ignore ? 'ignores' : 'rules')
+const rulesGrouper = groupBy(rule => rule.ignore ? 'ignores' : 'rules');
 
 /**
  * Takes an object and returns a new object where the `rules` and `ignores`
@@ -604,7 +607,7 @@ const rulesGrouper = groupBy(rule => rule.ignore ? 'ignores' : 'rules')
  *                  `ignores` properties
  * @access private
  */
-const setRulesDefault = merge({ignores: [], rules: []})
+const setRulesDefault = merge({ignores: [], rules: []});
 
 /**
  * Returns an object with two lists containing the rules and ignores from
@@ -617,7 +620,7 @@ const setRulesDefault = merge({ignores: [], rules: []})
  * @property {Array<Object>} ignores the array of ignores
  * @access private
  */
-const splitRules = compose(setRulesDefault, rulesGrouper, rulesFilter)
+const splitRules = compose(setRulesDefault, rulesGrouper, rulesFilter);
 
 /**
  * Returns whether the two passed-in ranges intersect or not
@@ -628,14 +631,14 @@ const splitRules = compose(setRulesDefault, rulesGrouper, rulesFilter)
  * @access private
  */
 const rangesIntersects = curry((rangeA, rangeB) => {
-  const [startA, endA] = rangeA
-  const [startB, endB] = rangeB
+  const [startA, endA] = rangeA;
+  const [startB, endB] = rangeB;
 
   return (startB >= startA && startB <= endA) ||
          (endB >= startA && endB <= endA) ||
          (startA >= startB && startA <= endB) ||
-         (endA >= startB && endA <= endB)
-})
+         (endA >= startB && endA <= endB);
+});
 
 /**
  * Takes a string and a list of ranges and returns an object with two lists
@@ -651,22 +654,22 @@ const rangesIntersects = curry((rangeA, rangeB) => {
  *                                   in the passed-in ranges
  * @access private
  */
-function splitByRanges (string, ranges) {
-  const results = {legit: [], ignored: []}
+function splitByRanges(string, ranges) {
+  const results = {legit: [], ignored: []};
 
-  let start = 0
+  let start = 0;
   const reducer = (memo, range) => {
-    memo.legit.push(string.slice(start, range[0]))
-    memo.ignored.push(string.slice(range[0], range[1]))
-    start = range[1]
-    return results
-  }
-  reduce(reducer, results, ranges)
+    memo.legit.push(string.slice(start, range[0]));
+    memo.ignored.push(string.slice(range[0], range[1]));
+    start = range[1];
+    return results;
+  };
+  reduce(reducer, results, ranges);
 
-  results.legit.push(string.slice(start, string.length))
-  results.ignored.push('')
+  results.legit.push(string.slice(start, string.length));
+  results.ignored.push('');
 
-  return results
+  return results;
 }
 
 /**
@@ -678,7 +681,7 @@ function splitByRanges (string, ranges) {
  * @return {string} the new memo
  * @access private
  */
-const joinReducer = (memo, [a, b]) => memo + a + b
+const joinReducer = (memo, [a, b]) => memo + a + b;
 
 /**
  * Takes two lists and joins them such as the final string is the result
@@ -689,7 +692,7 @@ const joinReducer = (memo, [a, b]) => memo + a + b
  * @return {string} the string resulting of joining the two lists
  * @access private
  */
-const alternateJoin = (a, b) => reduce(joinReducer, '', transpose([a, b]))
+const alternateJoin = (a, b) => reduce(joinReducer, '', transpose([a, b]));
 
 /**
  * Takes a list of ranges and returns a new list where all the intersecting
@@ -699,10 +702,10 @@ const alternateJoin = (a, b) => reduce(joinReducer, '', transpose([a, b]))
  * @return {Array<Array>} [description]
  * @access private
  */
-function compactRanges (ranges) {
-  if (ranges.length === 0) { return [] }
+function compactRanges(ranges) {
+  if (ranges.length === 0) { return []; }
 
-  return reduce(rangesReducer, [], ranges)
+  return reduce(rangesReducer, [], ranges);
 }
 
 /**
@@ -713,20 +716,20 @@ function compactRanges (ranges) {
  * @return {Array<Array>} the new memo array
  * @access private
  */
-function rangesReducer (memo, rangeA) {
+function rangesReducer(memo, rangeA) {
   const filterer = (rangeB) => {
     if (rangesIntersects(rangeA, rangeB)) {
-      rangeA[0] = Math.min(rangeA[0], rangeB[0])
-      rangeA[1] = Math.max(rangeA[1], rangeB[1])
-      return false
+      rangeA[0] = Math.min(rangeA[0], rangeB[0]);
+      rangeA[1] = Math.max(rangeA[1], rangeB[1]);
+      return false;
     } else {
-      return true
+      return true;
     }
-  }
+  };
 
   return memo.length === 0
     ? append(rangeA, memo)
-    : append(rangeA, filter(filterer, memo))
+    : append(rangeA, filter(filterer, memo));
 }
 
 /**
@@ -736,4 +739,4 @@ function rangesReducer (memo, rangeA) {
  * @return {Array<Array>} the sorted ranges list
  * @access private
  */
-const sortRanges = sort((a, b) => a[0] - b[0])
+const sortRanges = sort((a, b) => a[0] - b[0]);

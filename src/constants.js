@@ -1,6 +1,6 @@
-import R from 'ramda'
+import R from 'ramda';
 
-const {compose, concat, map, join} = R
+const {compose, concat, map, join} = R;
 
 /**
  * A map of all unicode currencies with the string to use in a RegExp to match
@@ -46,8 +46,8 @@ export const currencies = {
   '\u20bd': '\u20bd',
   '\u20be': '\u20be',
   '\u0E3F': '\u0E3F',
-  '\u17DB': '\u17DB'
-}
+  '\u17DB': '\u17DB',
+};
 
 /**
  * A string containing a regular expression to matches a currency.
@@ -55,7 +55,7 @@ export const currencies = {
  * @type {string}
  * @access private
  */
-export const currenciesRegExp = R.join('', R.values(currencies))
+export const currenciesRegExp = R.join('', R.values(currencies));
 
 /**
  * A list of all the vulgar fractions in unicode with the numerical value
@@ -83,8 +83,8 @@ export const vulgarFractions = [
   [3, 8, '\u215c'],
   [5, 8, '\u215d'],
   [7, 8, '\u215e'],
-  [0, 3, '\u2189']
-]
+  [0, 3, '\u2189'],
+];
 
 /**
  * A list of all the scale prefix of the international unit system used
@@ -114,8 +114,8 @@ export const unitScales = [
   'P',
   'E',
   'Z',
-  'Y'
-]
+  'Y',
+];
 
 /**
  * A list of all the units that accept a prefix from the international unit
@@ -141,8 +141,8 @@ export const scalableUnits = [
   'Ω',
   'A',
   'mol',
-  'cd'
-]
+  'cd',
+];
 
 /**
  * A list of all the supported surface units.
@@ -156,8 +156,8 @@ export const surfaceUnits = [
   'in',
   'yd',
   'ft',
-  'm'
-]
+  'm',
+];
 
 /**
  * A list of all the supported volume units.
@@ -169,8 +169,8 @@ export const volumeUnits = [
   'in',
   'yd',
   'ft',
-  'm'
-]
+  'm',
+];
 
 /**
  * A list of all the other supported units that are not created using the
@@ -262,8 +262,8 @@ export const otherUnits = [
   'G',
   'Wb',
   'dB',
-  'ppm'
-]
+  'ppm',
+];
 
 /**
  * A function to combine the units from international units system with their
@@ -274,7 +274,7 @@ export const otherUnits = [
  * @return {Array} an array containing all the variants of the provided units
  * @access private
  */
-const combine = compose(map(join('')), R.xprod)
+const combine = compose(map(join('')), R.xprod);
 
 /**
  * A list of all the supported units.
@@ -282,4 +282,4 @@ const combine = compose(map(join('')), R.xprod)
  * @type {Array}
  * @access private
  */
-export const allUnits = concat(otherUnits, combine(unitScales, scalableUnits))
+export const allUnits = concat(otherUnits, combine(unitScales, scalableUnits));
