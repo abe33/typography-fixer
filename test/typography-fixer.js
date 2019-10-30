@@ -29,6 +29,7 @@ describe('typographyFixer', () => {
 
     it('returns undefined when called without any rules', () => {
       expect(check([], 'string')).to.be(undefined);
+      expect(check([])('string')).to.be(undefined);
     });
 
     it('returns undefined when there is no match in the string', () => {
@@ -123,6 +124,7 @@ describe('typographyFixer', () => {
 
     it('returns the string when called without any rules', () => {
       expect(fix([], 'string')).to.eql('string');
+      expect(fix([])('string')).to.eql('string');
     });
 
     it('returns the string when there is no match', () => {

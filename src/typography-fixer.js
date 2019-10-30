@@ -2,7 +2,7 @@ import R from 'ramda';
 
 const {
   anyPass, append, both, compose, concat, cond, converge, curry,
-  either, filter, flatten, groupBy, head, is, isArrayLike, join,
+  either, filter, flatten, groupBy, head, identity, is, isArrayLike, join,
   lensProp, map, merge, not, over, pipe, propSatisfies, reduce,
   replace, sort, tail, transpose, unapply, unnest, where,
 } = R;
@@ -88,7 +88,7 @@ export function check(ruleset = [], string) {
 export function fix(ruleset = [], string) {
   const {ignores, rules} = splitRules(ruleset);
 
-  if (rules.length === 0) { return string || function() {}; }
+  if (rules.length === 0) { return string || identity; }
 
   const getRanges = compose(
     sortRanges,
